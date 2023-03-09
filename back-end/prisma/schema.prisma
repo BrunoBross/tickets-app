@@ -1,0 +1,94 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String   @id @default(uuid())
+  name       String
+  surname    String
+  email      String   @unique
+  cpf        String   @unique
+  birth      DateTime
+  gender     Gender
+  address    String
+  zip_code   String
+  password   String
+  created_at DateTime @default(now())
+  Ticket     Ticket[]
+
+  @@map("users")
+}
+
+model Organizer {
+  id       String @id @default(uuid())
+  name     String
+  surname  String
+  email    String
+  cpf      String
+  cnpj     String
+  password String
+
+  Event Event[]
+
+  @@map("organizers")
+}
+
+model Event {
+  id          String   @id @default(uuid())
+  name        String
+  location    String
+  attraction  String
+  description String
+  date        DateTime
+  batch       Int
+
+  organizer    Organizer @relation(fields: [organizer_id], references: [id])
+  organizer_id String
+
+  TicketType TicketType[]
+  Ticket     Ticket[]
+
+  @@map("events")
+}
+
+model TicketType {
+  id     String @id @default(uuid())
+  price  Float
+  name   String
+  batch  Int
+  gender Gender
+
+  event    Event  @relation(fields: [event_id], references: [id])
+  event_id String
+
+  Ticket Ticket[]
+
+  @@map("tickets_type")
+}
+
+model Ticket {
+  id            String   @id @default(uuid())
+  purchase_date DateTime @default(now())
+
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String
+
+  event    Event  @relation(fields: [event_id], references: [id])
+  event_id String
+
+  ticket_type    TicketType @relation(fields: [ticket_type_id], references: [id])
+  ticket_type_id String
+
+  @@map("tickets")
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
