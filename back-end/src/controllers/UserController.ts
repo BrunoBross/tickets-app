@@ -5,7 +5,7 @@ import { verifyCep, verifyCpf, verifyEmail } from "./utils";
 import bcrypt from "bcrypt";
 
 export async function UserController(app: FastifyInstance) {
-  // find users
+  // get users
   app.get("/user", async (request, response) => {
     await prisma.user
       .findMany()
@@ -81,15 +81,15 @@ export async function UserController(app: FastifyInstance) {
     const isValidEmail = verifyEmail(email);
 
     if (!isValidCpf) {
-      response.code(400).send({ error: "Invalid CPF" });
+      return response.code(400).send({ error: "Invalid CPF" });
     }
 
     if (!isValidCep) {
-      response.code(400).send({ error: "Invalid CEP" });
+      return response.code(400).send({ error: "Invalid CEP" });
     }
 
     if (!isValidEmail) {
-      response.code(400).send({ error: "Invalid email" });
+      return response.code(400).send({ error: "Invalid email" });
     }
 
     const existsCpf = await prisma.user.findFirst({
@@ -109,11 +109,11 @@ export async function UserController(app: FastifyInstance) {
     });
 
     if (existsCpf) {
-      response.code(409).send({ error: "Already exists CPF" });
+      return response.code(409).send({ error: "Already exists CPF" });
     }
 
     if (existsEmail) {
-      response.code(409).send({ error: "Already exists email" });
+      return response.code(409).send({ error: "Already exists email" });
     }
 
     await prisma.user

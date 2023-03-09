@@ -25,12 +25,12 @@ model User {
 }
 
 model Organizer {
-  id       String @id @default(uuid())
+  id       String  @id @default(uuid())
   name     String
   surname  String
   email    String
-  cpf      String
-  cnpj     String
+  cpf      String? // não é obrigatorio pois é validado no controlador
+  cnpj     String? // se pelo menos um foi inserido
   password String
 
   Event Event[]
