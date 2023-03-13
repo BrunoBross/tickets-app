@@ -1,6 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { prisma } from "../lib/prisma";
+import bcrypt from "bcrypt";
 
 export async function AuthController(app: FastifyInstance) {
   app.get("/user/auth/:userId", async (request, response) => {
@@ -30,39 +31,62 @@ export async function AuthController(app: FastifyInstance) {
     response.send({ token });
   });
 
-  app.get("/organizer/auth/:organizerId", async (request, response) => {
-    const tokenParams = z.object({
-      organizerId: z.string(),
+  app.post("/organizer/auth", async (request, response) => {
+    const organizerBody = z.object({
+      email: z.string(),
+      password: z.string(),
     });
 
-    const { organizerId } = tokenParams.parse(request.params);
+    const { email, password } = organizerBody.parse(request.body);
 
-    const existsOrganizer = await prisma.organizer.findFirst({
+    const organizer = await prisma.organizer.findFirst({
       where: {
-        id: {
-          equals: organizerId,
+        email: {
+          equals: email,
         },
       },
     });
 
-    if (!existsOrganizer) {
+    if (!organizer) {
       return response.send({ error: "This organizer does not exists" });
     }
 
+    const isCorrectPassword = await bcrypt.compare(
+      password,
+      organizer.password
+    );
+
+    if (!isCorrectPassword) {
+      return response.send({ error: "Incorrect password" });
+    }
+
     const data = {
-      organizerId,
+      organizerId: organizer.id,
     };
 
-    const token = app.jwt.sign(data);
-    response.send({ token });
+    delete organizer.password;
+
+    const tokenId = app.jwt.sign(data);
+    response.send({ tokenId, organizer });
   });
 
   app.get(
-    "/user/auth",
+    "/organizer/auth",
     // @ts-ignore
     { onRequest: [app.authenticate] },
     async (request, response) => {
-      return request.user;
+      const organizer = await prisma.organizer.findFirst({
+        where: {
+          id: {
+            // @ts-ignore
+            equals: request.user.organizerId,
+          },
+        },
+      });
+
+      delete organizer.password;
+
+      return organizer;
     }
   );
 }

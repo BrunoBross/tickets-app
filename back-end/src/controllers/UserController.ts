@@ -19,36 +19,31 @@ export async function UserController(app: FastifyInstance) {
   });
 
   // find user
-  app.get(
-    "/user/:userId",
-    // @ts-ignore
-    { onRequest: [app.authenticate] },
-    async (request, response) => {
-      const userParams = z.object({
-        userId: z.string(),
-      });
-      const { userId } = userParams.parse(request.params);
+  app.get("/user/:userId", async (request, response) => {
+    const userParams = z.object({
+      userId: z.string(),
+    });
+    const { userId } = userParams.parse(request.params);
 
-      await prisma.user
-        .findFirst({
-          where: {
-            id: {
-              equals: userId,
-            },
+    await prisma.user
+      .findFirst({
+        where: {
+          id: {
+            equals: userId,
           },
-        })
-        .then((user) => {
-          if (!user) {
-            response.code(204).send({ error: "User does not exists" });
-          }
-          response.send(user);
-        })
-        .catch((error) => {
-          console.log(error);
-          response.status(500);
-        });
-    }
-  );
+        },
+      })
+      .then((user) => {
+        if (!user) {
+          response.code(204).send({ error: "User does not exists" });
+        }
+        response.send(user);
+      })
+      .catch((error) => {
+        console.log(error);
+        response.status(500);
+      });
+  });
 
   // create user
   app.post("/user", async (request, response) => {
