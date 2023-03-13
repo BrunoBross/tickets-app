@@ -1,5 +1,12 @@
 import { AxiosError } from "axios";
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { api } from "../lib/api";
 
 interface AuthProviderProps {
@@ -17,10 +24,17 @@ export interface OrganizerInterface {
 export interface AuthContextInterface {
   signed: boolean;
   organizer: OrganizerInterface | null;
-  Login: (email: string, password: string) => Promise<void>;
+  Login: (props: LoginProps) => Promise<void>;
   Logout: () => void;
   isLoading: boolean;
   error: string | null;
+  setError: Dispatch<SetStateAction<null>>;
+}
+
+interface LoginProps {
+  email: string;
+  password: string;
+  isRemember: boolean;
 }
 
 const AuthContext = createContext({} as AuthContextInterface);
@@ -57,7 +71,9 @@ export const AuthProvider = (props: AuthProviderProps) => {
     }
   }, []);
 
-  async function Login(email: string, password: string) {
+  async function Login(props: LoginProps) {
+    const { email, password, isRemember } = props;
+
     await api
       .post("/organizer/auth", {
         email,
@@ -65,9 +81,11 @@ export const AuthProvider = (props: AuthProviderProps) => {
       })
       .then((response) => {
         setOrganizer(response.data.organizer);
-        api.defaults.headers.Authorization = `Bearer ${response.data.tokenId}`;
-        localStorage.setItem("tokenId", response.data.tokenId);
-        setError(null);
+        if (isRemember) {
+          api.defaults.headers.Authorization = `Bearer ${response.data.tokenId}`;
+          localStorage.setItem("tokenId", response.data.tokenId);
+          setError(null);
+        }
       })
       .catch((error) => {
         setError(error.response.data.error);
@@ -88,6 +106,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
         Logout,
         isLoading,
         error,
+        setError,
       }}
     >
       {children}

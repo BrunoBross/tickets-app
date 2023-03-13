@@ -61,6 +61,12 @@ export async function OrganizerController(app: FastifyInstance) {
       request.body
     );
 
+    if (password.length < 8) {
+      return response
+        .code(400)
+        .send({ error: "A senha deve possuir no minimo 8 caracteres" });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 8);
 
     let formatedCpf;
@@ -88,7 +94,7 @@ export async function OrganizerController(app: FastifyInstance) {
 
     let existsCpf;
     if (formatedCpf) {
-      const existsCpf = await prisma.organizer.findFirst({
+      existsCpf = await prisma.organizer.findFirst({
         where: {
           cpf: {
             equals: formatedCpf,
@@ -99,7 +105,7 @@ export async function OrganizerController(app: FastifyInstance) {
 
     let existsCnpj;
     if (formatedCnpj) {
-      const existsCnpj = await prisma.organizer.findFirst({
+      existsCnpj = await prisma.organizer.findFirst({
         where: {
           cnpj: {
             equals: formatedCnpj,
@@ -115,8 +121,6 @@ export async function OrganizerController(app: FastifyInstance) {
         },
       },
     });
-
-    console.log(formatedCpf);
 
     if (existsCpf) {
       console.log(existsCpf);
