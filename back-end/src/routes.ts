@@ -1,4 +1,5 @@
 import { FastifyInstance } from "fastify";
+import { AuthController } from "./controllers/AuthController";
 import { EventController } from "./controllers/EventController";
 import { OrganizerController } from "./controllers/OrganizerController";
 import { TicketController } from "./controllers/TicketController";
@@ -9,6 +10,18 @@ export async function Routes(app: FastifyInstance) {
   app.get("/", (request, response) => {
     response.send("API for Tickets App");
   });
+
+  // decorator de autenticacao
+  app.decorate("authenticate", async (request: any, response: any) => {
+    try {
+      await request.jwtVerify();
+    } catch (error) {
+      console.log(error);
+      response.code(401).send({ error: "Authentication failed" });
+    }
+  });
+
+  app.register(AuthController);
 
   app.register(UserController);
 

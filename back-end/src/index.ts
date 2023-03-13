@@ -1,11 +1,16 @@
 import Fastify from "fastify";
-import Cors from "@fastify/cors";
 import { Routes } from "./routes";
+import Cors from "@fastify/cors";
+import Jwt from "@fastify/jwt";
 
 const app = Fastify();
 const PORT = 3001;
 
 app.register(Cors);
+
+app.register(Jwt, {
+  secret: "mysecret",
+});
 
 app.register(Routes);
 
