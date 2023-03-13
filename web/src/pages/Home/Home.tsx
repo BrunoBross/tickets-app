@@ -15,7 +15,7 @@ import {
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
-import { CalendarBlank, Plus, SignOut, Ticket } from "phosphor-react";
+import { CalendarBlank, Plus, SignOut, Ticket, User } from "phosphor-react";
 import { RefObject, useRef } from "react";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import { AuthContextInterface, useAuth } from "../../contexts/AuthContext";
@@ -113,6 +113,16 @@ export default function Home(props: HomeProps) {
                   <Plus size={20} weight="bold" />
                   <Text fontSize="md" as="b">
                     Novo Evento
+                  </Text>
+                </Link>
+                <Link
+                  display="flex"
+                  gap="0.5rem"
+                  onClick={() => navigate("/profile")}
+                >
+                  <User size={20} weight="bold" />
+                  <Text fontSize="md" as="b">
+                    Meu Perfil
                   </Text>
                 </Link>
               </VStack>

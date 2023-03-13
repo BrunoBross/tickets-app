@@ -14,6 +14,7 @@ interface AuthProviderProps {
 }
 
 export interface OrganizerInterface {
+  id: string;
   name: string;
   surname: string;
   cnpj: string | null;

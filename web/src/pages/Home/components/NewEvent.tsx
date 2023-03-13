@@ -1,7 +1,9 @@
+import { Heading } from "@chakra-ui/react";
+
 export default function NewEvent() {
   return (
     <div>
-      <h1>Novo Evento</h1>
+      <Heading size="lg">Novo Evento</Heading>
     </div>
   );
 }

@@ -20,6 +20,34 @@ export async function EventController(app: FastifyInstance) {
       });
   });
 
+  // get events by organizer id
+  app.get("/organizer/event/:organizerId", async (request, response) => {
+    const eventParams = z.object({
+      organizerId: z.string(),
+    });
+
+    const { organizerId } = eventParams.parse(request.params);
+
+    await prisma.event
+      .findMany({
+        where: {
+          organizer_id: {
+            equals: organizerId,
+          },
+        },
+        include: {
+          TicketType: true,
+        },
+      })
+      .then((events) => {
+        response.send(events);
+      })
+      .catch((error) => {
+        console.log(error);
+        response.status(500);
+      });
+  });
+
   // find event
   app.get("/event/:eventId", async (request, response) => {
     const eventParams = z.object({
