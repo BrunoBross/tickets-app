@@ -1,9 +1,7 @@
-import { useContext } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import Login from "../pages/auth/Login";
+import Login from "../pages/auth/Login/Login";
 import Home from "../pages/Home";
-import Loading from "./Loading";
 
 export default function Routes() {
   const auth = useAuth();
@@ -11,17 +9,17 @@ export default function Routes() {
   const routes = createBrowserRouter([
     {
       path: "/",
-      element: auth.signed ? Home() : Login(),
+      element: auth.signed ? <Home /> : <Login auth={auth} />,
     },
     {
       path: "/login",
-      element: Login(),
+      element: <Login auth={auth} />,
     },
   ]);
 
   return (
     <>
-      <RouterProvider router={routes} fallbackElement={<Loading />} />
+      <RouterProvider router={routes} />
     </>
   );
 }

@@ -16,8 +16,8 @@ export interface OrganizerInterface {
 export interface AuthContextInterface {
   signed: boolean;
   organizer: OrganizerInterface | null;
-  Login(): Promise<void>;
-  Logout(): void;
+  Login: (email: string, password: string) => Promise<void>;
+  Logout: () => void;
 }
 
 const AuthContext = createContext({} as AuthContextInterface);
@@ -46,10 +46,10 @@ export const AuthProvider = (props: AuthProviderProps) => {
     }
   }, []);
 
-  async function Login() {
+  async function Login(email: string, password: string) {
     const response = await api.post("/organizer/auth", {
-      email: "bbarreto18@gmail.com",
-      password: "senha",
+      email,
+      password,
     });
 
     setOrganizer(response.data.organizer);

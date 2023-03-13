@@ -1,0 +1,81 @@
+.background {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-image: url("../../../assets/bg-example.jpg");
+  background-position: center;
+  background-size: cover;
+}
+
+.container {
+  display: flex;
+  width: 60vw;
+  height: 70vh;
+  box-shadow: 0px 25px 80px -6px rgba(0, 0, 0, 0.5);
+}
+
+.left-box {
+  flex: 1;
+}
+
+.left-box > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  border-radius: 2rem 0 0 2rem;
+}
+
+.right-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+
+  background-color: #fff;
+  border-radius: 0 2rem 2rem 0;
+}
+
+.right-box > .form {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form > h1 {
+  color: #012004;
+}
+
+.form > input {
+  border: 2px solid #012004;
+  padding: 1rem;
+  height: 3rem;
+  width: 60%;
+  border-radius: 0.5rem;
+  font-weight: bold;
+}
+
+button {
+  width: 60%;
+  height: 3rem;
+  border: none;
+  background-color: #012004;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  filter: brightness(1.5);
+}
