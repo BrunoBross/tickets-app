@@ -9,13 +9,15 @@ interface LoginProps {
 }
 
 export default function Login(props: LoginProps) {
-  const { auth } = props;
+  const {
+    auth: { Login, error },
+  } = props;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleOrganizerLogin = () => {
-    auth.Login(email, password);
+  const handleOrganizerLogin = async () => {
+    await Login(email, password);
   };
 
   return (
@@ -46,6 +48,7 @@ export default function Login(props: LoginProps) {
             <button type="submit" onClick={handleOrganizerLogin}>
               Entrar
             </button>
+            {error}
           </div>
         </div>
       </div>

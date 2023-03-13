@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { api } from "../lib/api";
 
@@ -18,6 +19,8 @@ export interface AuthContextInterface {
   organizer: OrganizerInterface | null;
   Login: (email: string, password: string) => Promise<void>;
   Logout: () => void;
+  isLoading: boolean;
+  error: string | null;
 }
 
 const AuthContext = createContext({} as AuthContextInterface);
@@ -25,9 +28,12 @@ const AuthContext = createContext({} as AuthContextInterface);
 export const AuthProvider = (props: AuthProviderProps) => {
   const { children } = props;
   const [organizer, setOrganizer] = useState<OrganizerInterface | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // verifica em primeira instancia se há algum token carregado
   useEffect(() => {
+    setIsLoading(true);
     const tokenId = localStorage.getItem("tokenId");
 
     const requestOrganizer = async () => {
@@ -42,19 +48,30 @@ export const AuthProvider = (props: AuthProviderProps) => {
     if (tokenId) {
       requestOrganizer().then((response) => {
         setOrganizer(response.data);
+        setIsLoading(false);
+        setError(null);
       });
+    } else {
+      setIsLoading(false);
+      setError(null);
     }
   }, []);
 
   async function Login(email: string, password: string) {
-    const response = await api.post("/organizer/auth", {
-      email,
-      password,
-    });
-
-    setOrganizer(response.data.organizer);
-    api.defaults.headers.Authorization = `Bearer ${response.data.tokenId}`;
-    localStorage.setItem("tokenId", response.data.tokenId);
+    await api
+      .post("/organizer/auth", {
+        email,
+        password,
+      })
+      .then((response) => {
+        setOrganizer(response.data.organizer);
+        api.defaults.headers.Authorization = `Bearer ${response.data.tokenId}`;
+        localStorage.setItem("tokenId", response.data.tokenId);
+        setError(null);
+      })
+      .catch((error) => {
+        setError(error.response.data.error);
+      });
   }
 
   async function Logout() {
@@ -64,7 +81,14 @@ export const AuthProvider = (props: AuthProviderProps) => {
 
   return (
     <AuthContext.Provider
-      value={{ signed: Boolean(organizer), organizer, Login, Logout }}
+      value={{
+        signed: Boolean(organizer),
+        organizer,
+        Login,
+        Logout,
+        isLoading,
+        error,
+      }}
     >
       {children}
     </AuthContext.Provider>

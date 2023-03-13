@@ -48,7 +48,9 @@ export async function AuthController(app: FastifyInstance) {
     });
 
     if (!organizer) {
-      return response.send({ error: "This organizer does not exists" });
+      return response
+        .code(404)
+        .send({ error: "This organizer does not exists" });
     }
 
     const isCorrectPassword = await bcrypt.compare(
@@ -57,7 +59,7 @@ export async function AuthController(app: FastifyInstance) {
     );
 
     if (!isCorrectPassword) {
-      return response.send({ error: "Incorrect password" });
+      return response.code(403).send({ error: "Incorrect password" });
     }
 
     const data = {
