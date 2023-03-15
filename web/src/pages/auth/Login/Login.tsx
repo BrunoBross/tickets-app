@@ -157,7 +157,7 @@ export default function Login(props: LoginProps) {
             >
               Gostaria de anunciar seus eventos?{" "}
               <Link
-                onClick={() => alert("Abrir o zap")}
+                href="https://api.whatsapp.com/send?phone=5548988470773&text=Ol%C3%A1,%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20a%20cria%C3%A7%C3%A3o%20de%20eventos"
                 isExternal
                 display="flex"
                 alignItems="center"

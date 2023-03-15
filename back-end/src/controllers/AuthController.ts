@@ -72,7 +72,6 @@ export async function AuthController(app: FastifyInstance) {
 
   app.get(
     "/organizer/auth",
-    // @ts-ignore
     { onRequest: [app.authenticate] },
     async (request, response) => {
       const organizer = await prisma.organizer.findFirst({

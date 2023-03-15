@@ -1,15 +1,40 @@
-import Fastify from "fastify";
+import Fastify, { FastifyInstance } from "fastify";
 import { Routes } from "./routes";
 import Cors from "@fastify/cors";
 import Jwt from "@fastify/jwt";
+require("dotenv").config();
 
-const app = Fastify();
-const PORT = 3001;
+const app: FastifyInstance = Fastify();
+const PORT = parseInt(process.env.PORT, 10) || 3000;
+
+interface Organizer {
+  organizerId: number;
+}
+
+declare module "fastify" {
+  interface FastifyInstance {
+    authenticate: (
+      request: FastifyRequest,
+      reply: FastifyReply,
+      done: (err?: Error | null, user?: Organizer) => void
+    ) => void;
+  }
+}
 
 app.register(Cors);
 
 app.register(Jwt, {
   secret: "mysecret",
+});
+
+// decorator de autenticacao
+app.decorate("authenticate", async (request: any, response: any) => {
+  try {
+    await request.jwtVerify();
+  } catch (error) {
+    console.log(error);
+    response.code(401).send({ error: "Authentication failed" });
+  }
 });
 
 app.register(Routes);

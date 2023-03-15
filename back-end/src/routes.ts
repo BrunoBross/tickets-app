@@ -11,16 +11,6 @@ export async function Routes(app: FastifyInstance) {
     response.send("API for Tickets App");
   });
 
-  // decorator de autenticacao
-  app.decorate("authenticate", async (request: any, response: any) => {
-    try {
-      await request.jwtVerify();
-    } catch (error) {
-      console.log(error);
-      response.code(401).send({ error: "Authentication failed" });
-    }
-  });
-
   app.register(AuthController);
 
   app.register(UserController);

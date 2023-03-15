@@ -1,9 +1,9 @@
-import { Heading } from "@chakra-ui/react";
+import { Heading, HStack } from "@chakra-ui/react";
 
 export default function NewEvent() {
   return (
-    <div>
+    <HStack>
       <Heading size="lg">Novo Evento</Heading>
-    </div>
+    </HStack>
   );
 }

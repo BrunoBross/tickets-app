@@ -6,9 +6,9 @@ import {
 } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import Login from "../pages/auth/Login/Login";
-import MyEvents from "../pages/Home/components/MyEvents";
-import NewEvent from "../pages/Home/components/NewEvent";
-import Profile from "../pages/Home/components/Profile";
+import MyEvents from "../pages/Home/pages/MyEvents";
+import NewEvent from "../pages/Home/pages/NewEvent";
+import Profile from "../pages/Home/pages/Profile";
 import Home from "../pages/Home/Home";
 import Loading from "./Loading";
 
