@@ -1,5 +1,6 @@
-import { Container, Heading, Text, VStack } from "@chakra-ui/react";
+import { Box, Heading, Image, Text, VStack } from "@chakra-ui/react";
 import { EventInterface } from "../pages/Home/pages/MyEvents";
+import { formatDate } from "../utils/dateFormatter";
 
 interface EventCardProps {
   event: EventInterface;
@@ -10,31 +11,34 @@ export default function EventCard(props: EventCardProps) {
     event: { name, date, location },
   } = props;
 
-  const info = `${date} • ${location}`;
+  const newDate = formatDate(date);
+  const info = `${newDate} • ${location}`;
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        flex: 1,
-        gap: "0.5rem",
-        minWidth: "15rem",
-        maxWidth: "20rem",
-        height: "16rem",
-        borderRadius: "1rem",
-      }}
+    <Box
+      display="flex"
+      flexDir="column"
+      flex="1"
+      padding="1rem"
+      gap="0.5rem"
+      minWidth="15rem"
+      maxWidth="20rem"
+      height="16rem"
+      borderRadius="1rem"
+      className="event-card transition"
     >
-      <div
-        style={{
-          display: "flex",
-          flex: 1,
-          backgroundColor: "gray",
-          borderRadius: "1rem",
-        }}
+      <Image
+        height="70%"
+        objectFit="cover"
+        src="https://guiafloripa.com.br/wp-content/uploads/2019/04/endireita.png"
+        backgroundColor="gray"
+        borderRadius="1rem"
       />
-      <Heading size="lg">{name}</Heading>
-      <Text>{info}</Text>
-    </div>
+
+      <VStack display="flex" flex="1" alignItems="flex-start">
+        <Heading size="lg">{name}</Heading>
+        <Text>{info}</Text>
+      </VStack>
+    </Box>
   );
 }

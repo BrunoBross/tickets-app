@@ -13,7 +13,6 @@ import {
 import { Plus } from "phosphor-react";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import SimpleBar from "simplebar-react";
 import DefaultModal from "../../../components/DefaultModal";
 import EventCard from "../../../components/EventCard";
 import Loading from "../../../components/Loading";
@@ -29,15 +28,6 @@ export interface EventInterface {
   date: Date;
   batch: number;
   organizer_id: string;
-}
-
-interface NewEventProps {
-  name: string;
-  location: string;
-  attraction: string;
-  description: string;
-  date: Date;
-  batch: number;
 }
 
 export default function MyEvents() {
@@ -216,7 +206,7 @@ export default function MyEvents() {
         title="Cadastrar Novo Evento"
       />
       <VStack alignItems="flex-start" spacing="2rem" maxH="100%">
-        <HStack justify="space-between" w="100%">
+        <HStack justify="space-between" w="100%" h="3rem">
           <Heading size="lg">Meus Eventos</Heading>
           <Button
             colorScheme="blue"
@@ -229,12 +219,13 @@ export default function MyEvents() {
         </HStack>
 
         <Box
-          gap="1rem"
           flexWrap="wrap"
           display="flex"
           overflowY="auto"
+          width="100%"
           maxH="100%"
           px="0.5rem"
+          overflow="hidden"
         >
           {eventList ? (
             eventList.map((event) => {

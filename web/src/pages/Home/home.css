@@ -21,3 +21,19 @@
 .section-container {
   box-shadow: 0px 25px 50px 0px #3f6e9073;
 }
+
+.event-card {
+  animation-name: fadeInRight;
+  animation-duration: 1s;
+
+  cursor: pointer;
+}
+
+.transition {
+  transition: 0.3s ease !important;
+}
+
+.event-card:hover {
+  filter: brightness(0.8);
+  transform: scale(1.1) !important;
+}

@@ -68,8 +68,8 @@ export default function Login(props: LoginProps) {
   };
 
   return (
-    <div className="background">
-      <div className="container">
+    <div className="background" style={{ overflow: "hidden" }}>
+      <div className="container animate__animated animate__fadeInDown">
         <div className="left-box" />
         <div className="right-box">
           <Container

@@ -31,17 +31,18 @@ export default function AllEvents() {
   return (
     <>
       <VStack alignItems="flex-start" spacing="2rem" maxH="100%">
-        <HStack justify="space-between" w="100%">
+        <HStack justify="space-between" w="100%" h="3rem">
           <Heading size="lg">Todos Eventos</Heading>
         </HStack>
 
         <Box
-          gap="1rem"
           flexWrap="wrap"
           display="flex"
           overflowY="auto"
+          width="100%"
           maxH="100%"
           px="0.5rem"
+          overflow="hidden"
         >
           {eventList ? (
             eventList.map((event) => {
