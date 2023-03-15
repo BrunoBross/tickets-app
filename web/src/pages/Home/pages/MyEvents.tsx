@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Heading,
   HStack,
@@ -12,6 +13,7 @@ import {
 import { Plus } from "phosphor-react";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import SimpleBar from "simplebar-react";
 import DefaultModal from "../../../components/DefaultModal";
 import EventCard from "../../../components/EventCard";
 import Loading from "../../../components/Loading";
@@ -94,11 +96,17 @@ export default function MyEvents() {
           variant: "left-accent",
           status: "success",
         });
-        onClose();
+        handleCancelForm();
         retrieveEventList();
       })
       .catch((error) => {
-        console.log(error);
+        toast({
+          title: `${error.response.data.error}`,
+          position: "bottom-right",
+          isClosable: true,
+          variant: "left-accent",
+          status: "error",
+        });
       });
   };
 
@@ -189,7 +197,7 @@ export default function MyEvents() {
       <HStack gap="0.5rem">
         <Button onClick={handleCancelForm}>Cancelar</Button>
         <Button colorScheme="blue" onClick={handleSubmit(onSubmit)}>
-          Criar
+          Solicitar
         </Button>
       </HStack>
     );
@@ -200,33 +208,43 @@ export default function MyEvents() {
       <DefaultModal
         isOpen={isOpen}
         onOpen={onOpen}
-        onClose={onClose}
+        onClose={handleCancelForm}
         initialRef={initialRef}
         finalRef={finalRef}
         body={CreateEventModalForm()}
         footer={CreateEventModalButtons()}
         title="Cadastrar Novo Evento"
       />
-      <HStack justify="space-between">
-        <Heading size="lg">Meus Eventos</Heading>
-        <Button
-          colorScheme="blue"
-          gap="0.5rem"
-          variant="outline"
-          onClick={onOpen}
+      <VStack alignItems="flex-start" spacing="2rem" maxH="100%">
+        <HStack justify="space-between" w="100%">
+          <Heading size="lg">Meus Eventos</Heading>
+          <Button
+            colorScheme="blue"
+            gap="0.5rem"
+            variant="outline"
+            onClick={onOpen}
+          >
+            <Plus size={20} weight="bold" /> <Text>Novo Evento</Text>
+          </Button>
+        </HStack>
+
+        <Box
+          gap="1rem"
+          flexWrap="wrap"
+          display="flex"
+          overflowY="auto"
+          maxH="100%"
+          px="0.5rem"
         >
-          <Plus size={20} weight="bold" /> <Text>Novo Evento</Text>
-        </Button>
-      </HStack>
-      <HStack>
-        {eventList ? (
-          eventList.map((event) => {
-            return <EventCard key={event.id} event={event} />;
-          })
-        ) : (
-          <Loading />
-        )}
-      </HStack>
+          {eventList ? (
+            eventList.map((event) => {
+              return <EventCard key={event.id} event={event} />;
+            })
+          ) : (
+            <Loading />
+          )}
+        </Box>
+      </VStack>
     </>
   );
 }

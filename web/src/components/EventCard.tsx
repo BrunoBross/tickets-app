@@ -15,16 +15,21 @@ export default function EventCard(props: EventCardProps) {
   return (
     <div
       style={{
-        width: "20rem",
+        display: "flex",
+        flexDirection: "column",
+        flex: 1,
+        gap: "0.5rem",
+        minWidth: "15rem",
+        maxWidth: "20rem",
         height: "16rem",
         borderRadius: "1rem",
       }}
     >
       <div
         style={{
+          display: "flex",
+          flex: 1,
           backgroundColor: "gray",
-          width: "100%",
-          height: "8rem",
           borderRadius: "1rem",
         }}
       />

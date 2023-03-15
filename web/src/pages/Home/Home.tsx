@@ -1,7 +1,6 @@
 import {
   AlertDialog,
   AlertDialogBody,
-  AlertDialogCloseButton,
   AlertDialogContent,
   AlertDialogFooter,
   AlertDialogHeader,
@@ -15,10 +14,16 @@ import {
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
-import { CalendarBlank, Plus, SignOut, Ticket, User } from "phosphor-react";
-import { RefObject, useRef } from "react";
-import { Navigate, Outlet, useNavigate } from "react-router-dom";
-import { AuthContextInterface, useAuth } from "../../contexts/AuthContext";
+import {
+  CalendarBlank,
+  CalendarPlus,
+  SignOut,
+  Ticket,
+  User,
+} from "phosphor-react";
+import { useRef } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+import { AuthContextInterface } from "../../contexts/AuthContext";
 import "./home.css";
 
 interface HomeProps {
@@ -99,7 +104,11 @@ export default function Home(props: HomeProps) {
                 Tickets
               </Heading>
               <VStack alignItems="flex-start" gap="1rem">
-                <Link display="flex" gap="0.5rem" onClick={() => navigate("/")}>
+                <Link
+                  display="flex"
+                  gap="0.5rem"
+                  onClick={() => navigate("/myevents")}
+                >
                   <CalendarBlank size={20} weight="bold" />
                   <Text fontSize="md" as="b">
                     Meus Eventos
@@ -108,11 +117,11 @@ export default function Home(props: HomeProps) {
                 <Link
                   display="flex"
                   gap="0.5rem"
-                  onClick={() => navigate("/new")}
+                  onClick={() => navigate("/allevents")}
                 >
-                  <Plus size={20} weight="bold" />
+                  <CalendarPlus size={20} weight="bold" />
                   <Text fontSize="md" as="b">
-                    Novo Evento
+                    Todos Eventos
                   </Text>
                 </Link>
                 <Link

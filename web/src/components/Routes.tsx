@@ -7,10 +7,10 @@ import {
 import { useAuth } from "../contexts/AuthContext";
 import Login from "../pages/auth/Login/Login";
 import MyEvents from "../pages/Home/pages/MyEvents";
-import NewEvent from "../pages/Home/pages/NewEvent";
 import Profile from "../pages/Home/pages/Profile";
 import Home from "../pages/Home/Home";
 import Loading from "./Loading";
+import AllEvents from "../pages/Home/pages/AllEvents";
 
 export default function Routes() {
   const auth = useAuth();
@@ -22,8 +22,8 @@ export default function Routes() {
         path="/"
         element={signed ? <Home auth={auth} /> : <Login auth={auth} />}
       >
-        <Route index element={<MyEvents />} />
-        <Route path="new" element={<NewEvent />} />
+        <Route path="myevents" element={<MyEvents />} />
+        <Route path="allevents" element={<AllEvents />} />
         <Route path="profile" element={<Profile />} />
       </Route>
     )
