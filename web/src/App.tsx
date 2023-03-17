@@ -1,5 +1,5 @@
 import "./App.css";
-import Routes from "./components/Routes";
+import Routes from "./components/Routes/Routes";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ChakraProvider } from "@chakra-ui/react";
 

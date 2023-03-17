@@ -1,7 +1,8 @@
 import { Box, Heading, HStack, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import EventCard from "../../../components/EventCard";
-import Loading from "../../../components/Loading";
+import EventCard from "../../../components/EventCard/EventCard";
+import EventList from "../../../components/EventList/EventList";
+import Loading from "../../../components/Loading/Loading";
 import { api } from "../../../lib/api";
 
 export interface EventInterface {
@@ -30,28 +31,12 @@ export default function AllEvents() {
 
   return (
     <>
-      <VStack alignItems="flex-start" spacing="2rem" maxH="100%">
+      <VStack alignItems="flex-start" spacing="2rem" h="100%">
         <HStack justify="space-between" w="100%" h="3rem">
           <Heading size="lg">Todos Eventos</Heading>
         </HStack>
 
-        <Box
-          flexWrap="wrap"
-          display="flex"
-          overflowY="auto"
-          width="100%"
-          maxH="100%"
-          px="0.5rem"
-          overflow="hidden"
-        >
-          {eventList ? (
-            eventList.map((event) => {
-              return <EventCard key={event.id} event={event} />;
-            })
-          ) : (
-            <Loading />
-          )}
-        </Box>
+        <EventList eventList={eventList} />
       </VStack>
     </>
   );

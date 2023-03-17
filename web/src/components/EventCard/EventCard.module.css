@@ -1,0 +1,15 @@
+.eventCard {
+  animation-name: fadeInRight;
+  animation-duration: 1s;
+
+  cursor: pointer;
+}
+
+.transition {
+  transition: 0.3s ease !important;
+}
+
+.eventCard:hover {
+  filter: brightness(0.8);
+  transform: scale(1.1) !important;
+}

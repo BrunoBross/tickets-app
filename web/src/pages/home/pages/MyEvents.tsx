@@ -1,11 +1,19 @@
 import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
   Box,
   Button,
+  Container,
   Heading,
   HStack,
   Input,
   InputGroup,
   Text,
+  Textarea,
   useDisclosure,
   useToast,
   VStack,
@@ -14,8 +22,11 @@ import { Plus } from "phosphor-react";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import DefaultModal from "../../../components/DefaultModal";
-import EventCard from "../../../components/EventCard";
-import Loading from "../../../components/Loading";
+import DragNDrop from "../../../components/DragNDrop/DragNDrop";
+import EventCard from "../../../components/EventCard/EventCard";
+import EventInput from "../../../components/EventInput/EventInput";
+import EventList from "../../../components/EventList/EventList";
+import Loading from "../../../components/Loading/Loading";
 import { useAuth } from "../../../contexts/AuthContext";
 import { api } from "../../../lib/api";
 
@@ -38,6 +49,17 @@ export default function MyEvents() {
   const toast = useToast();
   const initialRef = useRef(null);
   const finalRef = useRef(null);
+
+  const hasNonEmptyFieldValue = (
+    data: Record<string, string | number>
+  ): Boolean => {
+    for (let key in data) {
+      if (data[key] !== "") {
+        return true;
+      }
+    }
+    return false;
+  };
 
   const retrieveEventList = async () => {
     await api.get(`/organizer/event/${organizer?.id}`).then((response) => {
@@ -107,78 +129,94 @@ export default function MyEvents() {
 
   const CreateEventModalForm = () => {
     return (
-      <VStack>
-        <InputGroup>
-          <Input
-            pr="4.5rem"
-            type="text"
-            borderColor="blue.500"
-            borderWidth="2px"
-            size="lg"
-            placeholder="Nome do Evento"
-            {...register("name")}
-          />
-        </InputGroup>
+      <Box>
+        <HStack display="flex" gap="1rem" w="100%" spacing={0}>
+          <VStack
+            display="flex"
+            w="50%"
+            h="17rem"
+            spacing={0}
+            justifyContent="flex-start"
+          >
+            <EventInput
+              inputName="Nome"
+              registerName="name"
+              placeholder="Nome do evento"
+              register={register}
+            />
 
-        <InputGroup>
-          <Input
-            pr="4.5rem"
-            type="text"
-            borderColor="blue.500"
-            borderWidth="2px"
-            size="lg"
-            placeholder="Endereço / Local"
-            {...register("location")}
-          />
-        </InputGroup>
+            <EventInput
+              inputName="Endereço"
+              registerName="location"
+              placeholder="Endereço do evento"
+              register={register}
+            />
 
-        <InputGroup>
-          <Input
-            pr="4.5rem"
-            type="text"
-            borderColor="blue.500"
-            borderWidth="2px"
-            size="lg"
-            placeholder="Atração"
-            {...register("attraction")}
-          />
-        </InputGroup>
+            <EventInput
+              inputName="Atração"
+              registerName="attraction"
+              placeholder="Atração do evento"
+              register={register}
+            />
+          </VStack>
 
-        <InputGroup>
-          <Input
-            pr="4.5rem"
-            type="text"
-            borderColor="blue.500"
-            borderWidth="2px"
-            size="lg"
-            placeholder="Descrição"
-            {...register("description")}
-          />
-        </InputGroup>
+          <VStack
+            display="flex"
+            w="50%"
+            h="17rem"
+            spacing={0}
+            justifyContent="flex-start"
+          >
+            <EventInput
+              inputName="Data"
+              registerName="date"
+              type="datetime-local"
+              placeholder="Data do evento"
+              register={register}
+            />
 
-        <InputGroup>
-          <Input
-            pr="4.5rem"
-            type="datetime-local"
-            borderColor="blue.500"
-            borderWidth="2px"
-            size="lg"
-            placeholder="Data"
-            {...register("date")}
-          />
-        </InputGroup>
-        <InputGroup>
-          <Input
-            pr="4.5rem"
-            type="number"
-            borderColor="blue.500"
-            borderWidth="2px"
-            size="lg"
-            placeholder="Lote Atual"
-            {...register("batch")}
-          />
-        </InputGroup>
-      </VStack>
+            <EventInput
+              inputName="Lote Atual"
+              registerName="batch"
+              type="number"
+              placeholder="Lote atual do evento"
+              register={register}
+            />
+
+            <InputGroup display="flex" flexDir="column" gap="0.5rem">
+              <Heading
+                display="flex"
+                size="md"
+                gap="0.5rem"
+                alignItems="flex-start"
+              >
+                Logo Evento <span style={{ color: "red" }}>*</span>
+              </Heading>
+              <DragNDrop label="Arraste e solte a logo da festa aqui" />
+            </InputGroup>
+          </VStack>
+        </HStack>
+
+        <HStack>
+          <InputGroup display="flex" flexDir="column" gap="0.5rem">
+            <Heading
+              display="flex"
+              size="md"
+              gap="0.5rem"
+              alignItems="flex-start"
+            >
+              Descrição <span style={{ color: "red" }}>*</span>
+            </Heading>
+            <Textarea
+              borderColor="blue.500"
+              borderWidth="2px"
+              size="lg"
+              placeholder="Descrição"
+              {...register("description")}
+            />
+          </InputGroup>
+        </HStack>
+      </Box>
     );
   };
 
@@ -205,7 +243,7 @@ export default function MyEvents() {
         footer={CreateEventModalButtons()}
         title="Cadastrar Novo Evento"
       />
-      <VStack alignItems="flex-start" spacing="2rem" maxH="100%">
+      <VStack alignItems="flex-start" spacing="2rem" h="100%">
         <HStack justify="space-between" w="100%" h="3rem">
           <Heading size="lg">Meus Eventos</Heading>
           <Button
@@ -218,23 +256,7 @@ export default function MyEvents() {
           </Button>
         </HStack>
 
-        <Box
-          flexWrap="wrap"
-          display="flex"
-          overflowY="auto"
-          width="100%"
-          maxH="100%"
-          px="0.5rem"
-          overflow="hidden"
-        >
-          {eventList ? (
-            eventList.map((event) => {
-              return <EventCard key={event.id} event={event} />;
-            })
-          ) : (
-            <Loading />
-          )}
-        </Box>
+        <EventList eventList={eventList} />
       </VStack>
     </>
   );

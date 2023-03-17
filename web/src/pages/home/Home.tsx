@@ -104,11 +104,7 @@ export default function Home(props: HomeProps) {
                 Tickets
               </Heading>
               <VStack alignItems="flex-start" gap="1rem">
-                <Link
-                  display="flex"
-                  gap="0.5rem"
-                  onClick={() => navigate("/myevents")}
-                >
+                <Link display="flex" gap="0.5rem" onClick={() => navigate("/")}>
                   <CalendarBlank size={20} weight="bold" />
                   <Text fontSize="md" as="b">
                     Meus Eventos

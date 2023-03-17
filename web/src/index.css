@@ -5,6 +5,28 @@
   /* font-family: "Roboto", sans-serif; */
 }
 
+body {
+  width: 100vw;
+  height: 100vh;
+  background: rgb(216, 241, 255);
+  background: -moz-linear-gradient(
+    55deg,
+    rgba(216, 241, 255, 1) 29%,
+    rgba(149, 217, 255, 1) 78%
+  );
+  background: -webkit-linear-gradient(
+    55deg,
+    rgba(216, 241, 255, 1) 29%,
+    rgba(149, 217, 255, 1) 78%
+  );
+  background: linear-gradient(
+    55deg,
+    rgba(216, 241, 255, 1) 29%,
+    rgba(149, 217, 255, 1) 78%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#d8f1ff",endColorstr="#95d9ff",GradientType=1);
+}
+
 :root {
   font-synthesis: none;
   text-rendering: optimizeLegibility;

@@ -1,8 +1,4 @@
 import {
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -25,8 +21,7 @@ interface DefaultModal {
 }
 
 export default function DefaultModal(props: DefaultModal) {
-  const { isOpen, onOpen, onClose, initialRef, finalRef, body, footer, title } =
-    props;
+  const { isOpen, onClose, initialRef, finalRef, body, footer, title } = props;
 
   return (
     <Modal
@@ -36,12 +31,13 @@ export default function DefaultModal(props: DefaultModal) {
       onClose={onClose}
       isCentered
       motionPreset="slideInBottom"
+      size="2xl"
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{title}</ModalHeader>
+        <ModalHeader fontSize="1.8rem">{title}</ModalHeader>
         <ModalCloseButton />
-        <ModalBody pb={6}>{body}</ModalBody>
+        <ModalBody>{body}</ModalBody>
 
         <ModalFooter>{footer}</ModalFooter>
       </ModalContent>

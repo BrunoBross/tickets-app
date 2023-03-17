@@ -1,6 +1,6 @@
 import { Box, Heading, Image, Text, VStack } from "@chakra-ui/react";
-import { EventInterface } from "../pages/Home/pages/MyEvents";
-import { formatDate } from "../utils/dateFormatter";
+import { EventInterface } from "../../pages/home/pages/MyEvents";
+import { formatDate } from "../../utils/dateFormatter";
 
 interface EventCardProps {
   event: EventInterface;

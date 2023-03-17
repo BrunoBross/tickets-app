@@ -4,13 +4,15 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
-import Login from "../pages/auth/Login/Login";
-import MyEvents from "../pages/Home/pages/MyEvents";
-import Profile from "../pages/Home/pages/Profile";
-import Home from "../pages/Home/Home";
-import Loading from "./Loading";
-import AllEvents from "../pages/Home/pages/AllEvents";
+import { useAuth } from "../../contexts/AuthContext";
+import Login from "../../pages/auth/Login/Login";
+import MyEvents from "../../pages/home/pages/MyEvents";
+import Profile from "../../pages/home/pages/Profile";
+import Home from "../../pages/home/Home";
+import Loading from "../Loading/Loading";
+import AllEvents from "../../pages/home/pages/AllEvents";
+import { Container } from "@chakra-ui/react";
+import styles from "./Routes.module.css";
 
 export default function Routes() {
   const auth = useAuth();
@@ -22,7 +24,7 @@ export default function Routes() {
         path="/"
         element={signed ? <Home auth={auth} /> : <Login auth={auth} />}
       >
-        <Route path="myevents" element={<MyEvents />} />
+        <Route index element={<MyEvents />} />
         <Route path="allevents" element={<AllEvents />} />
         <Route path="profile" element={<Profile />} />
       </Route>
@@ -32,7 +34,9 @@ export default function Routes() {
   return (
     <>
       {isLoading ? (
-        <Loading />
+        <Container w="100vw" h="100vh" className={styles.container}>
+          <Loading />
+        </Container>
       ) : (
         <RouterProvider router={routes} fallbackElement={<Loading />} />
       )}
