@@ -5,10 +5,12 @@ import { FileUploader } from "react-drag-drop-files";
 import styles from "./DragNDrop.module.css";
 
 interface DragNDropProps {
+  file: FileTypes | undefined;
+  setFile: (file: FileTypes) => void;
   label: string;
 }
 
-interface FileTypes {
+export interface FileTypes {
   //tem outras 2 propriedades
   name: string;
   size: number;
@@ -19,9 +21,8 @@ interface FileTypes {
 const fileTypes = ["PNG"];
 
 export default function DragNDrop(props: DragNDropProps) {
-  const { label } = props;
+  const { file, setFile, label } = props;
   const toast = useToast();
-  const [file, setFile] = useState<FileTypes>();
 
   const onTypeError = () => {
     return toast({

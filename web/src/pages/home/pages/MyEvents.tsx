@@ -22,7 +22,7 @@ import { Plus } from "phosphor-react";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import DefaultModal from "../../../components/DefaultModal";
-import DragNDrop from "../../../components/DragNDrop/DragNDrop";
+import DragNDrop, { FileTypes } from "../../../components/DragNDrop/DragNDrop";
 import EventCard from "../../../components/EventCard/EventCard";
 import EventInput from "../../../components/EventInput/EventInput";
 import EventList from "../../../components/EventList/EventList";
@@ -39,6 +39,7 @@ export interface EventInterface {
   date: Date;
   batch: number;
   organizer_id: string;
+  file_name: string;
 }
 
 export default function MyEvents() {
@@ -50,16 +51,16 @@ export default function MyEvents() {
   const initialRef = useRef(null);
   const finalRef = useRef(null);
 
-  const hasNonEmptyFieldValue = (
-    data: Record<string, string | number>
-  ): Boolean => {
-    for (let key in data) {
-      if (data[key] !== "") {
-        return true;
-      }
-    }
-    return false;
-  };
+  // const hasNonEmptyFieldValue = (
+  //   data: Record<string, string | number>
+  // ): Boolean => {
+  //   for (let key in data) {
+  //     if (data[key] !== "") {
+  //       return true;
+  //     }
+  //   }
+  //   return false;
+  // };
 
   const retrieveEventList = async () => {
     await api.get(`/organizer/event/${organizer?.id}`).then((response) => {
@@ -71,8 +72,10 @@ export default function MyEvents() {
     register,
     handleSubmit,
     reset,
+    getValues,
     formState: { errors },
   } = useForm();
+  const [file, setFile] = useState<FileTypes>();
 
   useEffect(() => {
     retrieveEventList();
@@ -85,21 +88,24 @@ export default function MyEvents() {
       attraction,
       description,
       date: oldDate,
-      batch: oldBatch,
+      batch,
     } = data;
 
     const date = new Date(oldDate);
-    const batch = parseInt(oldBatch, 10);
-
     await api
-      .post(`/event/${organizer?.id}`, {
-        name,
-        location,
-        attraction,
-        description,
-        date,
-        batch,
-      })
+      .post(
+        `/event/${organizer?.id}`,
+        {
+          name,
+          location,
+          attraction,
+          description,
+          date,
+          batch,
+          logo: file,
+        },
+        { headers: { "Content-Type": "multipart/form-data" } }
+      )
       .then(() => {
         toast({
           title: "Evento criado com sucesso",
@@ -112,6 +118,7 @@ export default function MyEvents() {
         retrieveEventList();
       })
       .catch((error) => {
+        console.log(error);
         toast({
           title: `${error.response.data.error}`,
           position: "bottom-right",
@@ -124,6 +131,7 @@ export default function MyEvents() {
 
   const handleCancelForm = () => {
     reset();
+    setFile(undefined);
     onClose();
   };
 
@@ -192,7 +200,11 @@ export default function MyEvents() {
               >
                 Logo Evento <span style={{ color: "red" }}>*</span>
               </Heading>
-              <DragNDrop label="Arraste e solte a logo da festa aqui" />
+              <DragNDrop
+                file={file}
+                setFile={setFile}
+                label="Arraste e solte a logo da festa aqui"
+              />
             </InputGroup>
           </VStack>
         </HStack>

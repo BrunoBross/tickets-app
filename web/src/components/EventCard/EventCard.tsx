@@ -8,7 +8,7 @@ interface EventCardProps {
 
 export default function EventCard(props: EventCardProps) {
   const {
-    event: { name, date, location },
+    event: { name, date, location, file_name },
   } = props;
 
   const newDate = formatDate(date);
@@ -30,7 +30,7 @@ export default function EventCard(props: EventCardProps) {
       <Image
         height="70%"
         objectFit="cover"
-        src="https://guiafloripa.com.br/wp-content/uploads/2019/04/endireita.png"
+        src={`http://localhost:3001/uploads/logo/${file_name}`}
         backgroundColor="gray"
         borderRadius="1rem"
       />

@@ -78,51 +78,51 @@ export async function EventController(app: FastifyInstance) {
   });
 
   // create event
-  app.post("/event/:organizerId", async (request, response) => {
-    const eventParams = z.object({
-      organizerId: z.string(),
-    });
-
-    const eventBody = z.object({
-      name: z.string(),
-      location: z.string(),
-      attraction: z.string(),
-      description: z.string(),
-      date: z.coerce.date(),
-      batch: z.number(),
-    });
-
-    const { organizerId } = eventParams.parse(request.params);
-
-    const { name, location, attraction, description, date, batch } =
-      eventBody.parse(request.body);
-
-    await prisma.event
-      .create({
-        data: {
-          name,
-          location,
-          attraction,
-          description,
-          date,
-          batch,
-          organizer_id: organizerId,
-        },
-      })
-      .then(() => {
-        response.status(201);
-      })
-      .catch((error) => {
-        console.log(error);
-        response.status(500);
-      });
-  });
-
   app.post(
-    "/upload",
-    { preHandler: multerUpload.single("image") },
-    async (request, response) => {
-      response.send("deu bao fml");
+    "/event/:organizerId",
+    { preHandler: multerUpload.single("logo") },
+    async (request: any, response) => {
+      const eventParams = z.object({
+        organizerId: z.string(),
+      });
+
+      const eventBody = z.object({
+        name: z.string(),
+        location: z.string(),
+        attraction: z.string(),
+        description: z.string(),
+        date: z.coerce.date(),
+        batch: z.string(),
+      });
+
+      const { organizerId } = eventParams.parse(request.params);
+
+      const file_name = request.file.filename;
+
+      const { name, location, attraction, description, date, batch } =
+        eventBody.parse(request.body);
+
+      const intBatch = parseInt(batch, 10);
+
+      await prisma.event
+        .create({
+          data: {
+            name,
+            location,
+            attraction,
+            description,
+            date,
+            batch: intBatch,
+            organizer_id: organizerId,
+            file_name,
+          },
+        })
+        .then(() => {
+          response.status(201);
+        })
+        .catch((error) => {
+          response.status(500);
+        });
     }
   );
 }

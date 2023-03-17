@@ -46,6 +46,7 @@ model Event {
   description String
   date        DateTime
   batch       Int
+  file_name   String
 
   organizer    Organizer @relation(fields: [organizer_id], references: [id])
   organizer_id String
