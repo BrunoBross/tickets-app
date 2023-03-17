@@ -1,5 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { z } from "zod";
+import { multerUpload } from "../lib/multer";
 import { prisma } from "../lib/prisma";
 
 export async function EventController(app: FastifyInstance) {
@@ -116,4 +117,12 @@ export async function EventController(app: FastifyInstance) {
         response.status(500);
       });
   });
+
+  app.post(
+    "/upload",
+    { preHandler: multerUpload.single("image") },
+    async (request, response) => {
+      response.send("deu bao fml");
+    }
+  );
 }

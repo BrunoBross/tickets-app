@@ -2,6 +2,7 @@ import Fastify, { FastifyInstance } from "fastify";
 import { Routes } from "./routes";
 import Cors from "@fastify/cors";
 import Jwt from "@fastify/jwt";
+import { multer } from "./lib/multer";
 require("dotenv").config();
 
 const app: FastifyInstance = Fastify();
@@ -20,6 +21,8 @@ declare module "fastify" {
     ) => void;
   }
 }
+
+app.register(multer.contentParser);
 
 app.register(Cors);
 
