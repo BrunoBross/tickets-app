@@ -1,20 +1,8 @@
-import { Box, Heading, HStack, VStack } from "@chakra-ui/react";
+import { Heading, HStack, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import EventCard from "../../../components/EventCard/EventCard";
+import { EventInterface } from "../../../components/EventCard/EventCard";
 import EventList from "../../../components/EventList/EventList";
-import Loading from "../../../components/Loading/Loading";
 import { api } from "../../../lib/api";
-
-export interface EventInterface {
-  id: string;
-  name: string;
-  location: string;
-  attraction: string;
-  description: string;
-  date: Date;
-  batch: number;
-  organizer_id: string;
-}
 
 export default function AllEvents() {
   const [eventList, setEventList] = useState<EventInterface[] | null>(null);

@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   createContext,
   Dispatch,
@@ -12,18 +13,21 @@ interface AuthProviderProps {
   children: React.ReactNode;
 }
 
-export interface OrganizerInterface {
+export interface UserInterface {
   id: string;
   name: string;
   surname: string;
-  cnpj: string | null;
-  cpf: string | null;
   email: string;
+  cpf: string;
+  birth: Date;
+  gender: string;
+  address: string;
+  zip_code: string;
 }
 
 export interface AuthContextInterface {
   signed: boolean;
-  organizer: OrganizerInterface | null;
+  user: UserInterface | null;
   Login: (props: LoginProps) => Promise<void>;
   Logout: () => void;
   isLoading: boolean;
@@ -34,24 +38,30 @@ export interface AuthContextInterface {
 interface LoginProps {
   email: string;
   password: string;
-  isRemember: boolean;
 }
 
 const AuthContext = createContext({} as AuthContextInterface);
 
-export const AuthProvider = (props: AuthProviderProps) => {
+export default function AuthProvider(props: AuthProviderProps) {
   const { children } = props;
-  const [organizer, setOrganizer] = useState<OrganizerInterface | null>(null);
+  const [user, setUser] = useState<UserInterface | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [tokenId, setTokenId] = useState<string>();
 
   // verifica em primeira instancia se há algum token carregado
   useEffect(() => {
     setIsLoading(true);
-    const tokenId = localStorage.getItem("tokenId");
 
-    const requestOrganizer = async () => {
-      const response = await api.get("/organizer/auth", {
+    const getTokenId = async () => {
+      const tokenStoragedId = await AsyncStorage.getItem("tokenId");
+      tokenStoragedId && setTokenId(tokenStoragedId);
+    };
+
+    getTokenId();
+
+    const requestUser = async () => {
+      const response = await api.get("/user/auth", {
         headers: {
           Authorization: `Bearer ${tokenId}`,
         },
@@ -60,8 +70,8 @@ export const AuthProvider = (props: AuthProviderProps) => {
     };
 
     if (tokenId) {
-      requestOrganizer().then((response) => {
-        setOrganizer(response.data);
+      requestUser().then((response) => {
+        setUser(response.data);
         setIsLoading(false);
         setError(null);
       });
@@ -72,20 +82,18 @@ export const AuthProvider = (props: AuthProviderProps) => {
   }, []);
 
   async function Login(props: LoginProps) {
-    const { email, password, isRemember } = props;
+    const { email, password } = props;
 
     await api
-      .post("/organizer/auth", {
+      .post("/user/auth", {
         email,
         password,
       })
-      .then((response) => {
-        setOrganizer(response.data.organizer);
-        if (isRemember) {
-          api.defaults.headers.Authorization = `Bearer ${response.data.tokenId}`;
-          localStorage.setItem("tokenId", response.data.tokenId);
-          setError(null);
-        }
+      .then(async (response) => {
+        setUser(response.data.user);
+        api.defaults.headers.Authorization = `Bearer ${response.data.tokenId}`;
+        await AsyncStorage.setItem("tokenId", response.data.tokenId);
+        setError(null);
       })
       .catch((error) => {
         setError(error.response.data.error);
@@ -93,15 +101,15 @@ export const AuthProvider = (props: AuthProviderProps) => {
   }
 
   async function Logout() {
-    localStorage.removeItem("tokenId");
-    setOrganizer(null);
+    await AsyncStorage.removeItem("tokenId");
+    setUser(null);
   }
 
   return (
     <AuthContext.Provider
       value={{
-        signed: Boolean(organizer),
-        organizer,
+        signed: Boolean(user),
+        user,
         Login,
         Logout,
         isLoading,
@@ -112,6 +120,6 @@ export const AuthProvider = (props: AuthProviderProps) => {
       {children}
     </AuthContext.Provider>
   );
-};
+}
 
 export const useAuth = () => useContext(AuthContext);

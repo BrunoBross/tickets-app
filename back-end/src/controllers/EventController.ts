@@ -21,6 +21,39 @@ export async function EventController(app: FastifyInstance) {
       });
   });
 
+  // get events
+  app.get("/event/search/:input", async (request, response) => {
+    const eventSearchParams = z.object({
+      input: z.string(),
+    });
+
+    const { input } = eventSearchParams.parse(request.params);
+
+    if (!input) {
+      response.code(200).send({ error: "Input null" });
+    }
+
+    await prisma.event
+      .findMany({
+        where: {
+          name: {
+            startsWith: input,
+            mode: "insensitive",
+          },
+        },
+        include: {
+          TicketType: true,
+        },
+      })
+      .then((events) => {
+        response.send(events);
+      })
+      .catch((error) => {
+        console.log(error);
+        response.status(500);
+      });
+  });
+
   // get events by organizer id
   app.get("/organizer/event/:organizerId", async (request, response) => {
     const eventParams = z.object({

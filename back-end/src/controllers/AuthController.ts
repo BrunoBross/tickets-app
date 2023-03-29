@@ -4,31 +4,40 @@ import { prisma } from "../lib/prisma";
 import bcrypt from "bcrypt";
 
 export async function AuthController(app: FastifyInstance) {
-  app.get("/user/auth/:userId", async (request, response) => {
-    const tokenParams = z.object({
-      userId: z.string(),
+  app.post("/user/auth", async (request, response) => {
+    const userBody = z.object({
+      email: z.string(),
+      password: z.string(),
     });
 
-    const { userId } = tokenParams.parse(request.params);
+    const { email, password } = userBody.parse(request.body);
 
-    const existsUser = await prisma.user.findFirst({
+    const user = await prisma.user.findFirst({
       where: {
-        id: {
-          equals: userId,
+        email: {
+          equals: email,
         },
       },
     });
 
-    if (!existsUser) {
-      return response.send({ error: "This user does not exists" });
+    if (!user) {
+      return response.code(404).send({ error: "Email não encontrado" });
+    }
+
+    const isCorrectPassword = await bcrypt.compare(password, user.password);
+
+    if (!isCorrectPassword) {
+      return response.code(403).send({ error: "Senha incorreta" });
     }
 
     const data = {
-      userId,
+      userId: user.id,
     };
 
-    const token = app.jwt.sign(data);
-    response.send({ token });
+    delete user.password;
+
+    const tokenId = app.jwt.sign(data);
+    response.send({ tokenId, user });
   });
 
   app.post("/organizer/auth", async (request, response) => {
@@ -86,6 +95,25 @@ export async function AuthController(app: FastifyInstance) {
       delete organizer.password;
 
       return organizer;
+    }
+  );
+
+  app.get(
+    "/user/auth",
+    { onRequest: [app.authenticate] },
+    async (request, response) => {
+      const user = await prisma.user.findFirst({
+        where: {
+          id: {
+            // @ts-ignore
+            equals: request.user.userId,
+          },
+        },
+      });
+
+      delete user.password;
+
+      return user;
     }
   );
 }

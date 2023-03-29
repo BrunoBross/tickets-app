@@ -1,6 +1,5 @@
 import { Box } from "@chakra-ui/react";
-import { EventInterface } from "../../pages/home/pages/MyEvents";
-import EventCard from "../EventCard/EventCard";
+import EventCard, { EventInterface } from "../EventCard/EventCard";
 import Loading from "../Loading/Loading";
 import styles from "./EventList.css";
 

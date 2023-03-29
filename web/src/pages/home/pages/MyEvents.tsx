@@ -1,16 +1,8 @@
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Box,
   Button,
-  Container,
   Heading,
   HStack,
-  Input,
   InputGroup,
   Text,
   Textarea,
@@ -23,24 +15,11 @@ import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import DefaultModal from "../../../components/DefaultModal";
 import DragNDrop, { FileTypes } from "../../../components/DragNDrop/DragNDrop";
-import EventCard from "../../../components/EventCard/EventCard";
+import { EventInterface } from "../../../components/EventCard/EventCard";
 import EventInput from "../../../components/EventInput/EventInput";
 import EventList from "../../../components/EventList/EventList";
-import Loading from "../../../components/Loading/Loading";
 import { useAuth } from "../../../contexts/AuthContext";
 import { api } from "../../../lib/api";
-
-export interface EventInterface {
-  id: string;
-  name: string;
-  location: string;
-  attraction: string;
-  description: string;
-  date: Date;
-  batch: number;
-  organizer_id: string;
-  file_name: string;
-}
 
 export default function MyEvents() {
   const { organizer } = useAuth();
