@@ -1,7 +1,11 @@
 import clsx from "clsx";
 import { useReducer } from "react";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
+import { useCart } from "../contexts/CartContext";
+import convertGenter, { GenderEnum } from "../utils/convertGender";
 import { EventInterface } from "./EventCard";
+import "react-native-get-random-values";
+import { v4 as uuid } from "uuid";
 
 interface EventDetailsOptions {
   event: EventInterface;
@@ -32,6 +36,16 @@ const initialValues = {
 export default function EventDetailsOptions(props: EventDetailsOptions) {
   const [state, dispatch] = useReducer(reducer, initialValues);
   const { event } = props;
+  const { addCartList } = useCart();
+
+  const handleAddTicketToCart = (ticketTypeId: string) => {
+    const ticketCart = {
+      id: uuid(),
+      eventId: event.id,
+      ticketTypeId: ticketTypeId,
+    };
+    addCartList(ticketCart);
+  };
 
   return (
     <View className="flex pt-2">
@@ -74,19 +88,26 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
       {state.tickets === true && (
         <View className="flex gap-1 pt-1">
           {event.TicketType.length > 0 ? (
-            event.TicketType?.map((type) => {
+            event.TicketType?.map((ticketType) => {
               return (
-                <View
-                  key={type.id}
-                  className="flex p-3 h-14 flex-row justify-between bg-zinc-500 rounded-sm"
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  key={ticketType.id}
+                  onPress={() => handleAddTicketToCart(ticketType.id)}
                 >
-                  <Text className="text-white font-semibold text-base">
-                    {type.name}
-                  </Text>
-                  <Text className="text-white font-semibold text-base">
-                    R${type.price}
-                  </Text>
-                </View>
+                  <View className="flex p-3 h-14 flex-row justify-between bg-zinc-500 rounded-sm">
+                    <Text className="text-white font-semibold text-base">
+                      {ticketType.name}
+                      {" • "}
+                      {convertGenter(
+                        GenderEnum[ticketType.gender as keyof typeof GenderEnum]
+                      )}
+                    </Text>
+                    <Text className="text-white font-semibold text-base">
+                      R${ticketType.price}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
               );
             })
           ) : (

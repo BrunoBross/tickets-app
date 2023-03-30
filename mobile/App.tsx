@@ -11,6 +11,7 @@ import {
   Inter_800ExtraBold,
 } from "@expo-google-fonts/inter";
 import colors from "tailwindcss/colors";
+import CartProvider from "./src/contexts/CartContext";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -26,16 +27,18 @@ export default function App() {
 
   return (
     <AuthProvider>
-      <AlertNotificationRoot theme="dark">
-        <View className="w-full h-full items-center justify-between bg-background">
-          <Routes />
-          <StatusBar
-            barStyle="light-content"
-            backgroundColor="transparent"
-            translucent
-          />
-        </View>
-      </AlertNotificationRoot>
+      <CartProvider>
+        <AlertNotificationRoot theme="dark">
+          <View className="w-full h-full items-center justify-between bg-background">
+            <Routes />
+            <StatusBar
+              barStyle="light-content"
+              backgroundColor="transparent"
+              translucent
+            />
+          </View>
+        </AlertNotificationRoot>
+      </CartProvider>
     </AuthProvider>
   );
 }

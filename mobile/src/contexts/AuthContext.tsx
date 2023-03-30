@@ -55,7 +55,6 @@ export default function AuthProvider(props: AuthProviderProps) {
 
     const getTokenId = async () => {
       const tokenStoragedId = await AsyncStorage.getItem("tokenId");
-      console.log(tokenStoragedId);
       tokenStoragedId && setTokenId(tokenStoragedId);
     };
 
