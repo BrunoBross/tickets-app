@@ -7,6 +7,10 @@ export declare global {
       profile: undefined;
       login: undefined;
       register: undefined;
+      details: {
+        eventId: string;
+      };
+      profileInfo: undefined;
     }
   }
 }

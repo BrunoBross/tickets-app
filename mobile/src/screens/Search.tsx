@@ -19,17 +19,22 @@ export default function Search() {
       </Text>
       <TextInput
         selectionColor={colors.white}
-        placeholderTextColor={colors.zinc[700]}
+        placeholderTextColor={colors.zinc[500]}
         onChangeText={searchEvent}
         placeholder="Nome do evento"
-        className="h-14 p-3 text-lg text-white bg-zinc-900 border-2 border-zinc-800 rounded-md"
+        className="h-14 p-3 text-lg text-white bg-zinc-900 border-2 border-zinc-800 rounded-md focus:border-green-600"
       />
       <ScrollView>
-        {eventList &&
+        {eventList ? (
           eventList.length > 0 &&
           eventList.map((event) => {
             return <EventCard key={event.id} event={event} />;
-          })}
+          })
+        ) : (
+          <Text className="text-white font-semibold text-base">
+            Procure por eventos pelo nome
+          </Text>
+        )}
       </ScrollView>
     </View>
   );

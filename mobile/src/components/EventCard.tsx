@@ -1,5 +1,14 @@
-import { Image, Text, TouchableOpacity, View } from "react-native";
-import formatDate from "../utils/dateFormatter";
+import { Image, Text, TouchableOpacity } from "react-native";
+import formatEventDate from "../utils/formatEventDate";
+import { useNavigation } from "@react-navigation/native";
+
+export interface TicketType {
+  id: string;
+  price: number;
+  name: string;
+  batch: number;
+  gender: string;
+}
 
 export interface EventInterface {
   id: string;
@@ -11,6 +20,7 @@ export interface EventInterface {
   batch: number;
   organizer_id: string;
   file_name: string;
+  TicketType: TicketType[];
 }
 
 interface EventProps {
@@ -19,14 +29,19 @@ interface EventProps {
 
 export default function EventCard(props: EventProps) {
   const {
-    event: { date, location, file_name },
+    event: { id, date, location, file_name },
   } = props;
 
-  const newDate = formatDate(date);
+  const { navigate } = useNavigation();
+  const newDate = formatEventDate(date);
   const info = `${newDate} • ${location}`;
 
   return (
-    <TouchableOpacity activeOpacity={0.7} className="mb-4">
+    <TouchableOpacity
+      activeOpacity={0.7}
+      className="mb-4"
+      onPress={() => navigate("details", { eventId: id })}
+    >
       <Image
         source={{
           uri: `http://192.168.1.104:3001/uploads/logo/${file_name}`,

@@ -32,35 +32,35 @@ export default function Register() {
           <View className="flex gap-3 mb-32">
             <TextInput
               selectionColor={colors.white}
-              placeholderTextColor={colors.zinc[700]}
+              placeholderTextColor={colors.zinc[500]}
               placeholder="Nome"
               inputMode="text"
-              className="h-14 p-3 text-lg text-white bg-zinc-900 border-2 border-zinc-800 rounded-md"
+              className="h-14 p-3 text-lg text-white bg-zinc-900 border-2 border-zinc-800 rounded-md focus:border-green-600"
             />
             <TextInput
               selectionColor={colors.white}
-              placeholderTextColor={colors.zinc[700]}
+              placeholderTextColor={colors.zinc[500]}
               placeholder="Sobrenome"
               inputMode="text"
-              className="h-14 p-3 text-lg text-white bg-zinc-900 border-2 border-zinc-800 rounded-md"
+              className="h-14 p-3 text-lg text-white bg-zinc-900 border-2 border-zinc-800 rounded-md focus:border-green-600"
             />
             <TextInput
               selectionColor={colors.white}
-              placeholderTextColor={colors.zinc[700]}
+              placeholderTextColor={colors.zinc[500]}
               placeholder="Email"
               inputMode="email"
-              className="h-14 p-3 text-lg text-white bg-zinc-900 border-2 border-zinc-800 rounded-md"
+              className="h-14 p-3 text-lg text-white bg-zinc-900 border-2 border-zinc-800 rounded-md focus:border-green-600"
             />
             <MaskInput
               selectionColor={colors.white}
-              placeholderTextColor={colors.zinc[700]}
+              placeholderTextColor={colors.zinc[500]}
               value={cpf}
               placeholder="CPF"
               inputMode="numeric"
               onChangeText={setCpf}
               mask={Masks.BRL_CPF}
               maxLength={14}
-              className="h-14 p-3 text-lg text-white bg-zinc-900 border-2 border-zinc-800 rounded-md"
+              className="h-14 p-3 text-lg text-white bg-zinc-900 border-2 border-zinc-800 rounded-md focus:border-green-600"
             />
             <View className="flex flex-row">
               <TouchableOpacity
@@ -86,29 +86,29 @@ export default function Register() {
             </View>
             <TextInput
               selectionColor={colors.white}
-              placeholderTextColor={colors.zinc[700]}
+              placeholderTextColor={colors.zinc[500]}
               placeholder="Endereço"
               inputMode="text"
-              className="h-14 p-3 text-lg text-white bg-zinc-900 border-2 border-zinc-800 rounded-md"
+              className="h-14 p-3 text-lg text-white bg-zinc-900 border-2 border-zinc-800 rounded-md focus:border-green-600"
             />
             <MaskInput
               selectionColor={colors.white}
-              placeholderTextColor={colors.zinc[700]}
+              placeholderTextColor={colors.zinc[500]}
               value={cep}
               placeholder="CEP"
               inputMode="numeric"
               mask={Masks.ZIP_CODE}
               onChangeText={setCep}
               maxLength={9}
-              className="h-14 p-3 text-lg text-white bg-zinc-900 border-2 border-zinc-800 rounded-md"
+              className="h-14 p-3 text-lg text-white bg-zinc-900 border-2 border-zinc-800 rounded-md focus:border-green-600"
             />
             <TextInput
               selectionColor={colors.white}
-              placeholderTextColor={colors.zinc[700]}
+              placeholderTextColor={colors.zinc[500]}
               placeholder="Senha"
               inputMode="text"
               secureTextEntry={true}
-              className="h-14 p-3 text-lg text-white bg-zinc-900 border-2 border-zinc-800 rounded-md"
+              className="h-14 p-3 text-lg text-white bg-zinc-900 border-2 border-zinc-800 rounded-md focus:border-green-600"
             />
             <TouchableOpacity
               activeOpacity={0.7}

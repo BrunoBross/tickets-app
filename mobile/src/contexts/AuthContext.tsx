@@ -55,10 +55,9 @@ export default function AuthProvider(props: AuthProviderProps) {
 
     const getTokenId = async () => {
       const tokenStoragedId = await AsyncStorage.getItem("tokenId");
+      console.log(tokenStoragedId);
       tokenStoragedId && setTokenId(tokenStoragedId);
     };
-
-    getTokenId();
 
     const requestUser = async () => {
       const response = await api.get("/user/auth", {
@@ -66,9 +65,11 @@ export default function AuthProvider(props: AuthProviderProps) {
           Authorization: `Bearer ${tokenId}`,
         },
       });
+      console.log(response);
       return response;
     };
 
+    getTokenId();
     if (tokenId) {
       requestUser().then((response) => {
         setUser(response.data);

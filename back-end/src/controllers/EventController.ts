@@ -11,6 +11,9 @@ export async function EventController(app: FastifyInstance) {
         include: {
           TicketType: true,
         },
+        orderBy: {
+          date: "asc",
+        },
       })
       .then((events) => {
         response.send(events);
@@ -95,6 +98,13 @@ export async function EventController(app: FastifyInstance) {
         where: {
           id: {
             equals: eventId,
+          },
+        },
+        include: {
+          TicketType: {
+            orderBy: {
+              price: "asc",
+            },
           },
         },
       })
