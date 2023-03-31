@@ -32,6 +32,7 @@ export default function Profile() {
         <TouchableOpacity
           activeOpacity={0.7}
           className="flex flex-row border-2 bg-violet-600 p-4 rounded-md"
+          onPress={() => navigate("mytickets")}
         >
           <MaterialCommunityIcons
             name="ticket-confirmation-outline"

@@ -1,11 +1,11 @@
 import clsx from "clsx";
 import { useReducer } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-import { useCart } from "../contexts/CartContext";
+import { TicketCartInterface, useCart } from "../contexts/CartContext";
 import convertGenter, { GenderEnum } from "../utils/convertGender";
-import { EventInterface } from "./EventCard";
-import "react-native-get-random-values";
-import { v4 as uuid } from "uuid";
+import { EventInterface, TicketType } from "./EventCard";
+import uuid from "react-native-uuid";
+import { useAuth } from "../contexts/AuthContext";
 
 interface EventDetailsOptions {
   event: EventInterface;
@@ -34,17 +34,20 @@ const initialValues = {
 };
 
 export default function EventDetailsOptions(props: EventDetailsOptions) {
+  const { user } = useAuth();
   const [state, dispatch] = useReducer(reducer, initialValues);
   const { event } = props;
   const { addCartList } = useCart();
 
-  const handleAddTicketToCart = (ticketTypeId: string) => {
-    const ticketCart = {
-      id: uuid(),
-      eventId: event.id,
-      ticketTypeId: ticketTypeId,
-    };
-    addCartList(ticketCart);
+  const handleAddTicketToCart = (ticketType: TicketType) => {
+    if (user) {
+      const ticketCart: TicketCartInterface = {
+        id: String(uuid.v4()),
+        eventId: event.id,
+        ticketType: ticketType,
+      };
+      addCartList(ticketCart);
+    }
   };
 
   return (
@@ -88,12 +91,12 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
       {state.tickets === true && (
         <View className="flex gap-1 pt-1">
           {event.TicketType.length > 0 ? (
-            event.TicketType?.map((ticketType) => {
+            event.TicketType?.map((ticketType: TicketType) => {
               return (
                 <TouchableOpacity
                   activeOpacity={0.7}
                   key={ticketType.id}
-                  onPress={() => handleAddTicketToCart(ticketType.id)}
+                  onPress={() => handleAddTicketToCart(ticketType)}
                 >
                   <View className="flex p-3 h-14 flex-row justify-between bg-zinc-500 rounded-sm">
                     <Text className="text-white font-semibold text-base">

@@ -1,7 +1,6 @@
 import {
   ActivityIndicator,
   Image,
-  RefreshControl,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -24,7 +23,6 @@ export default function EventDetails() {
   const { goBack } = useNavigation();
   const route = useRoute();
   const { eventId } = route.params as Params;
-  const [refreshing, setRefreshing] = useState(false);
   const [event, setEvent] = useState<EventInterface | null>(null);
 
   const retrieveEventById = async () => {
@@ -49,15 +47,7 @@ export default function EventDetails() {
       <TouchableOpacity activeOpacity={0.7} onPress={goBack}>
         <Ionicons name="arrow-back-outline" size={40} color="#a1a1aa" />
       </TouchableOpacity>
-      <ScrollView
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={() => retrieveEventById()}
-          />
-        }
-        showsVerticalScrollIndicator={false}
-      >
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View className="mb-32">
           <Image
             source={{

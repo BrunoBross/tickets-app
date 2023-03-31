@@ -11,6 +11,8 @@ import Profile from "../screens/Profile";
 import ProfileInfo from "../screens/ProfileInfo";
 import Register from "../screens/Register";
 import Search from "../screens/Search";
+import MyTickets from "../screens/MyTickets";
+import Ticket from "../screens/Ticket";
 
 export function AppRoutes() {
   const auth = useAuth();
@@ -30,6 +32,8 @@ export function AppRoutes() {
       <Screen name="register" component={Register} />
       <Screen name="details" component={EventDetails} />
       <Screen name="profileInfo" component={ProfileInfo} />
+      <Screen name="mytickets" component={MyTickets} />
+      <Screen name="ticket" component={Ticket} />
     </Navigator>
   );
 }

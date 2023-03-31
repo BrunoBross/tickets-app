@@ -5,15 +5,16 @@ import {
   useContext,
   useState,
 } from "react";
+import { TicketType } from "../components/EventCard";
 
 interface CartProviderProps {
   children: React.ReactNode;
 }
 
-interface TicketCartInterface {
+export interface TicketCartInterface {
   id: string;
   eventId: string;
-  ticketTypeId: string;
+  ticketType: TicketType;
 }
 
 interface CartContextInterface {
@@ -30,8 +31,7 @@ export default function CartProvider(props: CartProviderProps) {
   const [cartList, setCartList] = useState<TicketCartInterface[] | []>([]);
 
   const addCartList = (ticket: TicketCartInterface) => {
-    console.log(cartList);
-    setCartList([...cartList, ticket]);
+    setCartList((prevState) => [...cartList, ticket]);
   };
 
   const clearCartList = () => {

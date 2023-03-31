@@ -31,6 +31,40 @@ export async function TicketController(app: FastifyInstance) {
             equals: ticketId,
           },
         },
+        include: {
+          ticket_type: true,
+        },
+      })
+      .then((ticket) => {
+        if (!ticket) {
+          response.code(204).send({ error: "ticket does not exists" });
+        }
+        response.send(ticket);
+      })
+      .catch((error) => {
+        console.log(error);
+        response.status(500);
+      });
+  });
+
+  // find ticket
+  app.get("/ticket/user/:userId", async (request, response) => {
+    const ticketParams = z.object({
+      userId: z.string(),
+    });
+
+    const { userId } = ticketParams.parse(request.params);
+
+    await prisma.ticket
+      .findMany({
+        where: {
+          user_id: {
+            equals: userId,
+          },
+        },
+        include: {
+          event: true,
+        },
       })
       .then((ticket) => {
         if (!ticket) {
