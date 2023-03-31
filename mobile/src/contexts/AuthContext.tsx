@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   createContext,
   Dispatch,
@@ -8,6 +7,7 @@ import {
   useState,
 } from "react";
 import { api } from "../lib/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface AuthProviderProps {
   children: React.ReactNode;
@@ -47,16 +47,10 @@ export default function AuthProvider(props: AuthProviderProps) {
   const [user, setUser] = useState<UserInterface | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [tokenId, setTokenId] = useState<string>();
 
-  // verifica em primeira instancia se há algum token carregado
-  useEffect(() => {
+  const verifyUserOnEnter = async () => {
     setIsLoading(true);
-
-    const getTokenId = async () => {
-      const tokenStoragedId = await AsyncStorage.getItem("tokenId");
-      tokenStoragedId && setTokenId(tokenStoragedId);
-    };
+    const tokenId = await AsyncStorage.getItem("tokenId");
 
     const requestUser = async () => {
       const response = await api.get("/user/auth", {
@@ -64,11 +58,9 @@ export default function AuthProvider(props: AuthProviderProps) {
           Authorization: `Bearer ${tokenId}`,
         },
       });
-      console.log(response);
       return response;
     };
 
-    getTokenId();
     if (tokenId) {
       requestUser().then((response) => {
         setUser(response.data);
@@ -79,6 +71,11 @@ export default function AuthProvider(props: AuthProviderProps) {
       setIsLoading(false);
       setError(null);
     }
+  };
+
+  // verifica em primeira instancia se há algum token carregado
+  useEffect(() => {
+    verifyUserOnEnter();
   }, []);
 
   async function Login(props: LoginProps) {

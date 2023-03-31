@@ -6,16 +6,24 @@ import {
   View,
 } from "react-native";
 import colors from "tailwindcss/colors";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import MaskInput, { Masks } from "react-native-mask-input";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { Controller, useForm } from "react-hook-form";
 
 export default function Register() {
   const { goBack } = useNavigation();
   const [cep, setCep] = useState("");
   const [cpf, setCpf] = useState("");
+
+  const { register, handleSubmit, control, getValues } = useForm();
+
+  const onSubmit = (data: any) => {
+    console.log("Submit");
+    console.log(getValues());
+  };
 
   return (
     <View className="flex-1 bg-background p-5 gap-5">
@@ -36,6 +44,7 @@ export default function Register() {
               placeholder="Nome"
               inputMode="text"
               className="h-14 p-3 text-lg text-white bg-zinc-900 border-2 border-zinc-800 rounded-md focus:border-green-600"
+              {...register("name")}
             />
             <TextInput
               selectionColor={colors.white}
@@ -43,6 +52,7 @@ export default function Register() {
               placeholder="Sobrenome"
               inputMode="text"
               className="h-14 p-3 text-lg text-white bg-zinc-900 border-2 border-zinc-800 rounded-md focus:border-green-600"
+              {...register("surname")}
             />
             <TextInput
               selectionColor={colors.white}
@@ -50,6 +60,7 @@ export default function Register() {
               placeholder="Email"
               inputMode="email"
               className="h-14 p-3 text-lg text-white bg-zinc-900 border-2 border-zinc-800 rounded-md focus:border-green-600"
+              {...register("email")}
             />
             <MaskInput
               selectionColor={colors.white}
@@ -61,6 +72,7 @@ export default function Register() {
               mask={Masks.BRL_CPF}
               maxLength={14}
               className="h-14 p-3 text-lg text-white bg-zinc-900 border-2 border-zinc-800 rounded-md focus:border-green-600"
+              {...register("cpf")}
             />
             <View className="flex flex-row">
               <TouchableOpacity
@@ -75,13 +87,19 @@ export default function Register() {
               </TouchableOpacity>
               <TouchableOpacity
                 activeOpacity={0.7}
-                className="flex-1 ml-1 h-14 flex-row items-center justify-center bg-pink-400 rounded-md"
+                className="flex-1 mx-1 h-14 flex-row items-center justify-center bg-pink-400 rounded-md"
               >
                 <MaterialCommunityIcons
                   name="gender-female"
                   size={24}
                   color={colors.white}
                 />
+              </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                className="flex-1 ml-1 h-14 flex-row items-center justify-center bg-zinc-400 rounded-md"
+              >
+                <FontAwesome name="genderless" size={24} color={colors.white} />
               </TouchableOpacity>
             </View>
             <TextInput
@@ -90,6 +108,7 @@ export default function Register() {
               placeholder="Endereço"
               inputMode="text"
               className="h-14 p-3 text-lg text-white bg-zinc-900 border-2 border-zinc-800 rounded-md focus:border-green-600"
+              {...register("address")}
             />
             <MaskInput
               selectionColor={colors.white}
@@ -101,6 +120,7 @@ export default function Register() {
               onChangeText={setCep}
               maxLength={9}
               className="h-14 p-3 text-lg text-white bg-zinc-900 border-2 border-zinc-800 rounded-md focus:border-green-600"
+              {...register("zip-code")}
             />
             <TextInput
               selectionColor={colors.white}
@@ -109,10 +129,12 @@ export default function Register() {
               inputMode="text"
               secureTextEntry={true}
               className="h-14 p-3 text-lg text-white bg-zinc-900 border-2 border-zinc-800 rounded-md focus:border-green-600"
+              {...register("password")}
             />
             <TouchableOpacity
               activeOpacity={0.7}
               className="flex p-3 h-14 flex-row items-center justify-center bg-green-600 rounded-md"
+              onPress={onSubmit}
             >
               <Text className="text-white text-lg">Cadastrar</Text>
             </TouchableOpacity>
