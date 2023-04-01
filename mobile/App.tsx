@@ -21,7 +21,7 @@ export default function App() {
   });
 
   if (!fontsLoaded) {
-    return <ActivityIndicator size="large" color={colors.white} />;
+    return <ActivityIndicator size="large" color={colors.violet[600]} />;
   }
 
   return (

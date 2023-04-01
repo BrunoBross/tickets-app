@@ -65,7 +65,7 @@ export default function Login() {
             className="flex p-3 h-14 flex-row items-center justify-center bg-green-600 rounded-md"
           >
             {isLoading ? (
-              <ActivityIndicator size="large" color={colors.white} />
+              <ActivityIndicator size="large" color={colors.violet[600]} />
             ) : (
               <Text className="text-white text-base font-semibold">Entrar</Text>
             )}

@@ -39,7 +39,7 @@ export default function EventDetails() {
   if (!event) {
     return (
       <View className="flex-1 bg-background justify-center items-center">
-        <ActivityIndicator size="large" color={colors.white} />
+        <ActivityIndicator size="large" color={colors.violet[600]} />
       </View>
     );
   }
