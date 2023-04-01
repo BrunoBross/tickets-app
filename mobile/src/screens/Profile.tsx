@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, View } from "react-native";
+import { Alert, Text, TouchableOpacity, View } from "react-native";
 import { useAuth } from "../contexts/AuthContext";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -12,13 +12,15 @@ export default function Profile() {
 
   return (
     <View className="flex-1 bg-background p-5">
-      <View className="flex flex-row">
+      <View className="flex gap-5">
         <Text className="text-white text-4xl font-extrabold tracking-widest">
           Olá, {user?.name}
         </Text>
+        <Text className=" text-white text-base font-semibold">
+          Seja bem-vindo novamente!
+        </Text>
       </View>
-      <Text className="text-white text-lg">Seja bem-vindo novamente!</Text>
-      <View className="flex gap-2 pt-12">
+      <View className="flex-1 pt-12 gap-y-1">
         <TouchableOpacity
           activeOpacity={0.7}
           className="flex flex-row border-2 bg-violet-600 p-4 rounded-md"
@@ -41,6 +43,34 @@ export default function Profile() {
           />
           <Text className="pl-3 text-white text-base font-semibold">
             Meus Ingressos
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          className="flex flex-row border-2 bg-violet-600 p-4 rounded-md"
+          onPress={() => Alert.alert("Quem somos")}
+        >
+          <MaterialCommunityIcons
+            name="office-building-outline"
+            size={24}
+            color={colors.white}
+          />
+          <Text className="pl-3 text-white text-base font-semibold">
+            Quem Somos
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          className="flex flex-row border-2 bg-violet-600 p-4 rounded-md"
+          onPress={() => Alert.alert("Obter ajuda")}
+        >
+          <MaterialCommunityIcons
+            name="help-circle-outline"
+            size={24}
+            color={colors.white}
+          />
+          <Text className="pl-3 text-white text-base font-semibold">
+            Obter Ajuda
           </Text>
         </TouchableOpacity>
         <TouchableOpacity

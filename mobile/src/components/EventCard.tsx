@@ -14,6 +14,7 @@ export interface EventInterface {
   id: string;
   name: string;
   location: string;
+  location_link: string;
   attraction: string;
   description: string;
   date: Date;

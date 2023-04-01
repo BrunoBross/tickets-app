@@ -47,7 +47,7 @@ export async function TicketController(app: FastifyInstance) {
       });
   });
 
-  // find ticket
+  // get tickets by userId
   app.get("/ticket/user/:userId", async (request, response) => {
     const ticketParams = z.object({
       userId: z.string(),
@@ -61,9 +61,15 @@ export async function TicketController(app: FastifyInstance) {
           user_id: {
             equals: userId,
           },
+          AND: {
+            used: {
+              equals: false,
+            },
+          },
         },
         include: {
           event: true,
+          ticket_type: true,
         },
       })
       .then((ticket) => {

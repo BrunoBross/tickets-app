@@ -10,9 +10,10 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "../contexts/AuthContext";
 import { useCallback, useEffect, useState } from "react";
-import { EventInterface } from "../components/EventCard";
+import { EventInterface, TicketType } from "../components/EventCard";
 import { api } from "../lib/api";
 import formatEventDate from "../utils/formatEventDate";
+import convertGenter from "../utils/convertGender";
 
 interface TicketListInterface {
   id: string;
@@ -20,6 +21,7 @@ interface TicketListInterface {
   event_id: string;
   ticket_type_id: string;
   event: EventInterface;
+  ticket_type: TicketType;
 }
 
 export default function MyTickets() {
@@ -58,25 +60,30 @@ export default function MyTickets() {
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
           showsVerticalScrollIndicator={false}
+          className="h-full"
         >
-          <View className="mb-32">
+          <View className="flex-1 mb-32">
             {myTicketList.length > 0 ? (
               myTicketList.map((ticket) => {
                 return (
                   <TouchableOpacity
                     key={ticket.id}
                     activeOpacity={0.7}
-                    className="mb-4"
+                    className="mb-4 border-y-2 border-zinc-700 py-4"
                     onPress={() => navigate("ticket", { ticketId: ticket.id })}
                   >
-                    <Image
-                      source={{
-                        uri: `http://192.168.1.104:3001/uploads/logo/${ticket.event.file_name}`,
-                      }}
-                      className="w-full h-40 rounded-md"
-                    />
+                    <Text className="text-red-500  text-lg font-bold">
+                      NÃO UTILIZADO
+                    </Text>
                     <Text className="text-white text-lg font-semibold">
-                      {ticket.event.name} - {formatEventDate(ticket.event.date)}
+                      {ticket.event.name} - {ticket.event.attraction}
+                    </Text>
+                    <Text className="text-white text-lg font-semibold">
+                      {ticket.ticket_type.name} -{" "}
+                      {convertGenter(ticket.ticket_type.gender)}
+                    </Text>
+                    <Text className="text-white text-lg font-semibold">
+                      {formatEventDate(ticket.event.date)}
                     </Text>
                   </TouchableOpacity>
                 );

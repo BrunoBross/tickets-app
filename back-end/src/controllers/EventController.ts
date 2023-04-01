@@ -132,6 +132,7 @@ export async function EventController(app: FastifyInstance) {
       const eventBody = z.object({
         name: z.string(),
         location: z.string(),
+        location_link: z.string(),
         attraction: z.string(),
         description: z.string(),
         date: z.coerce.date(),
@@ -142,8 +143,15 @@ export async function EventController(app: FastifyInstance) {
 
       const file_name = request.file.filename;
 
-      const { name, location, attraction, description, date, batch } =
-        eventBody.parse(request.body);
+      const {
+        name,
+        location,
+        location_link,
+        attraction,
+        description,
+        date,
+        batch,
+      } = eventBody.parse(request.body);
 
       const intBatch = parseInt(batch, 10);
 
@@ -152,6 +160,7 @@ export async function EventController(app: FastifyInstance) {
           data: {
             name,
             location,
+            location_link,
             attraction,
             description,
             date,

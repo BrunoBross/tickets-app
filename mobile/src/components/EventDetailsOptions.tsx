@@ -6,6 +6,8 @@ import convertGenter, { GenderEnum } from "../utils/convertGender";
 import { EventInterface, TicketType } from "./EventCard";
 import uuid from "react-native-uuid";
 import { useAuth } from "../contexts/AuthContext";
+import { Feather } from "@expo/vector-icons";
+import colors from "tailwindcss/colors";
 
 interface EventDetailsOptions {
   event: EventInterface;
@@ -37,7 +39,7 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
   const { user } = useAuth();
   const [state, dispatch] = useReducer(reducer, initialValues);
   const { event } = props;
-  const { addCartList } = useCart();
+  const { addCartList, cartList, setCartList } = useCart();
 
   const handleAddTicketToCart = (ticketType: TicketType) => {
     if (user) {
@@ -48,6 +50,29 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
       };
       addCartList(ticketCart);
     }
+  };
+
+  const removeLastTicketCartByTicketType = (ticketType: TicketType) => {
+    const ticketIndex = cartList.findIndex(
+      (ticket) =>
+        ticket.ticketType.name === ticketType.name &&
+        ticket.ticketType.gender === ticketType.gender
+    );
+
+    if (ticketIndex !== -1) {
+      const newCartList = cartList.filter(
+        (ticket, index) => index !== ticketIndex
+      );
+      setCartList(newCartList);
+    }
+  };
+
+  const getTicketCartAmount = (ticketType: TicketType) => {
+    return cartList.filter(
+      (ticket) =>
+        ticket.ticketType.name === ticketType.name &&
+        ticket.ticketType.gender === ticketType.gender
+    ).length;
   };
 
   return (
@@ -89,28 +114,54 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
         </TouchableOpacity>
       </View>
       {state.tickets === true && (
-        <View className="flex gap-1 pt-1">
+        <View className="flex gap-2 pt-2">
           {event.TicketType.length > 0 ? (
             event.TicketType?.map((ticketType: TicketType) => {
               return (
-                <TouchableOpacity
-                  activeOpacity={0.7}
+                <View
                   key={ticketType.id}
-                  onPress={() => handleAddTicketToCart(ticketType)}
+                  className="flex p-3 bg-zinc-800 rounded-md gap-1"
                 >
-                  <View className="flex p-3 h-14 flex-row justify-between bg-zinc-500 rounded-sm">
-                    <Text className="text-white font-semibold text-base">
+                  <View className="flex-row justify-between ">
+                    <Text className="text-white font-semibold text-lg">
                       {ticketType.name}
                       {" • "}
-                      {convertGenter(
-                        GenderEnum[ticketType.gender as keyof typeof GenderEnum]
-                      )}
+                      {convertGenter(ticketType.gender)}
                     </Text>
-                    <Text className="text-white font-semibold text-base">
+                    <Text className="text-white font-semibold text-lg">
                       R${ticketType.price}
                     </Text>
                   </View>
-                </TouchableOpacity>
+                  <View className="flex-row justify-between">
+                    <Text className="text-white font-semibold text-base">
+                      {ticketType.batch}º Lote
+                    </Text>
+                    <View className="flex-row items-center">
+                      <TouchableOpacity
+                        activeOpacity={0.7}
+                        className="bg-violet-600 px-2 h-10 justify-center rounded-l-md"
+                        onPress={() =>
+                          removeLastTicketCartByTicketType(ticketType)
+                        }
+                      >
+                        <Feather name="minus" size={24} color={colors.white} />
+                      </TouchableOpacity>
+                      <View className="border-y-2 border-violet-600 h-10 w-10 items-center">
+                        <Text className="text-white font-semibold text-2xl">
+                          {getTicketCartAmount(ticketType)}
+                        </Text>
+                      </View>
+
+                      <TouchableOpacity
+                        activeOpacity={0.7}
+                        className="bg-violet-600 px-2 h-10 justify-center rounded-r-md"
+                        onPress={() => handleAddTicketToCart(ticketType)}
+                      >
+                        <Feather name="plus" size={24} color={colors.white} />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
               );
             })
           ) : (

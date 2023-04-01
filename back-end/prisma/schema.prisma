@@ -39,14 +39,15 @@ model Organizer {
 }
 
 model Event {
-  id          String   @id @default(uuid())
-  name        String
-  location    String
-  attraction  String
-  description String
-  date        DateTime
-  batch       Int
-  file_name   String
+  id            String   @id @default(uuid())
+  name          String
+  location      String
+  location_link String
+  attraction    String
+  description   String
+  date          DateTime
+  batch         Int
+  file_name     String
 
   organizer    Organizer @relation(fields: [organizer_id], references: [id])
   organizer_id String
@@ -75,6 +76,7 @@ model TicketType {
 model Ticket {
   id            String   @id @default(uuid())
   purchase_date DateTime @default(now())
+  used          Boolean  @default(false)
 
   user    User   @relation(fields: [user_id], references: [id])
   user_id String

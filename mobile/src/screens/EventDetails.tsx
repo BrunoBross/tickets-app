@@ -1,6 +1,7 @@
 import {
   ActivityIndicator,
   Image,
+  Linking,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -14,6 +15,7 @@ import { EventInterface } from "../components/EventCard";
 import formatDate from "../utils/formatEventDate";
 import { Ionicons } from "@expo/vector-icons";
 import EventDetailsOptions from "../components/EventDetailsOptions";
+import { Feather } from "@expo/vector-icons";
 
 interface Params {
   eventId: string;
@@ -55,13 +57,22 @@ export default function EventDetails() {
             }}
             className="w-full h-40 rounded-md"
           />
-          <View className="flex pt-3">
-            <Text className="text-white text-4xl font-semibold">
-              {event.name}
-            </Text>
-            <Text className="text-white text-xl font-semibold">
-              {formatDate(event.date)}
-            </Text>
+          <View className="flex pt-3 flex-row items-center justify-between">
+            <View>
+              <Text className="text-white text-4xl font-semibold">
+                {event.name}
+              </Text>
+              <Text className="text-white text-xl font-semibold">
+                {formatDate(event.date)}
+              </Text>
+            </View>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              className="bg-violet-600 p-5 rounded-md"
+              onPress={() => Linking.openURL(event.location_link)}
+            >
+              <Feather name="map-pin" size={24} color={colors.white} />
+            </TouchableOpacity>
           </View>
           <EventDetailsOptions event={event} />
         </View>

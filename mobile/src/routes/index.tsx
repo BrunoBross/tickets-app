@@ -8,7 +8,7 @@ export function Routes() {
     <View className="flex-1 w-full mt-16">
       <NavigationContainer>
         <AppRoutes />
-        <BottomBarNavigator />
+        {/* <BottomBarNavigator /> */}
       </NavigationContainer>
     </View>
   );

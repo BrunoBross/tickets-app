@@ -2,7 +2,6 @@ import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { useCart } from "../contexts/CartContext";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import colors from "tailwindcss/colors";
-import { useEffect, useState } from "react";
 import CartItem from "../components/CartItem";
 import { useAuth } from "../contexts/AuthContext";
 import { api } from "../lib/api";
@@ -43,16 +42,16 @@ export default function Cart() {
                 return <CartItem key={event.id} event={event} />;
               })
             ) : (
-              <Text className="text-white text-xl">
+              <Text className="text-white text-base font-semibold">
                 Seu carrinho está vazio
               </Text>
             )}
           </ScrollView>
           {cartList && cartList.length > 0 && (
-            <View>
+            <View className="gap-y-1">
               <TouchableOpacity
                 activeOpacity={0.7}
-                className="flex border-2 flex-row bg-violet-600 p-4 rounded-md"
+                className="flex border-2 flex-row bg-green-600 p-4 rounded-md"
                 onPress={handleBuyTickets}
                 disabled={!(cartList && cartList.length > 0)}
               >
@@ -62,7 +61,7 @@ export default function Cart() {
                   color={colors.white}
                 />
                 <Text className=" text-white text-base font-semibold pl-2">
-                  Efetuar compra
+                  Finalizar compra
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -76,7 +75,7 @@ export default function Cart() {
                   color={colors.white}
                 />
                 <Text className=" text-white text-base font-semibold pl-2">
-                  Esvaziar Carrinho
+                  Esvaziar carrinho
                 </Text>
               </TouchableOpacity>
             </View>

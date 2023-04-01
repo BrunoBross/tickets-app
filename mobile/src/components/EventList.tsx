@@ -1,4 +1,4 @@
-import { RefreshControl, ScrollView, Text } from "react-native";
+import { RefreshControl, ScrollView, Text, View } from "react-native";
 import EventCard, { EventInterface } from "./EventCard";
 
 interface EventListProps {
@@ -16,14 +16,19 @@ export default function EventList(props: EventListProps) {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
       showsVerticalScrollIndicator={false}
+      className="h-full"
     >
-      {eventList && eventList.length > 0 ? (
-        eventList.map((event) => {
-          return <EventCard key={event.id} event={event} />;
-        })
-      ) : (
-        <Text className="text-white text-xl">Nenhum evento disponível ;(</Text>
-      )}
+      <View className="flex-1 mb-32">
+        {eventList && eventList.length > 0 ? (
+          eventList.map((event) => {
+            return <EventCard key={event.id} event={event} />;
+          })
+        ) : (
+          <Text className="text-white text-xl">
+            Nenhum evento disponível ;(
+          </Text>
+        )}
+      </View>
     </ScrollView>
   );
 }

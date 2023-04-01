@@ -1,39 +1,21 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useAuth } from "../contexts/AuthContext";
-import Cart from "../screens/Cart";
-import EventDetails from "../screens/EventDetails";
+const Tab = createBottomTabNavigator();
 
-const { Navigator, Screen } = createNativeStackNavigator();
-
-import Home from "../screens/Home";
-import Login from "../screens/Login";
-import Profile from "../screens/Profile";
-import ProfileInfo from "../screens/ProfileInfo";
-import Register from "../screens/Register";
-import Search from "../screens/Search";
-import MyTickets from "../screens/MyTickets";
-import Ticket from "../screens/Ticket";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { CartPage, HomePage, ProfilePage, SearchPage } from "./custom.routes";
+import BottomBarNavigator from "../components/BottomBarNavigator";
 
 export function AppRoutes() {
-  const auth = useAuth();
-
   return (
-    <Navigator
+    <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        animation: "fade",
       }}
+      tabBar={(props) => <BottomBarNavigator {...props} />}
     >
-      <Screen name="home" component={Home} />
-      <Screen name="search" component={Search} />
-      <Screen name="cart" component={Cart} />
-      <Screen name="profile" component={auth.signed ? Profile : Login} />
-      <Screen name="login" component={Login} />
-      <Screen name="register" component={Register} />
-      <Screen name="details" component={EventDetails} />
-      <Screen name="profileInfo" component={ProfileInfo} />
-      <Screen name="mytickets" component={MyTickets} />
-      <Screen name="ticket" component={Ticket} />
-    </Navigator>
+      <Tab.Screen name="homePage" component={HomePage} />
+      <Tab.Screen name="searchPage" component={SearchPage} />
+      <Tab.Screen name="cartPage" component={CartPage} />
+      <Tab.Screen name="profilePage" component={ProfilePage} />
+    </Tab.Navigator>
   );
 }

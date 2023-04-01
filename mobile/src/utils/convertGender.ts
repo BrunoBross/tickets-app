@@ -4,8 +4,8 @@ export enum GenderEnum {
   OTHER,
 }
 
-export default function convertGenter(gender: GenderEnum) {
-  switch (gender) {
+export default function convertGenter(gender: String) {
+  switch (GenderEnum[gender as keyof typeof GenderEnum]) {
     case GenderEnum.MALE:
       return "Masculino";
     case GenderEnum.FEMALE:

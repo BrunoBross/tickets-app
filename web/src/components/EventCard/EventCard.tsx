@@ -62,7 +62,7 @@ export default function EventCard(props: EventCardProps) {
 
   useEffect(() => {
     retrieveTicketTypes();
-  }, [ticketTypesList]);
+  }, []);
 
   const Details = () => {
     return (

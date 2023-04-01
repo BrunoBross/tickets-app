@@ -41,6 +41,8 @@ export default function MyEvents() {
   //   return false;
   // };
 
+  console.log(eventList);
+
   const retrieveEventList = async () => {
     await api.get(`/organizer/event/${organizer?.id}`).then((response) => {
       setEventList(response.data);
@@ -64,6 +66,7 @@ export default function MyEvents() {
     const {
       name,
       location,
+      location_link,
       attraction,
       description,
       date: oldDate,
@@ -77,6 +80,7 @@ export default function MyEvents() {
         {
           name,
           location,
+          location_link,
           attraction,
           description,
           date,
@@ -121,7 +125,7 @@ export default function MyEvents() {
           <VStack
             display="flex"
             w="50%"
-            h="17rem"
+            h="22rem"
             spacing={0}
             justifyContent="flex-start"
           >
@@ -136,6 +140,13 @@ export default function MyEvents() {
               inputName="Endereço"
               registerName="location"
               placeholder="Endereço do evento"
+              register={register}
+            />
+
+            <EventInput
+              inputName="Link do Endereço"
+              registerName="location_link"
+              placeholder="Link do maps do evento"
               register={register}
             />
 

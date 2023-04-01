@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import { TicketType } from "../components/EventCard";
 import { api } from "../lib/api";
 import convertGenter from "../utils/convertGender";
-import { GenderEnum } from "../utils/convertGender";
 
 interface Params {
   ticketId: string;
@@ -56,10 +55,7 @@ export default function Ticket() {
         </Text>
         <Text className="text-white text-2xl mt-4 bg-violet-500 px-3 py-1 rounded-md font-semibold">
           {ticket?.ticket_type.name}{" "}
-          {ticket &&
-            convertGenter(
-              GenderEnum[ticket.ticket_type.gender as keyof typeof GenderEnum]
-            )}{" "}
+          {ticket && convertGenter(ticket.ticket_type.gender)}{" "}
         </Text>
       </View>
     </View>
