@@ -62,7 +62,7 @@ export default function EventDetails() {
               <Text className="text-white text-4xl font-semibold">
                 {event.name}
               </Text>
-              <Text className="text-white text-xl font-semibold">
+              <Text className="text-white text-base font-semibold">
                 {formatDate(event.date)}
               </Text>
             </View>

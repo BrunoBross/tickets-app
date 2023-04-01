@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { useReducer } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Alert, Text, TouchableOpacity, View } from "react-native";
 import { TicketCartInterface, useCart } from "../contexts/CartContext";
 import convertGenter, { GenderEnum } from "../utils/convertGender";
 import { EventInterface, TicketType } from "./EventCard";
@@ -49,6 +49,8 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
         ticketType: ticketType,
       };
       addCartList(ticketCart);
+    } else {
+      Alert.alert("Você precisa estar logado");
     }
   };
 
@@ -144,10 +146,10 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
                           removeLastTicketCartByTicketType(ticketType)
                         }
                       >
-                        <Feather name="minus" size={24} color={colors.white} />
+                        <Feather name="minus" size={20} color={colors.white} />
                       </TouchableOpacity>
-                      <View className="border-y-2 border-violet-600 h-10 w-10 items-center">
-                        <Text className="text-white font-semibold text-2xl">
+                      <View className="border-y-2 border-violet-600 h-10 w-10 items-center justify-center">
+                        <Text className="text-white font-semibold text-xl">
                           {getTicketCartAmount(ticketType)}
                         </Text>
                       </View>
@@ -157,7 +159,7 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
                         className="bg-violet-600 px-2 h-10 justify-center rounded-r-md"
                         onPress={() => handleAddTicketToCart(ticketType)}
                       >
-                        <Feather name="plus" size={24} color={colors.white} />
+                        <Feather name="plus" size={20} color={colors.white} />
                       </TouchableOpacity>
                     </View>
                   </View>

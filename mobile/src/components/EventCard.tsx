@@ -49,7 +49,7 @@ export default function EventCard(props: EventProps) {
         }}
         className="w-full h-40 rounded-md"
       />
-      <Text className="text-white pt-2 text-lg">{info}</Text>
+      <Text className="text-white pt-2 text-base font-semibold">{info}</Text>
     </TouchableOpacity>
   );
 }

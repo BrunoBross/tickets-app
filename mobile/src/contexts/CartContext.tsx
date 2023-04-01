@@ -7,6 +7,8 @@ import {
   useState,
 } from "react";
 import { TicketType } from "../components/EventCard";
+import { useAuth } from "./AuthContext";
+import { api } from "../lib/api";
 
 interface CartProviderProps {
   children: React.ReactNode;
@@ -24,12 +26,15 @@ interface CartContextInterface {
   setCartList: Dispatch<SetStateAction<TicketCartInterface[] | []>>;
   addCartList: (ticket: TicketCartInterface) => void;
   clearCartList: () => void;
+  deleteTicket: (id: string) => void;
+  handleBuyTickets: () => void;
 }
 
 const CartContext = createContext({} as CartContextInterface);
 
 export default function CartProvider(props: CartProviderProps) {
   const { children } = props;
+  const { user } = useAuth();
   const [cartList, setCartList] = useState<TicketCartInterface[]>([]);
   const [cartTotalPrice, setCartTotalPrice] = useState(0);
 
@@ -45,11 +50,35 @@ export default function CartProvider(props: CartProviderProps) {
   }, [cartList]);
 
   const addCartList = (ticket: TicketCartInterface) => {
-    setCartList((prevState) => [...cartList, ticket]);
+    setCartList((prevState) => [...prevState, ticket]);
   };
 
   const clearCartList = () => {
     setCartList([]);
+  };
+
+  const deleteTicket = (id: string) => {
+    const newCartList = cartList.filter((ticket) => ticket.id !== id);
+    setCartList(newCartList);
+  };
+
+  const handleBuyTickets = async () => {
+    if (user) {
+      cartList.forEach(async (event) => {
+        const ticket = {
+          user_id: user.id,
+          event_id: event.eventId,
+          ticket_type_id: event.ticketType.id,
+        };
+
+        await api({
+          method: "post",
+          url: "/ticket",
+          data: ticket,
+        });
+      });
+      clearCartList();
+    }
   };
 
   return (
@@ -60,6 +89,8 @@ export default function CartProvider(props: CartProviderProps) {
         setCartList,
         addCartList,
         clearCartList,
+        deleteTicket,
+        handleBuyTickets,
       }}
     >
       {children}

@@ -4,30 +4,12 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import colors from "tailwindcss/colors";
 import CartItem from "../components/CartItem";
 import { useAuth } from "../contexts/AuthContext";
-import { api } from "../lib/api";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Cart() {
   const { user } = useAuth();
-  const { cartList, clearCartList } = useCart();
-
-  const handleBuyTickets = async () => {
-    if (user) {
-      cartList.forEach(async (event) => {
-        const ticket = {
-          user_id: user.id,
-          event_id: event.eventId,
-          ticket_type_id: event.ticketType.id,
-        };
-
-        await api({
-          method: "post",
-          url: "/ticket",
-          data: ticket,
-        });
-      });
-      clearCartList();
-    }
-  };
+  const { cartList, clearCartList, handleBuyTickets } = useCart();
+  const { navigate } = useNavigation();
 
   return (
     <View className="flex-1 bg-background p-5 gap-5">
@@ -36,22 +18,24 @@ export default function Cart() {
       </Text>
       {user ? (
         <View className="flex flex-1 justify-between">
-          <ScrollView>
-            {cartList.length > 0 ? (
-              cartList.map((event) => {
-                return <CartItem key={event.id} event={event} />;
-              })
-            ) : (
-              <Text className="text-white text-base font-semibold">
-                Seu carrinho está vazio
-              </Text>
-            )}
+          <ScrollView showsVerticalScrollIndicator={false} className="h-full">
+            <View className="pb-32">
+              {cartList.length > 0 ? (
+                cartList.map((event) => {
+                  return <CartItem key={event.id} event={event} />;
+                })
+              ) : (
+                <Text className="text-white text-base font-semibold">
+                  Seu carrinho está vazio
+                </Text>
+              )}
+            </View>
           </ScrollView>
           {cartList && cartList.length > 0 && (
-            <View className="gap-y-1">
+            <View className="gap-y-1 pt-2">
               <TouchableOpacity
                 activeOpacity={0.7}
-                className="flex border-2 flex-row bg-green-600 p-4 rounded-md"
+                className="flex flex-row bg-green-600 p-4 rounded-md"
                 onPress={handleBuyTickets}
                 disabled={!(cartList && cartList.length > 0)}
               >
@@ -66,7 +50,7 @@ export default function Cart() {
               </TouchableOpacity>
               <TouchableOpacity
                 activeOpacity={0.7}
-                className="flex border-2 flex-row bg-zinc-700 p-4 rounded-md"
+                className="flex flex-row bg-zinc-700 p-4 rounded-md"
                 onPress={clearCartList}
               >
                 <MaterialCommunityIcons
@@ -82,10 +66,24 @@ export default function Cart() {
           )}
         </View>
       ) : (
-        <View className="flex flex-1 justify-between">
-          <Text className="text-white text-base font-semibold pl-2">
+        <View className="flex flex-1">
+          <Text className="text-white text-base font-semibold">
             Você precisa estar logado!
           </Text>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            className="p-4 h-14 flex-row bg-violet-600 rounded-md mt-3"
+            onPress={() => navigate("profilePage")}
+          >
+            <MaterialCommunityIcons
+              name="login"
+              size={24}
+              color={colors.white}
+            />
+            <Text className="text-white pl-2 text-base font-semibold">
+              Fazer login
+            </Text>
+          </TouchableOpacity>
         </View>
       )}
     </View>

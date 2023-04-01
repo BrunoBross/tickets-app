@@ -37,7 +37,9 @@ export default function Login() {
       </Text>
       <View className="flex-1 justify-center">
         <View className="flex gap-3">
-          <Text className="text-lg text-white">Faça seu login</Text>
+          <Text className="text-base text-white font-semibold">
+            Faça seu login
+          </Text>
           <TextInput
             selectionColor={colors.white}
             placeholderTextColor={colors.zinc[500]}
@@ -45,7 +47,7 @@ export default function Login() {
             onChangeText={setEmail}
             placeholder="Email"
             inputMode="email"
-            className="h-14 p-3 text-lg text-white bg-zinc-900 border-2 border-zinc-800 rounded-md focus:border-green-600"
+            className="h-14 p-3 text-base text-white bg-zinc-900 border-2 border-zinc-800 rounded-md focus:border-green-600"
           />
           <TextInput
             selectionColor={colors.white}
@@ -55,7 +57,7 @@ export default function Login() {
             placeholder="Senha"
             inputMode="text"
             secureTextEntry={true}
-            className="h-14 p-3 text-lg text-white bg-zinc-900 border-2 border-zinc-800 rounded-md focus:border-green-600"
+            className="h-14 p-3 text-base text-white bg-zinc-900 border-2 border-zinc-800 rounded-md focus:border-green-600"
           />
           <TouchableOpacity
             activeOpacity={0.7}
@@ -65,7 +67,7 @@ export default function Login() {
             {isLoading ? (
               <ActivityIndicator size="large" color={colors.white} />
             ) : (
-              <Text className="text-white text-lg">Entrar</Text>
+              <Text className="text-white text-base font-semibold">Entrar</Text>
             )}
           </TouchableOpacity>
           {error && (
@@ -78,7 +80,7 @@ export default function Login() {
             activeOpacity={0.7}
             onPress={() => navigate("register")}
           >
-            <Text className="text-lg text-white">
+            <Text className="text-base font-semibold text-white">
               Não possui uma conta?{" "}
               <Text className="text-violet-400 underline">Cadastre-se</Text>
             </Text>

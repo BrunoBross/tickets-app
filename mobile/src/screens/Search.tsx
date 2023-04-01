@@ -22,7 +22,7 @@ export default function Search() {
         placeholderTextColor={colors.zinc[500]}
         onChangeText={searchEvent}
         placeholder="Nome do evento"
-        className="h-14 p-3 text-lg text-white bg-zinc-900 border-2 border-zinc-800 rounded-md focus:border-green-600"
+        className="h-14 p-3 text-base text-white bg-zinc-900 border-2 border-zinc-800 rounded-md focus:border-green-600"
       />
       <ScrollView>
         {eventList ? (
