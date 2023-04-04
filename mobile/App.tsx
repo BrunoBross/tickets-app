@@ -11,6 +11,7 @@ import {
 } from "@expo-google-fonts/inter";
 import colors from "tailwindcss/colors";
 import CartProvider from "./src/contexts/CartContext";
+import RegisterProvider from "./src/contexts/RegisterContext";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -26,16 +27,18 @@ export default function App() {
 
   return (
     <AuthProvider>
-      <CartProvider>
-        <View className="w-full h-full items-center justify-between bg-background">
-          <Routes />
-          <StatusBar
-            barStyle="light-content"
-            backgroundColor="transparent"
-            translucent
-          />
-        </View>
-      </CartProvider>
+      <RegisterProvider>
+        <CartProvider>
+          <View className="w-full h-full items-center justify-between bg-background">
+            <Routes />
+            <StatusBar
+              barStyle="light-content"
+              backgroundColor="transparent"
+              translucent
+            />
+          </View>
+        </CartProvider>
+      </RegisterProvider>
     </AuthProvider>
   );
 }

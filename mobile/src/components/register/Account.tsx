@@ -1,10 +1,3 @@
-import { Dispatch, useState } from "react";
-import {
-  FieldValues,
-  UseFormGetValues,
-  UseFormRegister,
-  UseFormSetValue,
-} from "react-hook-form";
 import {
   ScrollView,
   Text,
@@ -16,16 +9,14 @@ import MaskInput, { Masks } from "react-native-mask-input";
 import colors from "tailwindcss/colors";
 import { Ionicons } from "@expo/vector-icons";
 import clsx from "clsx";
+import RegisterBreadcrumb from "./RegisterBreadcrumb";
+import { useNavigation } from "@react-navigation/native";
+import { RegisterPageEnum, useRegister } from "../../contexts/RegisterContext";
+import { useState } from "react";
 
-interface AccountProps {
-  getValues: UseFormGetValues<FieldValues>;
-  setValue: UseFormSetValue<FieldValues>;
-  dispatch: Dispatch<any>;
-  goBack: () => void;
-}
-
-export default function Account(props: AccountProps) {
-  const { setValue, getValues, dispatch, goBack } = props;
+export default function Account() {
+  const { goBack } = useNavigation();
+  const { setValue, getValues, setPage } = useRegister();
   const [cpf, setCpf] = useState("");
 
   const isReadyToNext =
@@ -33,7 +24,10 @@ export default function Account(props: AccountProps) {
     getValues("surname") &&
     getValues("email") &&
     getValues("confirmEmail") &&
-    cpf;
+    getValues("email") === getValues("confirmEmail") &&
+    cpf.length >= 14;
+
+  console.log(isReadyToNext);
 
   return (
     <View className="flex-1 p-5 gap-5">
@@ -44,6 +38,9 @@ export default function Account(props: AccountProps) {
         <Text className="text-white mt-4 text-4xl font-extrabold tracking-widest">
           Cadastre-se
         </Text>
+      </View>
+      <View>
+        <RegisterBreadcrumb isAccount canChange={isReadyToNext} />
       </View>
       <ScrollView>
         <View className="flex-1 ">
@@ -106,7 +103,7 @@ export default function Account(props: AccountProps) {
                 ["bg-zinc-600"]: !isReadyToNext,
               }
             )}
-            onPress={() => dispatch({ type: "info" })}
+            onPress={() => setPage({ type: RegisterPageEnum.ACCOUNT })}
           >
             <Text
               className={clsx(" text-base font-semibold", {

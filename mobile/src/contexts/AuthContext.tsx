@@ -1,6 +1,7 @@
 import {
   createContext,
   Dispatch,
+  ReactNode,
   SetStateAction,
   useContext,
   useEffect,
@@ -10,7 +11,7 @@ import { api } from "../lib/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface AuthProviderProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export interface UserInterface {

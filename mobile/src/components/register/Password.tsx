@@ -1,9 +1,3 @@
-import { Dispatch } from "react";
-import {
-  FieldValues,
-  UseFormGetValues,
-  UseFormSetValue,
-} from "react-hook-form";
 import {
   ScrollView,
   Text,
@@ -14,31 +8,31 @@ import {
 import colors from "tailwindcss/colors";
 import { Ionicons } from "@expo/vector-icons";
 import clsx from "clsx";
+import RegisterBreadcrumb from "./RegisterBreadcrumb";
+import { RegisterPageEnum, useRegister } from "../../contexts/RegisterContext";
 
-interface PasswordProps {
-  getValues: UseFormGetValues<FieldValues>;
-  setValue: UseFormSetValue<FieldValues>;
-  dispatch: Dispatch<any>;
-  onSubmit: () => void;
-}
+export default function Password() {
+  const { setValue, getValues, setPage, onSubmit } = useRegister();
 
-export default function Password(props: PasswordProps) {
-  const { setValue, getValues, dispatch, onSubmit } = props;
-
-  const isReadyToSubmit = getValues("password") && getValues("confirmPassword");
+  const isReadyToSubmit =
+    getValues("password")?.length >= 8 &&
+    getValues("confirmPassword")?.length >= 8;
 
   return (
     <View className="flex-1 p-5 gap-5">
       <View>
         <TouchableOpacity
           activeOpacity={0.7}
-          onPress={() => dispatch({ type: "info" })}
+          onPress={() => setPage({ type: RegisterPageEnum.ADDRESS })}
         >
           <Ionicons name="arrow-back-outline" size={40} color="#a1a1aa" />
         </TouchableOpacity>
         <Text className="text-white mt-4 text-4xl font-extrabold tracking-widest">
           Cadastre-se
         </Text>
+      </View>
+      <View>
+        <RegisterBreadcrumb isPassword canChange={isReadyToSubmit} />
       </View>
       <ScrollView>
         <View className="flex-1">
