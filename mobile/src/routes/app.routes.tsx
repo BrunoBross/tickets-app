@@ -1,6 +1,7 @@
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
 const Tab = createBottomTabNavigator();
 
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { CartPage, HomePage, ProfilePage, SearchPage } from "./custom.routes";
 import BottomBarNavigator from "../components/BottomBarNavigator";
 

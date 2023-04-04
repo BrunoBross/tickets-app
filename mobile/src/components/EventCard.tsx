@@ -1,6 +1,13 @@
-import { Image, Text, TouchableOpacity } from "react-native";
+import {
+  ActivityIndicator,
+  Image,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import formatEventDate from "../utils/formatEventDate";
 import { useNavigation } from "@react-navigation/native";
+import colors from "tailwindcss/colors";
 
 export interface TicketType {
   id: string;
@@ -49,6 +56,7 @@ export default function EventCard(props: EventProps) {
         }}
         className="w-full h-40 rounded-md"
       />
+
       <Text className="text-white pt-2 text-base font-semibold">{info}</Text>
     </TouchableOpacity>
   );

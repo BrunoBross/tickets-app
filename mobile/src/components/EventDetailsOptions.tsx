@@ -115,7 +115,7 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
           </Text>
         </TouchableOpacity>
       </View>
-      {state.tickets === true && (
+      {state.tickets && (
         <View className="flex gap-2 pt-2">
           {event.TicketType.length > 0 ? (
             event.TicketType?.map((ticketType: TicketType) => {
@@ -173,7 +173,7 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
           )}
         </View>
       )}
-      {state.info === true && (
+      {state.info && (
         <View className="flex gap-1 pt-1">
           <Text className="text-white font-semibold text-base">
             {event.description}

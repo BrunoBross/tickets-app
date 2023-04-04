@@ -73,28 +73,36 @@ export default function BottomBarNavigator({
                 <Feather
                   name="home"
                   size={28}
-                  style={{ color: isFocused ? colors.white : colors.zinc[500] }}
+                  style={{
+                    color: isFocused ? colors.white : colors.zinc[500],
+                  }}
                 />
               )}
               {label === "searchPage" && (
                 <Feather
                   name="search"
                   size={28}
-                  style={{ color: isFocused ? colors.white : colors.zinc[500] }}
+                  style={{
+                    color: isFocused ? colors.white : colors.zinc[500],
+                  }}
                 />
               )}
               {label === "cartPage" && (
                 <Feather
                   name="shopping-cart"
                   size={28}
-                  style={{ color: isFocused ? colors.white : colors.zinc[500] }}
+                  style={{
+                    color: isFocused ? colors.white : colors.zinc[500],
+                  }}
                 />
               )}
               {label === "profilePage" && (
                 <Feather
                   name="user"
                   size={28}
-                  style={{ color: isFocused ? colors.white : colors.zinc[500] }}
+                  style={{
+                    color: isFocused ? colors.white : colors.zinc[500],
+                  }}
                 />
               )}
             </TouchableOpacity>

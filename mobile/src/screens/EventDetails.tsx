@@ -38,8 +38,13 @@ export default function EventDetails() {
 
   if (!event) {
     return (
-      <View className="flex-1 bg-background justify-center items-center">
-        <ActivityIndicator size="large" color={colors.violet[600]} />
+      <View className="flex-1 bg-background p-5 gap-5">
+        <TouchableOpacity activeOpacity={0.7} onPress={goBack}>
+          <Ionicons name="arrow-back-outline" size={40} color="#a1a1aa" />
+        </TouchableOpacity>
+        <View className="flex-1 bg-background justify-center items-center">
+          <ActivityIndicator size="large" color={colors.violet[600]} />
+        </View>
       </View>
     );
   }
