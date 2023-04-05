@@ -34,7 +34,7 @@ export default function Info() {
         </Text>
       </View>
       <View>
-        <RegisterBreadcrumb isAddress canChange={isReadyToNext} />
+        <RegisterBreadcrumb isAddress />
       </View>
       <ScrollView>
         <View className="flex-1">

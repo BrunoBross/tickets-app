@@ -9,9 +9,9 @@ export default function Register() {
 
   return (
     <View className="flex-1 bg-background">
-      {page.account && <Account />}
-      {page.address && <Info />}
-      {page.password && <Password />}
+      {page.ACCOUNT && <Account />}
+      {page.ADDRESS && <Info />}
+      {page.PASSWORD && <Password />}
     </View>
   );
 }

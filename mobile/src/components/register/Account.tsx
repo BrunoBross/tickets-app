@@ -16,18 +16,9 @@ import { useState } from "react";
 
 export default function Account() {
   const { goBack } = useNavigation();
-  const { setValue, getValues, setPage } = useRegister();
+  const { setValue, getValues, setPage, readyList } = useRegister();
+  const isReadyToNext = readyList.includes(RegisterPageEnum.ACCOUNT);
   const [cpf, setCpf] = useState("");
-
-  const isReadyToNext =
-    getValues("name") &&
-    getValues("surname") &&
-    getValues("email") &&
-    getValues("confirmEmail") &&
-    getValues("email") === getValues("confirmEmail") &&
-    cpf.length >= 14;
-
-  console.log(isReadyToNext);
 
   return (
     <View className="flex-1 p-5 gap-5">
@@ -40,7 +31,7 @@ export default function Account() {
         </Text>
       </View>
       <View>
-        <RegisterBreadcrumb isAccount canChange={isReadyToNext} />
+        <RegisterBreadcrumb isAccount />
       </View>
       <ScrollView>
         <View className="flex-1 ">
@@ -103,7 +94,7 @@ export default function Account() {
                 ["bg-zinc-600"]: !isReadyToNext,
               }
             )}
-            onPress={() => setPage({ type: RegisterPageEnum.ACCOUNT })}
+            onPress={() => setPage({ type: RegisterPageEnum.ADDRESS })}
           >
             <Text
               className={clsx(" text-base font-semibold", {

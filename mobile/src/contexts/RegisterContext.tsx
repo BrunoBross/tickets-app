@@ -3,12 +3,13 @@ import {
   ReactNode,
   createContext,
   useContext,
+  useEffect,
   useReducer,
   useState,
 } from "react";
 import {
-  FieldValues,
   UseFormGetValues,
+  UseFormRegister,
   UseFormSetValue,
   useForm,
 } from "react-hook-form";
@@ -28,21 +29,35 @@ interface RegisterContextInterface {
 
   page: ReducerStateInterface;
   setPage: Dispatch<ReducerActionInterface>;
+  register: UseFormRegister<RegisterFormFields>;
 
   onSubmit: () => void;
-  getValues: UseFormGetValues<FieldValues>;
-  setValue: UseFormSetValue<FieldValues>;
+  getValues: UseFormGetValues<RegisterFormFields>;
+  setValue: UseFormSetValue<RegisterFormFields>;
 }
 
 interface ReducerStateInterface {
-  account: boolean;
-  address: boolean;
-  password: boolean;
+  ACCOUNT: boolean;
+  ADDRESS: boolean;
+  PASSWORD: boolean;
 }
 
 interface ReducerActionInterface {
   type: RegisterPageEnum;
   payload?: number;
+}
+
+interface RegisterFormFields {
+  name: string;
+  surname: string;
+  email: string;
+  confirmEmail: string;
+  cpf: string;
+  cep: string;
+  address: string;
+  addressNumber: string;
+  password: string;
+  confirmPassword: string;
 }
 
 const reducer = (
@@ -52,21 +67,21 @@ const reducer = (
   switch (action.type) {
     case RegisterPageEnum.ACCOUNT:
       return {
-        account: true,
-        address: false,
-        password: false,
+        ACCOUNT: true,
+        ADDRESS: false,
+        PASSWORD: false,
       };
     case RegisterPageEnum.ADDRESS:
       return {
-        account: false,
-        address: true,
-        password: false,
+        ACCOUNT: false,
+        ADDRESS: true,
+        PASSWORD: false,
       };
     case RegisterPageEnum.PASSWORD:
       return {
-        account: false,
-        address: false,
-        password: true,
+        ACCOUNT: false,
+        ADDRESS: false,
+        PASSWORD: true,
       };
     default:
       return state;
@@ -74,9 +89,9 @@ const reducer = (
 };
 
 const initialValues: ReducerStateInterface = {
-  account: true,
-  address: false,
-  password: false,
+  ACCOUNT: true,
+  ADDRESS: false,
+  PASSWORD: false,
 };
 
 const RegisterContext = createContext({} as RegisterContextInterface);
@@ -86,7 +101,29 @@ export default function RegisterProvider(props: RegisterProviderProps) {
   const [page, setPage] = useReducer(reducer, initialValues);
   const [readyList, setReadyList] = useState<RegisterPageEnum[]>([]);
 
-  const { handleSubmit, getValues, setValue } = useForm();
+  const { handleSubmit, register, getValues, setValue, watch } =
+    useForm<RegisterFormFields>();
+
+  const name = watch("name");
+  const surname = watch("surname");
+  const email = watch("email");
+  const confirmEmail = watch("confirmEmail");
+
+  useEffect(() => {
+    if (page.ACCOUNT) {
+      if (name && surname && email && confirmEmail && email === confirmEmail) {
+        if (!readyList.includes(RegisterPageEnum.ACCOUNT)) {
+          setReadyList((prevState) => [...prevState, RegisterPageEnum.ACCOUNT]);
+        }
+      } else {
+        const newReadyList = readyList.filter(
+          (filter) => filter !== RegisterPageEnum.ACCOUNT
+        );
+        setReadyList(newReadyList);
+      }
+      console.log(readyList);
+    }
+  }, [name, surname, email, confirmEmail]);
 
   const onSubmit = () => {
     handleSubmit(() => {
@@ -102,6 +139,7 @@ export default function RegisterProvider(props: RegisterProviderProps) {
         setPage,
         onSubmit,
         getValues,
+        register,
         setValue,
       }}
     >

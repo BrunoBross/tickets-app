@@ -23,7 +23,6 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.43.9",
     "react-native": "0.71.4",
-    "react-native-dotenv": "^3.4.8",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-mask-input": "^1.2.3",
     "react-native-qrcode-svg": "^6.2.0",

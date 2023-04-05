@@ -58,7 +58,7 @@ export default function EventDetails() {
         <View className="mb-32">
           <Image
             source={{
-              uri: `http://192.168.1.104:3001/uploads/logo/${event.file_name}`,
+              uri: `http://192.168.111.227:3001/uploads/logo/${event.file_name}`,
             }}
             className="w-full h-40 rounded-md"
           />

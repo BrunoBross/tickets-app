@@ -8,16 +8,16 @@ interface RegisterBreadcrumbProps {
   isAccount?: boolean;
   isAddress?: boolean;
   isPassword?: boolean;
-  canChange: boolean;
+  canChange?: boolean;
 }
 
 export default function RegisterBreadcrumb(props: RegisterBreadcrumbProps) {
-  const { setPage } = useRegister();
+  const { setPage, page, readyList } = useRegister();
 
   const { isAccount, isAddress, isPassword, canChange } = props;
 
   const handleChangePage = (pageName: RegisterPageEnum) => {
-    if (canChange) {
+    if (readyList.includes(pageName)) {
       setPage({ type: pageName });
     }
   };
@@ -30,7 +30,7 @@ export default function RegisterBreadcrumb(props: RegisterBreadcrumbProps) {
       >
         <Text
           className={clsx("text-zinc-400 text-base font-semibold", {
-            ["text-white"]: isAccount,
+            ["text-white"]: page.ACCOUNT,
           })}
         >
           Conta
@@ -45,7 +45,7 @@ export default function RegisterBreadcrumb(props: RegisterBreadcrumbProps) {
       >
         <Text
           className={clsx("text-zinc-400 text-base font-semibold", {
-            ["text-white"]: isAddress,
+            ["text-white"]: page.ADDRESS,
           })}
         >
           Endereço
@@ -60,7 +60,7 @@ export default function RegisterBreadcrumb(props: RegisterBreadcrumbProps) {
       >
         <Text
           className={clsx("text-zinc-400 text-base font-semibold", {
-            ["text-white"]: isPassword,
+            ["text-white"]: page.PASSWORD,
           })}
         >
           Senha
