@@ -27,18 +27,16 @@ export default function App() {
 
   return (
     <AuthProvider>
-      <RegisterProvider>
-        <CartProvider>
-          <View className="w-full h-full items-center justify-between bg-background">
-            <Routes />
-            <StatusBar
-              barStyle="light-content"
-              backgroundColor="transparent"
-              translucent
-            />
-          </View>
-        </CartProvider>
-      </RegisterProvider>
+      <CartProvider>
+        <View className="w-full h-full items-center justify-between bg-background">
+          <Routes />
+          <StatusBar
+            barStyle="light-content"
+            backgroundColor="transparent"
+            translucent
+          />
+        </View>
+      </CartProvider>
     </AuthProvider>
   );
 }

@@ -9,10 +9,14 @@ import {
 } from "react";
 import {
   UseFormGetValues,
+  UseFormHandleSubmit,
   UseFormRegister,
   UseFormSetValue,
   useForm,
 } from "react-hook-form";
+import { verifyCpf } from "../components/register/utils";
+import { api } from "../lib/api";
+import { useNavigation } from "@react-navigation/native";
 
 interface RegisterProviderProps {
   children: ReactNode;
@@ -32,8 +36,16 @@ interface RegisterContextInterface {
   register: UseFormRegister<RegisterFormFields>;
 
   onSubmit: () => void;
+  handleSubmit: UseFormHandleSubmit<RegisterFormFields>;
+
   getValues: UseFormGetValues<RegisterFormFields>;
   setValue: UseFormSetValue<RegisterFormFields>;
+  birthDate: Date | null;
+  setBirthDate: Dispatch<React.SetStateAction<Date | null>>;
+  cpf: string;
+  setCpf: Dispatch<React.SetStateAction<string>>;
+  cep: string;
+  setCep: Dispatch<React.SetStateAction<string>>;
 }
 
 interface ReducerStateInterface {
@@ -52,6 +64,7 @@ interface RegisterFormFields {
   surname: string;
   email: string;
   confirmEmail: string;
+  birthDate: Date;
   cpf: string;
   cep: string;
   address: string;
@@ -98,11 +111,45 @@ const RegisterContext = createContext({} as RegisterContextInterface);
 
 export default function RegisterProvider(props: RegisterProviderProps) {
   const { children } = props;
+  const { navigate } = useNavigation();
   const [page, setPage] = useReducer(reducer, initialValues);
   const [readyList, setReadyList] = useState<RegisterPageEnum[]>([]);
 
   const { handleSubmit, register, getValues, setValue, watch } =
     useForm<RegisterFormFields>();
+  const [cpf, setCpf] = useState<string>("");
+  const [cep, setCep] = useState<string>("");
+  const [birthDate, setBirthDate] = useState<Date | null>(null);
+
+  useEffect(() => {
+    setValue("cpf", cpf);
+  }, [cpf]);
+
+  useEffect(() => {
+    setValue("cep", cep);
+  }, [cep]);
+
+  useEffect(() => {
+    birthDate && setValue("birthDate", birthDate);
+  }, [birthDate]);
+
+  const onSubmit = async () => {
+    await api
+      .post("/user", {
+        name: getValues("name"),
+        surname: getValues("surname"),
+        email: getValues("email"),
+        cpf: getValues("cpf"),
+        birth: getValues("birthDate"),
+        address: getValues("address") + ", " + getValues("addressNumber"),
+        zip_code: getValues("cep"),
+        password: getValues("password"),
+      })
+      .then((response) => {
+        console.log(response);
+        navigate("login");
+      });
+  };
 
   const name = watch("name");
   const surname = watch("surname");
@@ -111,7 +158,15 @@ export default function RegisterProvider(props: RegisterProviderProps) {
 
   useEffect(() => {
     if (page.ACCOUNT) {
-      if (name && surname && email && confirmEmail && email === confirmEmail) {
+      if (
+        name &&
+        surname &&
+        email &&
+        confirmEmail &&
+        birthDate &&
+        email === confirmEmail &&
+        verifyCpf(cpf)
+      ) {
         if (!readyList.includes(RegisterPageEnum.ACCOUNT)) {
           setReadyList((prevState) => [...prevState, RegisterPageEnum.ACCOUNT]);
         }
@@ -121,15 +176,47 @@ export default function RegisterProvider(props: RegisterProviderProps) {
         );
         setReadyList(newReadyList);
       }
-      console.log(readyList);
     }
-  }, [name, surname, email, confirmEmail]);
+  }, [name, surname, email, confirmEmail, cpf, birthDate]);
 
-  const onSubmit = () => {
-    handleSubmit(() => {
-      console.log("oi");
-    });
-  };
+  const address = watch("address");
+  const addressNumber = watch("addressNumber");
+
+  useEffect(() => {
+    if (page.ADDRESS) {
+      if (cep.length >= 9 && address && addressNumber) {
+        if (!readyList.includes(RegisterPageEnum.ADDRESS)) {
+          setReadyList((prevState) => [...prevState, RegisterPageEnum.ADDRESS]);
+        }
+      } else {
+        const newReadyList = readyList.filter(
+          (filter) => filter !== RegisterPageEnum.ADDRESS
+        );
+        setReadyList(newReadyList);
+      }
+    }
+  }, [cep, address, addressNumber]);
+
+  const password = watch("password");
+  const confirmPassword = watch("confirmPassword");
+
+  useEffect(() => {
+    if (page.PASSWORD) {
+      if (password.length >= 8 && password === confirmPassword) {
+        if (!readyList.includes(RegisterPageEnum.PASSWORD)) {
+          setReadyList((prevState) => [
+            ...prevState,
+            RegisterPageEnum.PASSWORD,
+          ]);
+        }
+      } else {
+        const newReadyList = readyList.filter(
+          (filter) => filter !== RegisterPageEnum.PASSWORD
+        );
+        setReadyList(newReadyList);
+      }
+    }
+  }, [password, confirmPassword]);
 
   return (
     <RegisterContext.Provider
@@ -138,9 +225,16 @@ export default function RegisterProvider(props: RegisterProviderProps) {
         page,
         setPage,
         onSubmit,
+        handleSubmit,
         getValues,
         register,
         setValue,
+        birthDate,
+        setBirthDate,
+        cpf,
+        setCpf,
+        cep,
+        setCep,
       }}
     >
       {children}

@@ -32,10 +32,10 @@ export default function Password() {
         </Text>
       </View>
       <View>
-        <RegisterBreadcrumb isPassword canChange={isReadyToSubmit} />
+        <RegisterBreadcrumb />
       </View>
       <ScrollView>
-        <View className="flex-1">
+        <View className="flex-1 mb-32">
           <View className="flex gap-y-3">
             <TextInput
               selectionColor={colors.white}

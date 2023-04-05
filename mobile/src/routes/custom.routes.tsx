@@ -4,12 +4,12 @@ import EventDetails from "../screens/EventDetails";
 import Search from "../screens/Search";
 import Profile from "../screens/Profile";
 import Login from "../screens/Login";
-import Register from "../screens/Register";
 import ProfileInfo from "../screens/ProfileInfo";
 import MyTickets from "../screens/MyTickets";
 import Ticket from "../screens/Ticket";
 import Cart from "../screens/Cart";
 import { useAuth } from "../contexts/AuthContext";
+import Register from "../screens/Register";
 
 const { Navigator, Screen } = createNativeStackNavigator();
 

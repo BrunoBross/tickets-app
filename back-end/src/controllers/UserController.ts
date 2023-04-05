@@ -53,23 +53,13 @@ export async function UserController(app: FastifyInstance) {
       email: z.string(),
       cpf: z.string(),
       birth: z.coerce.date(),
-      gender: z.enum(["MALE", "FEMALE", "OTHER"]),
       address: z.string(),
       zip_code: z.string(),
       password: z.string(),
     });
 
-    const {
-      name,
-      surname,
-      email,
-      cpf,
-      birth,
-      gender,
-      address,
-      zip_code,
-      password,
-    } = userBody.parse(request.body);
+    const { name, surname, email, cpf, birth, address, zip_code, password } =
+      userBody.parse(request.body);
 
     const formatedCpf = cpf.replace(/\./g, "").replace("-", "");
     const formatedCep = zip_code.replace(/\./g, "").replace("-", "");
@@ -123,7 +113,6 @@ export async function UserController(app: FastifyInstance) {
           email,
           cpf: formatedCpf,
           birth,
-          gender,
           address,
           zip_code: formatedCep,
           password: hashedPassword,

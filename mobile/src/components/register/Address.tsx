@@ -11,14 +11,11 @@ import { Ionicons } from "@expo/vector-icons";
 import clsx from "clsx";
 import RegisterBreadcrumb from "./RegisterBreadcrumb";
 import { RegisterPageEnum, useRegister } from "../../contexts/RegisterContext";
-import { useState } from "react";
 
-export default function Info() {
-  const { setValue, getValues, setPage } = useRegister();
-  const [cep, setCep] = useState("");
-
-  const isReadyToNext =
-    getValues("address") && getValues("addressNumber") && cep.length >= 8;
+export default function Address() {
+  const { setValue, getValues, setPage, cep, setCep, readyList } =
+    useRegister();
+  const isReadyToNext = readyList.includes(RegisterPageEnum.ADDRESS);
 
   return (
     <View className="flex-1 p-5 gap-5">
@@ -34,10 +31,10 @@ export default function Info() {
         </Text>
       </View>
       <View>
-        <RegisterBreadcrumb isAddress />
+        <RegisterBreadcrumb />
       </View>
       <ScrollView>
-        <View className="flex-1">
+        <View className="flex-1 mb-32">
           <View className="flex gap-y-3">
             <MaskInput
               selectionColor={colors.white}

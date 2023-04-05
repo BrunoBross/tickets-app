@@ -4,20 +4,14 @@ import { MaterialIcons } from "@expo/vector-icons";
 import clsx from "clsx";
 import { RegisterPageEnum, useRegister } from "../../contexts/RegisterContext";
 
-interface RegisterBreadcrumbProps {
-  isAccount?: boolean;
-  isAddress?: boolean;
-  isPassword?: boolean;
-  canChange?: boolean;
-}
-
-export default function RegisterBreadcrumb(props: RegisterBreadcrumbProps) {
+export default function RegisterBreadcrumb() {
   const { setPage, page, readyList } = useRegister();
 
-  const { isAccount, isAddress, isPassword, canChange } = props;
-
-  const handleChangePage = (pageName: RegisterPageEnum) => {
-    if (readyList.includes(pageName)) {
+  const handleChangePage = (
+    permission: RegisterPageEnum,
+    pageName: RegisterPageEnum
+  ) => {
+    if (readyList.includes(permission)) {
       setPage({ type: pageName });
     }
   };
@@ -25,7 +19,9 @@ export default function RegisterBreadcrumb(props: RegisterBreadcrumbProps) {
   return (
     <View className="flex-row justify-around bg-zinc-600 p-2 rounded-md">
       <TouchableOpacity
-        onPress={() => handleChangePage(RegisterPageEnum.ACCOUNT)}
+        onPress={() =>
+          handleChangePage(RegisterPageEnum.ACCOUNT, RegisterPageEnum.ACCOUNT)
+        }
         activeOpacity={0.7}
       >
         <Text
@@ -40,7 +36,9 @@ export default function RegisterBreadcrumb(props: RegisterBreadcrumbProps) {
       <MaterialIcons name="navigate-next" size={24} color={colors.zinc[400]} />
 
       <TouchableOpacity
-        onPress={() => handleChangePage(RegisterPageEnum.ADDRESS)}
+        onPress={() =>
+          handleChangePage(RegisterPageEnum.ACCOUNT, RegisterPageEnum.ADDRESS)
+        }
         activeOpacity={0.7}
       >
         <Text
@@ -55,7 +53,9 @@ export default function RegisterBreadcrumb(props: RegisterBreadcrumbProps) {
       <MaterialIcons name="navigate-next" size={24} color={colors.zinc[400]} />
 
       <TouchableOpacity
-        onPress={() => handleChangePage(RegisterPageEnum.PASSWORD)}
+        onPress={() =>
+          handleChangePage(RegisterPageEnum.ADDRESS, RegisterPageEnum.PASSWORD)
+        }
         activeOpacity={0.7}
       >
         <Text
