@@ -5,13 +5,29 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import colors from "tailwindcss/colors";
 import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
+import ConfirmModal from "../components/ConfirmModal";
 
 export default function Profile() {
   const { user, Logout } = useAuth();
   const { navigate } = useNavigation();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleLogout = () => {
+    setIsModalOpen(true);
+  };
 
   return (
     <View className="flex-1 bg-background p-5">
+      <ConfirmModal
+        isOpen={isModalOpen}
+        setIsOpen={setIsModalOpen}
+        title="Sair"
+        message="Tem certeza que deseja sair?"
+        handler={Logout}
+        confirmText="Confirmar"
+        cancelText="Cancelar"
+      />
       <View className="flex gap-5">
         <Text className="text-white text-4xl font-extrabold tracking-widest">
           Olá, {user?.name}
@@ -75,7 +91,7 @@ export default function Profile() {
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.7}
-          onPress={Logout}
+          onPress={handleLogout}
           className="flex flex-row border-2 bg-zinc-700 p-4 rounded-md"
         >
           <MaterialCommunityIcons

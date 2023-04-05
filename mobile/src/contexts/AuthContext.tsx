@@ -9,6 +9,8 @@ import {
 } from "react";
 import { api } from "../lib/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert } from "react-native";
+import ConfirmModal from "../components/ConfirmModal";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -98,10 +100,10 @@ export default function AuthProvider(props: AuthProviderProps) {
       });
   }
 
-  async function Logout() {
+  const Logout = async () => {
     await AsyncStorage.removeItem("tokenId");
     setUser(null);
-  }
+  };
 
   return (
     <AuthContext.Provider

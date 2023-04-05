@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 import { Alert, Text, TouchableOpacity, View } from "react-native";
 import { TicketCartInterface, useCart } from "../contexts/CartContext";
 import convertGenter, { GenderEnum } from "../utils/convertGender";
@@ -8,6 +8,7 @@ import uuid from "react-native-uuid";
 import { useAuth } from "../contexts/AuthContext";
 import { Feather } from "@expo/vector-icons";
 import colors from "tailwindcss/colors";
+import ConfirmModal from "./ConfirmModal";
 
 interface EventDetailsOptions {
   event: EventInterface;
@@ -40,6 +41,7 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
   const [state, dispatch] = useReducer(reducer, initialValues);
   const { event } = props;
   const { addCartList, cartList, setCartList } = useCart();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleAddTicketToCart = (ticketType: TicketType) => {
     if (user) {
@@ -50,7 +52,7 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
       };
       addCartList(ticketCart);
     } else {
-      Alert.alert("Você precisa estar logado");
+      setIsModalOpen(true);
     }
   };
 
@@ -79,6 +81,14 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
 
   return (
     <View className="flex pt-2">
+      <ConfirmModal
+        isOpen={isModalOpen}
+        setIsOpen={setIsModalOpen}
+        title="Erro"
+        message="Você precisa estar logado"
+        confirmText="Confirmar"
+        handler={() => setIsModalOpen(false)}
+      />
       <View className="flex flex-row">
         <TouchableOpacity
           activeOpacity={0.9}

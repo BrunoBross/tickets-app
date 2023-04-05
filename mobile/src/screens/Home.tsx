@@ -26,9 +26,12 @@ export default function Home() {
 
   return (
     <View className="flex-1 bg-background p-5 gap-5">
-      <Text className="text-white text-4xl font-extrabold tracking-widest">
-        Eventos
-      </Text>
+      <View className="justify-center h-10">
+        <Text className=" text-white text-4xl font-extrabold tracking-widest">
+          Eventos
+        </Text>
+      </View>
+
       <View className="flex-1">
         <EventList
           eventList={eventList}

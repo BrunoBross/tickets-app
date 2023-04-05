@@ -17,6 +17,7 @@ import {
 import { verifyCpf } from "../components/register/utils";
 import { api } from "../lib/api";
 import { useNavigation } from "@react-navigation/native";
+import ConfirmModal from "../components/ConfirmModal";
 
 interface RegisterProviderProps {
   children: ReactNode;
@@ -112,6 +113,7 @@ const RegisterContext = createContext({} as RegisterContextInterface);
 export default function RegisterProvider(props: RegisterProviderProps) {
   const { children } = props;
   const { navigate } = useNavigation();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [page, setPage] = useReducer(reducer, initialValues);
   const [readyList, setReadyList] = useState<RegisterPageEnum[]>([]);
 
@@ -145,10 +147,14 @@ export default function RegisterProvider(props: RegisterProviderProps) {
         zip_code: getValues("cep"),
         password: getValues("password"),
       })
-      .then((response) => {
-        console.log(response);
-        navigate("login");
+      .then(() => {
+        setIsModalOpen(true);
       });
+  };
+
+  const handleGoLogin = () => {
+    setIsModalOpen(false);
+    navigate("profile");
   };
 
   const name = watch("name");
@@ -237,6 +243,14 @@ export default function RegisterProvider(props: RegisterProviderProps) {
         setCep,
       }}
     >
+      <ConfirmModal
+        isOpen={isModalOpen}
+        setIsOpen={setIsModalOpen}
+        handler={handleGoLogin}
+        title="Cadastro"
+        message="Você se cadastrou com sucesso!"
+        confirmText="Ir para o Login"
+      />
       {children}
     </RegisterContext.Provider>
   );

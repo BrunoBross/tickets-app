@@ -13,9 +13,12 @@ export default function Cart() {
 
   return (
     <View className="flex-1 bg-background p-5 gap-5">
-      <Text className="text-white text-4xl font-extrabold tracking-widest">
-        Carrinho
-      </Text>
+      <View className="justify-center h-10">
+        <Text className="text-white text-4xl font-extrabold tracking-widest">
+          Carrinho
+        </Text>
+      </View>
+
       {user ? (
         <View className="flex flex-1 justify-between">
           <ScrollView showsVerticalScrollIndicator={false} className="h-full">

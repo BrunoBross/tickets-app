@@ -11,7 +11,7 @@ import {
 } from "@expo-google-fonts/inter";
 import colors from "tailwindcss/colors";
 import CartProvider from "./src/contexts/CartContext";
-import RegisterProvider from "./src/contexts/RegisterContext";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -21,22 +21,26 @@ export default function App() {
     Inter_800ExtraBold,
   });
 
+  const queryClient = new QueryClient();
+
   if (!fontsLoaded) {
     return <ActivityIndicator size="large" color={colors.violet[600]} />;
   }
 
   return (
-    <AuthProvider>
-      <CartProvider>
-        <View className="w-full h-full items-center justify-between bg-background">
-          <Routes />
-          <StatusBar
-            barStyle="light-content"
-            backgroundColor="transparent"
-            translucent
-          />
-        </View>
-      </CartProvider>
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <CartProvider>
+          <View className="w-full h-full items-center justify-between bg-background">
+            <Routes />
+            <StatusBar
+              barStyle="light-content"
+              backgroundColor="transparent"
+              translucent
+            />
+          </View>
+        </CartProvider>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }

@@ -5,6 +5,7 @@ import { useAuth } from "../contexts/AuthContext";
 import formatBirthDate from "../utils/formatBirthDate";
 import formatCpf from "../utils/formatCpf";
 import formatCep from "../utils/formatCep";
+import colors from "tailwindcss/colors";
 
 export default function ProfileInfo() {
   const { goBack } = useNavigation();
@@ -13,7 +14,11 @@ export default function ProfileInfo() {
   return (
     <View className="flex-1 bg-background p-5 gap-5">
       <TouchableOpacity activeOpacity={0.7} onPress={goBack}>
-        <Ionicons name="arrow-back-outline" size={40} color="#a1a1aa" />
+        <Ionicons
+          name="arrow-back-outline"
+          size={40}
+          color={colors.zinc[400]}
+        />
       </TouchableOpacity>
       <View>
         <Text className="text-white font-semibold text-base">

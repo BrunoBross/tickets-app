@@ -70,7 +70,6 @@ const ProfilePage = () => {
       }}
     >
       <Screen name="profile" component={signed ? Profile : Login} />
-      <Screen name="login" component={Login} />
       <Screen name="register" component={Register} />
       <Screen name="mytickets" component={MyTickets} />
       <Screen name="profileInfo" component={ProfileInfo} />

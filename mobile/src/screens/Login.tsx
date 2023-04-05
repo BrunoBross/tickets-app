@@ -12,7 +12,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { Feather } from "@expo/vector-icons";
 
 export default function Login() {
-  const { Login, isLoading } = useAuth();
+  const { Login, isLoading, user } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");

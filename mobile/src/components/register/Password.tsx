@@ -25,7 +25,11 @@ export default function Password() {
           activeOpacity={0.7}
           onPress={() => setPage({ type: RegisterPageEnum.ADDRESS })}
         >
-          <Ionicons name="arrow-back-outline" size={40} color="#a1a1aa" />
+          <Ionicons
+            name="arrow-back-outline"
+            size={40}
+            color={colors.zinc[400]}
+          />
         </TouchableOpacity>
         <Text className="text-white mt-4 text-4xl font-extrabold tracking-widest">
           Cadastre-se

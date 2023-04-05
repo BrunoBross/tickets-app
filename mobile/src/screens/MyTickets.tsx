@@ -14,6 +14,7 @@ import { EventInterface, TicketType } from "../components/EventCard";
 import { api } from "../lib/api";
 import formatEventDate from "../utils/formatEventDate";
 import convertGenter from "../utils/convertGender";
+import colors from "tailwindcss/colors";
 
 interface TicketListInterface {
   id: string;
@@ -52,7 +53,11 @@ export default function MyTickets() {
   return (
     <View className="flex-1 bg-background p-5 gap-5">
       <TouchableOpacity activeOpacity={0.7} onPress={goBack}>
-        <Ionicons name="arrow-back-outline" size={40} color="#a1a1aa" />
+        <Ionicons
+          name="arrow-back-outline"
+          size={40}
+          color={colors.zinc[400]}
+        />
       </TouchableOpacity>
       <View>
         <ScrollView
