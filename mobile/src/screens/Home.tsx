@@ -7,18 +7,11 @@ import { api } from "../lib/api";
 
 export default function Home() {
   const [eventList, setEventList] = useState<EventInterface[] | null>(null);
-  const [refreshing, setRefreshing] = useState(false);
 
   const retrieveEventList = async () => {
     const response = await api.get("/event");
     setEventList(response.data);
   };
-
-  const onRefresh = useCallback(async () => {
-    setRefreshing(true);
-    await retrieveEventList();
-    setRefreshing(false);
-  }, []);
 
   useEffect(() => {
     retrieveEventList();
@@ -35,8 +28,7 @@ export default function Home() {
       <View className="flex-1">
         <EventList
           eventList={eventList}
-          refreshing={refreshing}
-          onRefresh={onRefresh}
+          retrieveEventList={retrieveEventList}
         />
       </View>
     </View>

@@ -12,6 +12,7 @@ import {
 import colors from "tailwindcss/colors";
 import CartProvider from "./src/contexts/CartContext";
 import { QueryClient, QueryClientProvider } from "react-query";
+import React from "react";
 
 export default function App() {
   const [fontsLoaded] = useFonts({

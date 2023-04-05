@@ -62,7 +62,12 @@ export default function MyTickets() {
       <View>
         <ScrollView
           refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              colors={[colors.white]}
+              progressBackgroundColor={colors.violet[600]}
+            />
           }
           showsVerticalScrollIndicator={false}
           className="h-full"
