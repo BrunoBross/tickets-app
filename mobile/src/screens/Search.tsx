@@ -1,13 +1,15 @@
 import { useState } from "react";
-import { ScrollView, Text, TextInput, View } from "react-native";
-import colors from "tailwindcss/colors";
+import { ScrollView, Text, View } from "react-native";
 import EventCard, { EventInterface } from "../components/EventCard";
 import { api } from "../lib/api";
+import InputText from "../components/form/InputText";
 
 export default function Search() {
-  const [eventList, setEventList] = useState<EventInterface[] | null>(null);
+  const [eventList, setEventList] = useState<EventInterface[] | null>([]);
+  const [eventSearchInput, setEventSearchInput] = useState("");
 
   const searchEvent = async (input: string) => {
+    setEventSearchInput(input);
     const response = await api.get(`/event/search/${input}`);
     setEventList(response.data);
   };
@@ -19,20 +21,18 @@ export default function Search() {
           Procurar
         </Text>
       </View>
-
-      <TextInput
-        selectionColor={colors.white}
-        placeholderTextColor={colors.zinc[500]}
-        onChangeText={searchEvent}
-        placeholder="Nome do evento"
-        className="h-14 p-3 text-base text-white bg-zinc-900 border-2 border-zinc-800 rounded-md focus:border-green-600"
-      />
+      <View>
+        <InputText onChangeText={searchEvent} placeholder="Nome do evento" />
+      </View>
       <ScrollView>
-        {eventList ? (
-          eventList.length > 0 &&
+        {eventList && eventList.length > 0 ? (
           eventList.map((event) => {
             return <EventCard key={event.id} event={event} />;
           })
+        ) : eventSearchInput ? (
+          <Text className="text-white font-semibold text-base">
+            Desculpe, não encontramos o evento "{eventSearchInput}"
+          </Text>
         ) : (
           <Text className="text-white font-semibold text-base">
             Procure por eventos pelo nome

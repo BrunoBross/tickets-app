@@ -21,13 +21,13 @@ export async function AuthController(app: FastifyInstance) {
     });
 
     if (!user) {
-      return response.code(404).send({ error: "Email não encontrado" });
+      return response.code(404).send({ error: "Usuário ou senha incorreta" });
     }
 
     const isCorrectPassword = await bcrypt.compare(password, user.password);
 
     if (!isCorrectPassword) {
-      return response.code(403).send({ error: "Senha incorreta" });
+      return response.code(404).send({ error: "Usuário ou senha incorreta" });
     }
 
     const data = {

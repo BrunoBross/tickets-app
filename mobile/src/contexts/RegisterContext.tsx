@@ -17,7 +17,8 @@ import {
 import { verifyCpf } from "../components/register/utils";
 import { api } from "../lib/api";
 import { useNavigation } from "@react-navigation/native";
-import ConfirmModal from "../components/ConfirmModal";
+import ConfirmModal from "../components/modals/ConfirmModal";
+import AlertModal from "../components/modals/AlertModal";
 
 interface RegisterProviderProps {
   children: ReactNode;
@@ -114,6 +115,7 @@ export default function RegisterProvider(props: RegisterProviderProps) {
   const { children } = props;
   const { navigate } = useNavigation();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [page, setPage] = useReducer(reducer, initialValues);
   const [readyList, setReadyList] = useState<RegisterPageEnum[]>([]);
 
@@ -149,6 +151,10 @@ export default function RegisterProvider(props: RegisterProviderProps) {
       })
       .then(() => {
         setIsModalOpen(true);
+      })
+      .catch((error) => {
+        setIsErrorModalOpen(true);
+        console.log(error.response.data.error);
       });
   };
 
@@ -250,6 +256,14 @@ export default function RegisterProvider(props: RegisterProviderProps) {
         title="Cadastro"
         message="Você se cadastrou com sucesso!"
         confirmText="Ir para o Login"
+      />
+      <AlertModal
+        isOpen={isErrorModalOpen}
+        setIsOpen={setIsErrorModalOpen}
+        isError
+        title="Erro"
+        message="Ocorreu um erro de conexão com o servidor. Por favor, tente novamente mais tarde."
+        buttonText="Fechar"
       />
       {children}
     </RegisterContext.Provider>

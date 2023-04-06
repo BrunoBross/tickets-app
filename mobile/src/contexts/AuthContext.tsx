@@ -9,8 +9,6 @@ import {
 } from "react";
 import { api } from "../lib/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Alert } from "react-native";
-import ConfirmModal from "../components/ConfirmModal";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -35,7 +33,7 @@ export interface AuthContextInterface {
   Logout: () => void;
   isLoading: boolean;
   error: string | null;
-  setError: Dispatch<SetStateAction<null>>;
+  setError: Dispatch<SetStateAction<string | null>>;
 }
 
 interface LoginProps {
@@ -49,7 +47,7 @@ export default function AuthProvider(props: AuthProviderProps) {
   const { children } = props;
   const [user, setUser] = useState<UserInterface | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   const verifyUserOnEnter = async () => {
     setIsLoading(true);

@@ -8,7 +8,7 @@ import uuid from "react-native-uuid";
 import { useAuth } from "../contexts/AuthContext";
 import { Feather } from "@expo/vector-icons";
 import colors from "tailwindcss/colors";
-import ConfirmModal from "./ConfirmModal";
+import ConfirmModal from "./modals/ConfirmModal";
 
 interface EventDetailsOptions {
   event: EventInterface;

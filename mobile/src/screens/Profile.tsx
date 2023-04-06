@@ -6,7 +6,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import colors from "tailwindcss/colors";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
-import ConfirmModal from "../components/ConfirmModal";
+import ConfirmModal from "../components/modals/ConfirmModal";
 
 export default function Profile() {
   const { user, Logout } = useAuth();
