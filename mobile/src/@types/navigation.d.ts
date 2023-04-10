@@ -19,6 +19,8 @@ export declare global {
       ticket: {
         ticketId: string;
       };
+      who: undefined;
+      help: undefined;
     }
   }
 }

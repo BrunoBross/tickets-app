@@ -1,10 +1,10 @@
 import { Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { useAuth } from "../contexts/AuthContext";
-import formatBirthDate from "../utils/formatBirthDate";
-import formatCpf from "../utils/formatCpf";
-import formatCep from "../utils/formatCep";
+import { useAuth } from "../../contexts/AuthContext";
+import formatBirthDate from "../../utils/formatBirthDate";
+import formatCpf from "../../utils/formatCpf";
+import formatCep from "../../utils/formatCep";
 import colors from "tailwindcss/colors";
 
 export default function ProfileInfo() {

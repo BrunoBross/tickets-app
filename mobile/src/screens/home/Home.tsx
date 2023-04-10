@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
-import { RefreshControl, ScrollView, Text, View } from "react-native";
-import EventCard from "../components/EventCard";
-import { EventInterface } from "../components/EventCard";
-import EventList from "../components/EventList";
-import { api } from "../lib/api";
+import { useEffect, useState } from "react";
+import { Text, View } from "react-native";
+import { EventInterface } from "../../components/EventCard";
+import EventList from "../../components/EventList";
+import { api } from "../../lib/api";
 
 export default function Home() {
   const [eventList, setEventList] = useState<EventInterface[] | null>(null);

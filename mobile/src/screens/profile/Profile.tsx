@@ -1,12 +1,12 @@
 import { Alert, Text, TouchableOpacity, View } from "react-native";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import colors from "tailwindcss/colors";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
-import ConfirmModal from "../components/modals/ConfirmModal";
+import ConfirmModal from "../../components/modals/ConfirmModal";
 
 export default function Profile() {
   const { user, Logout } = useAuth();
@@ -64,7 +64,7 @@ export default function Profile() {
         <TouchableOpacity
           activeOpacity={0.7}
           className="flex flex-row border-2 bg-violet-600 p-4 rounded-md"
-          onPress={() => Alert.alert("Quem somos")}
+          onPress={() => navigate("who")}
         >
           <MaterialCommunityIcons
             name="office-building-outline"
@@ -78,7 +78,7 @@ export default function Profile() {
         <TouchableOpacity
           activeOpacity={0.7}
           className="flex flex-row border-2 bg-violet-600 p-4 rounded-md"
-          onPress={() => Alert.alert("Obter ajuda")}
+          onPress={() => navigate("help")}
         >
           <MaterialCommunityIcons
             name="help-circle-outline"

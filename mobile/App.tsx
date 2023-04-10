@@ -25,7 +25,11 @@ export default function App() {
   const queryClient = new QueryClient();
 
   if (!fontsLoaded) {
-    return <ActivityIndicator size="large" color={colors.violet[600]} />;
+    return (
+      <View className="w-full h-full items-center justify-between bg-background">
+        <ActivityIndicator size="large" color={colors.violet[600]} />
+      </View>
+    );
   }
 
   return (
@@ -35,7 +39,7 @@ export default function App() {
           <View className="w-full h-full items-center justify-between bg-background">
             <Routes />
             <StatusBar
-              barStyle="light-content"
+              barStyle="default"
               backgroundColor="transparent"
               translucent
             />

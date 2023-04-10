@@ -4,7 +4,7 @@ import { AppRoutes } from "./app.routes";
 
 export function Routes() {
   return (
-    <View className="flex-1 w-full mt-16">
+    <View className="flex-1 w-full mt-8">
       <NavigationContainer>
         <AppRoutes />
       </NavigationContainer>

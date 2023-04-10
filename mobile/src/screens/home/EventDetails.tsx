@@ -9,12 +9,12 @@ import {
 } from "react-native";
 import colors from "tailwindcss/colors";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { api } from "../lib/api";
+import { api } from "../../lib/api";
 import { useEffect, useState } from "react";
-import { EventInterface } from "../components/EventCard";
-import formatDate from "../utils/formatEventDate";
+import { EventInterface } from "../../components/EventCard";
+import formatDate from "../../utils/formatEventDate";
 import { Ionicons } from "@expo/vector-icons";
-import EventDetailsOptions from "../components/EventDetailsOptions";
+import EventDetailsOptions from "../../components/EventDetailsOptions";
 import { Feather } from "@expo/vector-icons";
 
 interface Params {

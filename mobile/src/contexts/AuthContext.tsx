@@ -46,7 +46,7 @@ const AuthContext = createContext({} as AuthContextInterface);
 export default function AuthProvider(props: AuthProviderProps) {
   const { children } = props;
   const [user, setUser] = useState<UserInterface | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const verifyUserOnEnter = async () => {
@@ -59,15 +59,23 @@ export default function AuthProvider(props: AuthProviderProps) {
           Authorization: `Bearer ${tokenId}`,
         },
       });
+
       return response;
     };
 
     if (tokenId) {
-      requestUser().then((response) => {
-        setUser(response.data);
-        setIsLoading(false);
-        setError(null);
-      });
+      requestUser()
+        .then((response) => {
+          setUser(response.data);
+          setIsLoading(false);
+          setError(null);
+        })
+        .catch(async () => {
+          api.defaults.headers.Authorization = "";
+          await AsyncStorage.removeItem("tokenId");
+          setIsLoading(false);
+          setError(null);
+        });
     } else {
       setIsLoading(false);
       setError(null);

@@ -1,9 +1,9 @@
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { useCart } from "../contexts/CartContext";
+import { useCart } from "../../contexts/CartContext";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import colors from "tailwindcss/colors";
-import CartItem from "../components/CartItem";
-import { useAuth } from "../contexts/AuthContext";
+import CartItem from "../../components/CartItem";
+import { useAuth } from "../../contexts/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 
 export default function Cart() {

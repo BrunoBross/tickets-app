@@ -8,12 +8,12 @@ import {
   View,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import { useCallback, useEffect, useState } from "react";
-import { EventInterface, TicketType } from "../components/EventCard";
-import { api } from "../lib/api";
-import formatEventDate from "../utils/formatEventDate";
-import convertGenter from "../utils/convertGender";
+import { EventInterface, TicketType } from "../../components/EventCard";
+import { api } from "../../lib/api";
+import formatEventDate from "../../utils/formatEventDate";
+import convertGenter from "../../utils/convertGender";
 import colors from "tailwindcss/colors";
 
 interface TicketListInterface {

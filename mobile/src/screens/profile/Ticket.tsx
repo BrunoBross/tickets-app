@@ -2,12 +2,12 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import QRCode from "react-native-qrcode-svg";
-import { useAuth } from "../contexts/AuthContext";
-import formatCpf from "../utils/formatCpf";
+import { useAuth } from "../../contexts/AuthContext";
+import formatCpf from "../../utils/formatCpf";
 import { useEffect, useState } from "react";
-import { TicketType } from "../components/EventCard";
-import { api } from "../lib/api";
-import convertGenter from "../utils/convertGender";
+import { TicketType } from "../../components/EventCard";
+import { api } from "../../lib/api";
+import convertGenter from "../../utils/convertGender";
 import colors from "tailwindcss/colors";
 
 interface Params {
