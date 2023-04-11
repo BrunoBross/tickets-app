@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import EventCard, { EventInterface } from "../../components/EventCard";
-import { api } from "../../lib/api";
 import { Feather } from "@expo/vector-icons";
 import colors from "tailwindcss/colors";
 import { Form } from "../../components/form";
+import useApi from "../../lib/api";
 
 export default function Search() {
+  const api = useApi();
   const [eventList, setEventList] = useState<EventInterface[] | null>([]);
   const [eventSearchInput, setEventSearchInput] = useState("");
 

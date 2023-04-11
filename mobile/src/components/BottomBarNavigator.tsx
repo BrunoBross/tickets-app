@@ -64,7 +64,7 @@ export default function BottomBarNavigator({
             <TouchableOpacity
               key={index}
               activeOpacity={0.7}
-              className="px-4 pb-4"
+              className="px-4 py-1"
               onPress={onPress}
               accessibilityState={isFocused ? { selected: true } : {}}
               accessibilityLabel={options.tabBarAccessibilityLabel}

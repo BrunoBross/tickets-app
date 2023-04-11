@@ -9,13 +9,13 @@ import {
 } from "react-native";
 import colors from "tailwindcss/colors";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { api } from "../../lib/api";
 import { useEffect, useState } from "react";
 import { EventInterface } from "../../components/EventCard";
 import formatDate from "../../utils/formatEventDate";
 import { Ionicons } from "@expo/vector-icons";
 import EventDetailsOptions from "../../components/EventDetailsOptions";
 import { Feather } from "@expo/vector-icons";
+import useApi from "../../lib/api";
 
 interface Params {
   eventId: string;
@@ -23,6 +23,7 @@ interface Params {
 
 export default function EventDetails() {
   const { goBack } = useNavigation();
+  const api = useApi();
   const route = useRoute();
   const { eventId } = route.params as Params;
   const [event, setEvent] = useState<EventInterface | null>(null);
@@ -69,7 +70,7 @@ export default function EventDetails() {
         <View className="mb-32">
           <Image
             source={{
-              uri: `http://192.168.1.105:3001/uploads/logo/${event.file_name}`,
+              uri: `http://192.168.1.104:3001/uploads/logo/${event.file_name}`,
             }}
             className="w-full h-40 rounded-md"
           />

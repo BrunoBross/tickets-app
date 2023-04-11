@@ -1,6 +1,7 @@
 import {
   createContext,
   Dispatch,
+  ReactNode,
   SetStateAction,
   useContext,
   useEffect,
@@ -8,10 +9,11 @@ import {
 } from "react";
 import { TicketType } from "../components/EventCard";
 import { useAuth } from "./AuthContext";
-import { api } from "../lib/api";
+import AlertModal from "../components/modals/AlertModal";
+import useApi from "../lib/api";
 
 interface CartProviderProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export interface TicketCartInterface {
@@ -35,6 +37,8 @@ const CartContext = createContext({} as CartContextInterface);
 export default function CartProvider(props: CartProviderProps) {
   const { children } = props;
   const { user } = useAuth();
+  const api = useApi();
+  const [isFinishModalOpen, setIsFinishModalOpen] = useState(false);
   const [cartList, setCartList] = useState<TicketCartInterface[]>([]);
   const [cartTotalPrice, setCartTotalPrice] = useState(0);
 
@@ -78,6 +82,7 @@ export default function CartProvider(props: CartProviderProps) {
         });
       });
       clearCartList();
+      setIsFinishModalOpen(true);
     }
   };
 
@@ -93,6 +98,13 @@ export default function CartProvider(props: CartProviderProps) {
         handleBuyTickets,
       }}
     >
+      <AlertModal
+        isOpen={isFinishModalOpen}
+        setIsOpen={setIsFinishModalOpen}
+        title="Obrigado"
+        message="Compra efetuada com sucesso!"
+        buttonText="Continuar"
+      />
       {children}
     </CartContext.Provider>
   );

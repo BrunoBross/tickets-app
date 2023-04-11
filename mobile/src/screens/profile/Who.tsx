@@ -15,7 +15,9 @@ export default function Who() {
           color={colors.zinc[400]}
         />
       </TouchableOpacity>
-      <Text className="text-white text-base font-semibold">Quem Somos</Text>
+      <Text className="text-white text-base font-semibold">
+        Somos uma empresa séria
+      </Text>
     </View>
   );
 }

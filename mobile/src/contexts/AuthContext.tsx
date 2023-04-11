@@ -7,8 +7,8 @@ import {
   useEffect,
   useState,
 } from "react";
-import { api } from "../lib/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import useApi from "../lib/api";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -45,6 +45,7 @@ const AuthContext = createContext({} as AuthContextInterface);
 
 export default function AuthProvider(props: AuthProviderProps) {
   const { children } = props;
+  const api = useApi();
   const [user, setUser] = useState<UserInterface | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Text, View } from "react-native";
 import { EventInterface } from "../../components/EventCard";
 import EventList from "../../components/EventList";
-import { api } from "../../lib/api";
+import { useFocusEffect } from "@react-navigation/native";
+import useApi from "../../lib/api";
 
 export default function Home() {
+  const api = useApi();
   const [eventList, setEventList] = useState<EventInterface[] | null>(null);
 
   const retrieveEventList = async () => {
@@ -12,9 +14,11 @@ export default function Home() {
     setEventList(response.data);
   };
 
-  useEffect(() => {
-    retrieveEventList();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      retrieveEventList();
+    }, [])
+  );
 
   return (
     <View className="flex-1 bg-background p-5 gap-5">

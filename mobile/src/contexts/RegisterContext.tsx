@@ -15,10 +15,11 @@ import {
   useForm,
 } from "react-hook-form";
 import { verifyCpf } from "../components/register/utils";
-import { api } from "../lib/api";
 import { useNavigation } from "@react-navigation/native";
 import ConfirmModal from "../components/modals/ConfirmModal";
 import AlertModal from "../components/modals/AlertModal";
+import { Text } from "react-native";
+import useApi from "../lib/api";
 
 interface RegisterProviderProps {
   children: ReactNode;
@@ -114,6 +115,7 @@ const RegisterContext = createContext({} as RegisterContextInterface);
 export default function RegisterProvider(props: RegisterProviderProps) {
   const { children } = props;
   const { navigate } = useNavigation();
+  const api = useApi();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [page, setPage] = useReducer(reducer, initialValues);
@@ -161,6 +163,10 @@ export default function RegisterProvider(props: RegisterProviderProps) {
   const handleGoLogin = () => {
     setIsModalOpen(false);
     navigate("profile");
+  };
+
+  const cancelLogin = () => {
+    setIsModalOpen(false);
   };
 
   const name = watch("name");
@@ -251,12 +257,15 @@ export default function RegisterProvider(props: RegisterProviderProps) {
     >
       <ConfirmModal
         isOpen={isModalOpen}
-        setIsOpen={setIsModalOpen}
         handler={handleGoLogin}
+        cancelHandler={cancelLogin}
         title="Cadastro"
-        message="Você se cadastrou com sucesso!"
         confirmText="Ir para o Login"
-      />
+      >
+        <Text className="text-white text-base font-semibold">
+          Você se cadastrou com sucesso!
+        </Text>
+      </ConfirmModal>
       <AlertModal
         isOpen={isErrorModalOpen}
         setIsOpen={setIsErrorModalOpen}

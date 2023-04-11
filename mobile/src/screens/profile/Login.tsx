@@ -1,6 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import {
   ActivityIndicator,
+  ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
@@ -68,87 +69,91 @@ export default function Login() {
         Bem-vindo
       </Text>
       <View className="flex-1 justify-center">
-        <View className="flex gap-3">
-          <Text className="text-base text-white font-semibold">
-            Faça seu login
-          </Text>
-          <View>
-            <TextInput
-              selectionColor={colors.white}
-              placeholderTextColor={colors.zinc[500]}
-              placeholder="Email"
-              inputMode="email"
-              className={clsx(
-                "h-14 p-3 text-base text-white bg-zinc-900 border-zinc-800 border-2 rounded-md",
-                {
-                  ["focus:border-green-600 "]: !errors.email?.message,
-                  ["focus:border-red-600"]: errors.email?.message,
-                }
-              )}
-              onChangeText={(email) => handleInputChange("email", email)}
-            />
-            {errors.email?.message && (
-              <Text className="text-red-600 font-semibold text-base mt-2">
-                {errors.email.message}
-              </Text>
-            )}
-          </View>
-
-          <View>
-            <TextInput
-              selectionColor={colors.white}
-              placeholderTextColor={colors.zinc[500]}
-              placeholder="Senha"
-              inputMode="text"
-              secureTextEntry={true}
-              className={clsx(
-                "h-14 p-3 text-base text-white bg-zinc-900 border-zinc-800 border-2 rounded-md",
-                {
-                  ["focus:border-green-600"]: !errors.password?.message,
-                  ["focus:border-red-600"]: errors.password?.message,
-                }
-              )}
-              onChangeText={(password) =>
-                handleInputChange("password", password)
-              }
-            />
-            {errors.password?.message && (
-              <Text className="text-red-600 font-semibold text-base mt-2">
-                {errors.password.message}
-              </Text>
-            )}
-          </View>
-
-          <TouchableOpacity
-            activeOpacity={0.7}
-            onPress={handleSubmit(onSubmit)}
-            disabled={isLoading}
-            className="flex p-3 h-14 flex-row items-center justify-center bg-green-600 rounded-md"
-          >
-            {isLoading ? (
-              <ActivityIndicator size="large" color={colors.white} />
-            ) : (
-              <Text className="text-white text-base font-semibold">Entrar</Text>
-            )}
-          </TouchableOpacity>
-          {error && (
-            <View className="h-14 flex-row bg-red-600 justify-center items-center rounded-md">
-              <Feather name="alert-triangle" size={24} color={colors.white} />
-              <Text className="text-white text-base font-semibold pl-4">
-                {error}
-              </Text>
-            </View>
-          )}
-          <TouchableOpacity
-            activeOpacity={0.7}
-            onPress={() => navigate("register")}
-          >
-            <Text className="text-base font-semibold text-white">
-              Não possui uma conta?{" "}
-              <Text className="text-violet-400 underline">Cadastre-se</Text>
+        <ScrollView>
+          <View className="flex gap-3 mb-32">
+            <Text className="text-base text-white font-semibold">
+              Faça seu login
             </Text>
-          </TouchableOpacity>
-        </View>
+            <View>
+              <TextInput
+                selectionColor={colors.white}
+                placeholderTextColor={colors.zinc[500]}
+                placeholder="Email"
+                inputMode="email"
+                className={clsx(
+                  "h-14 p-3 text-base text-white bg-zinc-900 border-zinc-800 border-2 rounded-md",
+                  {
+                    ["focus:border-green-600 "]: !errors.email?.message,
+                    ["focus:border-red-600"]: errors.email?.message,
+                  }
+                )}
+                onChangeText={(email) => handleInputChange("email", email)}
+              />
+              {errors.email?.message && (
+                <Text className="text-red-600 font-semibold text-base mt-2">
+                  {errors.email.message}
+                </Text>
+              )}
+            </View>
+
+            <View>
+              <TextInput
+                selectionColor={colors.white}
+                placeholderTextColor={colors.zinc[500]}
+                placeholder="Senha"
+                inputMode="text"
+                secureTextEntry={true}
+                className={clsx(
+                  "h-14 p-3 text-base text-white bg-zinc-900 border-zinc-800 border-2 rounded-md",
+                  {
+                    ["focus:border-green-600"]: !errors.password?.message,
+                    ["focus:border-red-600"]: errors.password?.message,
+                  }
+                )}
+                onChangeText={(password) =>
+                  handleInputChange("password", password)
+                }
+              />
+              {errors.password?.message && (
+                <Text className="text-red-600 font-semibold text-base mt-2">
+                  {errors.password.message}
+                </Text>
+              )}
+            </View>
+
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={handleSubmit(onSubmit)}
+              disabled={isLoading}
+              className="flex p-3 h-14 flex-row items-center justify-center bg-green-600 rounded-md"
+            >
+              {isLoading ? (
+                <ActivityIndicator size="large" color={colors.white} />
+              ) : (
+                <Text className="text-white text-base font-semibold">
+                  Entrar
+                </Text>
+              )}
+            </TouchableOpacity>
+            {error && (
+              <View className="h-14 flex-row bg-red-600 justify-center items-center rounded-md">
+                <Feather name="alert-triangle" size={24} color={colors.white} />
+                <Text className="text-white text-base font-semibold pl-4">
+                  {error}
+                </Text>
+              </View>
+            )}
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={() => navigate("register")}
+            >
+              <Text className="text-base font-semibold text-white">
+                Não possui uma conta?{" "}
+                <Text className="text-violet-400 underline">Cadastre-se</Text>
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
       </View>
     </View>
   );

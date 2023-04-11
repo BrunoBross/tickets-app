@@ -21,13 +21,16 @@ export default function Profile() {
     <View className="flex-1 bg-background p-5">
       <ConfirmModal
         isOpen={isModalOpen}
-        setIsOpen={setIsModalOpen}
         title="Sair"
-        message="Tem certeza que deseja sair?"
         handler={Logout}
+        cancelHandler={() => setIsModalOpen(false)}
         confirmText="Confirmar"
         cancelText="Cancelar"
-      />
+      >
+        <Text className="text-white text-base font-semibold">
+          Tem certeza que deseja sair?
+        </Text>
+      </ConfirmModal>
       <View className="flex gap-5">
         <Text className="text-white text-4xl font-extrabold tracking-widest">
           Olá, {user?.name}

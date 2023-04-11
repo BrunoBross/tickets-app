@@ -6,7 +6,7 @@ interface AlertModalProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   title: string;
   message: string;
-  isError: boolean;
+  isError?: boolean;
   buttonText: string;
 }
 

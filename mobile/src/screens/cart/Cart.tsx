@@ -5,6 +5,7 @@ import colors from "tailwindcss/colors";
 import CartItem from "../../components/CartItem";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigation } from "@react-navigation/native";
+import { Feather } from "@expo/vector-icons";
 
 export default function Cart() {
   const { user } = useAuth();
@@ -28,9 +29,29 @@ export default function Cart() {
                   return <CartItem key={event.id} event={event} />;
                 })
               ) : (
-                <Text className="text-white text-base font-semibold">
-                  Seu carrinho está vazio
-                </Text>
+                <View>
+                  <View className="flex-row gap-2">
+                    <Text className="text-white text-base font-semibold">
+                      Seu carrinho está vazio
+                    </Text>
+                    <Feather name="frown" size={24} color={colors.white} />
+                  </View>
+
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    className="p-4 h-14 flex-row bg-violet-600 rounded-md mt-3"
+                    onPress={() => navigate("homePage")}
+                  >
+                    <MaterialCommunityIcons
+                      name="ticket-confirmation-outline"
+                      size={24}
+                      color={colors.white}
+                    />
+                    <Text className="text-white pl-2 text-base font-semibold">
+                      Comprar ingressos
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               )}
             </View>
           </ScrollView>

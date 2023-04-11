@@ -1,6 +1,5 @@
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import {
-  Image,
   RefreshControl,
   ScrollView,
   Text,
@@ -9,12 +8,12 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "../../contexts/AuthContext";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { EventInterface, TicketType } from "../../components/EventCard";
-import { api } from "../../lib/api";
 import formatEventDate from "../../utils/formatEventDate";
 import convertGenter from "../../utils/convertGender";
 import colors from "tailwindcss/colors";
+import useApi from "../../lib/api";
 
 interface TicketListInterface {
   id: string;
@@ -28,6 +27,7 @@ interface TicketListInterface {
 export default function MyTickets() {
   const { navigate, goBack } = useNavigation();
   const { user } = useAuth();
+  const api = useApi();
   const [myTicketList, setMyTicketList] = useState<TicketListInterface[] | []>(
     []
   );
@@ -46,9 +46,11 @@ export default function MyTickets() {
     setRefreshing(false);
   }, []);
 
-  useEffect(() => {
-    retrieveTickets();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      retrieveTickets();
+    }, [])
+  );
 
   return (
     <View className="flex-1 bg-background p-5 gap-5">
@@ -79,22 +81,27 @@ export default function MyTickets() {
                   <TouchableOpacity
                     key={ticket.id}
                     activeOpacity={0.7}
-                    className="mb-4 border-y-2 border-zinc-700 py-4"
+                    className="mb-8"
                     onPress={() => navigate("ticket", { ticketId: ticket.id })}
                   >
-                    <Text className="text-red-500  text-lg font-bold">
-                      NÃO UTILIZADO
-                    </Text>
-                    <Text className="text-white text-lg font-semibold">
-                      {ticket.event.name} - {ticket.event.attraction}
-                    </Text>
-                    <Text className="text-white text-lg font-semibold">
-                      {ticket.ticket_type.name} -{" "}
-                      {convertGenter(ticket.ticket_type.gender)}
-                    </Text>
-                    <Text className="text-white text-lg font-semibold">
-                      {formatEventDate(ticket.event.date)}
-                    </Text>
+                    <View className="flex-1 flex-row items-center">
+                      <View className="h-full w-1 bg-violet-600 mr-4"></View>
+                      <View>
+                        <Text className="text-violet-600  text-lg font-bold">
+                          NÃO UTILIZADO
+                        </Text>
+                        <Text className="text-white text-lg font-semibold">
+                          {ticket.event.name} - {ticket.event.attraction}
+                        </Text>
+                        <Text className="text-white text-lg font-semibold">
+                          {ticket.ticket_type.name} -{" "}
+                          {convertGenter(ticket.ticket_type.gender)}
+                        </Text>
+                        <Text className="text-white text-lg font-semibold">
+                          {formatEventDate(ticket.event.date)}
+                        </Text>
+                      </View>
+                    </View>
                   </TouchableOpacity>
                 );
               })

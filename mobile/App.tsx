@@ -13,6 +13,7 @@ import colors from "tailwindcss/colors";
 import CartProvider from "./src/contexts/CartContext";
 import { QueryClient, QueryClientProvider } from "react-query";
 import React from "react";
+import ConnectionProvider from "./src/contexts/ConnectionContext";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -33,19 +34,21 @@ export default function App() {
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <CartProvider>
-          <View className="w-full h-full items-center justify-between bg-background">
-            <Routes />
-            <StatusBar
-              barStyle="default"
-              backgroundColor="transparent"
-              translucent
-            />
-          </View>
-        </CartProvider>
-      </AuthProvider>
-    </QueryClientProvider>
+    <ConnectionProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <CartProvider>
+            <View className="w-full h-full items-center justify-between bg-background">
+              <Routes />
+              <StatusBar
+                barStyle="light-content"
+                backgroundColor="transparent"
+                translucent
+              />
+            </View>
+          </CartProvider>
+        </AuthProvider>
+      </QueryClientProvider>
+    </ConnectionProvider>
   );
 }

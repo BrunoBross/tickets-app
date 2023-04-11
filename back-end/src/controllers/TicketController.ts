@@ -84,6 +84,32 @@ export async function TicketController(app: FastifyInstance) {
       });
   });
 
+  app.patch("/ticket/transfer", async (request, response) => {
+    const ticketBody = z.object({
+      ticketId: z.string(),
+      newUserId: z.string(),
+    });
+
+    const { ticketId, newUserId } = ticketBody.parse(request.body);
+
+    await prisma.ticket
+      .update({
+        where: {
+          id: ticketId,
+        },
+        data: {
+          user_id: newUserId,
+        },
+      })
+      .then(() => {
+        response.status(201);
+      })
+      .catch((error) => {
+        console.log(error);
+        response.status(500);
+      });
+  });
+
   // create ticket
   app.post("/ticket", async (request, response) => {
     const ticketBody = z.object({

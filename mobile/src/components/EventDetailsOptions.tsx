@@ -83,12 +83,14 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
     <View className="flex pt-2">
       <ConfirmModal
         isOpen={isModalOpen}
-        setIsOpen={setIsModalOpen}
         title="Erro"
-        message="Você precisa estar logado"
         confirmText="Confirmar"
         handler={() => setIsModalOpen(false)}
-      />
+      >
+        <Text className="text-white text-base font-semibold">
+          Você precisa estar logado!
+        </Text>
+      </ConfirmModal>
       <View className="flex flex-row">
         <TouchableOpacity
           activeOpacity={0.9}

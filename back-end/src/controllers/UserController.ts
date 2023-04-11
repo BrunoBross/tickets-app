@@ -45,6 +45,35 @@ export async function UserController(app: FastifyInstance) {
       });
   });
 
+  // find user by cpf
+  app.get("/user/findByCpf/:userCpf", async (request, response) => {
+    const userParams = z.object({
+      userCpf: z.string(),
+    });
+    const { userCpf } = userParams.parse(request.params);
+
+    const formatedCpf = userCpf.replace(/\./g, "").replace("-", "");
+
+    await prisma.user
+      .findFirst({
+        where: {
+          cpf: {
+            equals: formatedCpf,
+          },
+        },
+      })
+      .then((user) => {
+        if (!user) {
+          response.code(204).send({ error: "User does not exists" });
+        }
+        response.send(user);
+      })
+      .catch((error) => {
+        console.log(error);
+        response.status(500);
+      });
+  });
+
   // create user
   app.post("/user", async (request, response) => {
     const userBody = z.object({

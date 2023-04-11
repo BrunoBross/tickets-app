@@ -15,7 +15,7 @@ export default function Help() {
           color={colors.zinc[400]}
         />
       </TouchableOpacity>
-      <Text className="text-white text-base font-semibold">Obter Ajuda</Text>
+      <Text className="text-white text-base font-semibold">Te vira</Text>
     </View>
   );
 }
