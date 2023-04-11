@@ -99,21 +99,21 @@ export async function UserController(app: FastifyInstance) {
     const isValidEmail = verifyEmail(email);
 
     if (!isValidCpf) {
-      return response.code(400).send({ error: "Invalid CPF" });
+      return response.code(400).send({ error: "CPF inválido" });
     }
 
     if (!isValidCep) {
-      return response.code(400).send({ error: "Invalid CEP" });
+      return response.code(400).send({ error: "CEP inválido" });
     }
 
     if (!isValidEmail) {
-      return response.code(400).send({ error: "Invalid email" });
+      return response.code(400).send({ error: "E-mail inválido" });
     }
 
     const existsCpf = await prisma.user.findFirst({
       where: {
         cpf: {
-          equals: cpf,
+          equals: formatedCpf,
         },
       },
     });
@@ -127,11 +127,15 @@ export async function UserController(app: FastifyInstance) {
     });
 
     if (existsCpf) {
-      return response.code(409).send({ error: "Already exists CPF" });
+      return response
+        .code(409)
+        .send({ error: "Este CPF já está sendo utilizado" });
     }
 
     if (existsEmail) {
-      return response.code(409).send({ error: "Already exists email" });
+      return response
+        .code(409)
+        .send({ error: "Este e-mail já está sendo utilizado" });
     }
 
     await prisma.user

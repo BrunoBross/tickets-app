@@ -131,20 +131,28 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
         <View className="flex gap-2 pt-2">
           {event.TicketType.length > 0 ? (
             event.TicketType?.map((ticketType: TicketType) => {
+              const tax = ticketType.price * (15 / 100);
+              const ticketTaxPrice = ticketType.price + tax;
+
               return (
                 <View
                   key={ticketType.id}
                   className="flex p-3 bg-zinc-800 rounded-md gap-1"
                 >
-                  <View className="flex-row justify-between ">
+                  <View className="flex-row justify-between">
                     <Text className="text-white font-semibold text-lg">
                       {ticketType.name}
                       {" • "}
                       {convertGenter(ticketType.gender)}
                     </Text>
-                    <Text className="text-white font-semibold text-lg">
-                      R${ticketType.price}
-                    </Text>
+                    <View className="items-end">
+                      <Text className="text-white font-semibold text-lg">
+                        R$ {ticketTaxPrice}
+                      </Text>
+                      <Text className="text-white font-semibold text-xs">
+                        R$ {ticketType.price} + R$ {tax} de taxa
+                      </Text>
+                    </View>
                   </View>
                   <View className="flex-row justify-between">
                     <Text className="text-white font-semibold text-base">

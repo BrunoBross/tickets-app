@@ -4,6 +4,6 @@ export const verifyCpf = (cpf: string) => {
   return cpfValidator.isValid(cpf);
 };
 
-export const formatCpf = (cpf: string) => {
+export const formatRemoveCpf = (cpf: string) => {
   return cpf.replace(/\./g, "").replace("-", "");
 };

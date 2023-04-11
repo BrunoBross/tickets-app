@@ -1,13 +1,6 @@
-import {
-  ActivityIndicator,
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, Text, TouchableOpacity } from "react-native";
 import formatEventDate from "../utils/formatEventDate";
 import { useNavigation } from "@react-navigation/native";
-import colors from "tailwindcss/colors";
 
 export interface TicketType {
   id: string;

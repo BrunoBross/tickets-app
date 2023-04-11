@@ -120,6 +120,7 @@ export default function RegisterProvider(props: RegisterProviderProps) {
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [page, setPage] = useReducer(reducer, initialValues);
   const [readyList, setReadyList] = useState<RegisterPageEnum[]>([]);
+  const [error, setError] = useState("");
 
   const { handleSubmit, register, getValues, setValue, watch } =
     useForm<RegisterFormFields>();
@@ -153,10 +154,11 @@ export default function RegisterProvider(props: RegisterProviderProps) {
       })
       .then(() => {
         setIsModalOpen(true);
+        setError("");
       })
       .catch((error) => {
+        setError(error.response.data.error);
         setIsErrorModalOpen(true);
-        console.log(error.response.data.error);
       });
   };
 
@@ -271,7 +273,7 @@ export default function RegisterProvider(props: RegisterProviderProps) {
         setIsOpen={setIsErrorModalOpen}
         isError
         title="Erro"
-        message="Ocorreu um erro de conexão com o servidor. Por favor, tente novamente mais tarde."
+        message={error}
         buttonText="Fechar"
       />
       {children}

@@ -44,7 +44,7 @@ export default function Search() {
             </Text>
           ) : (
             <Text className="text-white font-semibold text-base">
-              Procure por eventos pelo nome
+              Procure eventos pelo nome
             </Text>
           )}
         </View>

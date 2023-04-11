@@ -11,9 +11,10 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import ConfirmModal from "../../components/modals/ConfirmModal";
 import MaskInput, { Masks } from "react-native-mask-input";
 import clsx from "clsx";
-import { verifyCpf, formatCpf } from "../../components/register/utils";
+import { verifyCpf, formatRemoveCpf } from "../../components/register/utils";
 import { UserInterface } from "../../contexts/AuthContext";
 import useApi from "../../lib/api";
+import formatCpf from "../../utils/formatCpf";
 
 interface Params {
   ticketId: string;
@@ -64,7 +65,7 @@ export default function Ticket() {
       return setTransferError("CPF inválido");
     }
 
-    if (formatCpf(cpfTransfer) === user?.cpf) {
+    if (formatRemoveCpf(cpfTransfer) === user?.cpf) {
       return setTransferError("Você não pode transferir para si mesmo");
     }
 
@@ -186,7 +187,7 @@ export default function Ticket() {
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.7}
-            className="flex-1 h-14 flex-row items-center justify-center border-2 border-violet-600 rounded-md"
+            className="flex-1 h-12 flex-row items-center justify-center border-[1px] border-violet-600 rounded-md"
             onPress={handleTicketTransfer}
           >
             <MaterialCommunityIcons
@@ -201,7 +202,7 @@ export default function Ticket() {
         </View>
         <ScrollView>
           <View className="flex-1 items-center">
-            <View className="border-[3px] border-violet-600">
+            <View className="border-2 border-violet-600">
               <QRCode value={ticketId} size={250} />
             </View>
             <Text className="text-white mt-2 text-4xl font-semibold">
