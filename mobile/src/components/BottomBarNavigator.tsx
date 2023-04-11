@@ -4,6 +4,7 @@ import colors from "tailwindcss/colors";
 import { useNavigation } from "@react-navigation/native";
 import { useCart } from "../contexts/CartContext";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import formatPrice from "../utils/formatPrice";
 
 export default function BottomBarNavigator({
   state,
@@ -20,17 +21,17 @@ export default function BottomBarNavigator({
       {showCartButton && (
         <TouchableOpacity
           activeOpacity={0.7}
-          className="w-full h-12 items-center absolute bottom-20"
+          className="w-full h-14 items-center absolute bottom-16"
           onPress={() => navigate("cartPage")}
         >
-          <View className="w-[90%] h-full bg-green-600 rounded-md flex-row items-center justify-between px-4">
-            <Text className="text-white w-14 font-semibold text-base">
-              R$ {cartTotalPrice}
+          <View className="flex-1 w-[90%] h-full bg-green-600 rounded-md flex-row items-center justify-between px-4">
+            <Text className=" text-white font-semibold text-base">
+              {formatPrice(cartTotalPrice)}
             </Text>
 
-            <View className="flex-row items-center gap-x-2 pr-4">
+            <View className="flex-1 flex-row items-center justify-center gap-x-2 ">
               <Text className="text-white font-semibold text-base">
-                Finalizar compra
+                Ir para o carrinho
               </Text>
               <Feather name="arrow-right" size={24} color={colors.white} />
             </View>
@@ -42,7 +43,7 @@ export default function BottomBarNavigator({
           </View>
         </TouchableOpacity>
       )}
-      <View className="flex-2 w-full px-5 pb-5 flex-row justify-between">
+      <View className="flex-2 w-full px-5 flex-row justify-between">
         {state.routes.map((route: any, index: any) => {
           const isFocused = state.index === index;
           const { options } = descriptors[route.key];

@@ -8,8 +8,12 @@ import {
   View,
 } from "react-native";
 import colors from "tailwindcss/colors";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { useEffect, useState } from "react";
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
+import { useCallback, useEffect, useState } from "react";
 import { EventInterface } from "../../components/EventCard";
 import formatDate from "../../utils/formatEventDate";
 import { Ionicons } from "@expo/vector-icons";
@@ -33,9 +37,11 @@ export default function EventDetails() {
     setEvent(response.data);
   };
 
-  useEffect(() => {
-    retrieveEventById();
-  });
+  useFocusEffect(
+    useCallback(() => {
+      retrieveEventById();
+    }, [])
+  );
 
   if (!event) {
     return (

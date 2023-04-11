@@ -73,10 +73,13 @@ export async function TicketTypeController(app: FastifyInstance) {
 
     const { price, name, batch, gender } = ticketTypeBody.parse(request.body);
 
+    const tax = price * (15 / 100);
+
     await prisma.ticketType
       .create({
         data: {
           price,
+          tax,
           name,
           batch,
           gender,

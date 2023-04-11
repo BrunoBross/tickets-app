@@ -81,27 +81,22 @@ export default function MyTickets() {
                   <TouchableOpacity
                     key={ticket.id}
                     activeOpacity={0.7}
-                    className="mb-8"
+                    className="mb-4 bg-zinc-900 border-l-[6px] border-violet-600 rounded-md p-4"
                     onPress={() => navigate("ticket", { ticketId: ticket.id })}
                   >
-                    <View className="flex-1 flex-row items-center">
-                      <View className="h-full w-1 bg-violet-600 mr-4"></View>
-                      <View>
-                        <Text className="text-violet-600  text-lg font-bold">
-                          NÃO UTILIZADO
-                        </Text>
-                        <Text className="text-white text-lg font-semibold">
-                          {ticket.event.name} - {ticket.event.attraction}
-                        </Text>
-                        <Text className="text-white text-lg font-semibold">
-                          {ticket.ticket_type.name} -{" "}
-                          {convertGenter(ticket.ticket_type.gender)}
-                        </Text>
-                        <Text className="text-white text-lg font-semibold">
-                          {formatEventDate(ticket.event.date)}
-                        </Text>
-                      </View>
-                    </View>
+                    <Text className="text-violet-600  text-lg font-bold">
+                      NÃO UTILIZADO
+                    </Text>
+                    <Text className="text-white text-lg font-semibold">
+                      {ticket.event.name} - {ticket.event.attraction}
+                    </Text>
+                    <Text className="text-white text-lg font-semibold">
+                      {ticket.ticket_type.name} -{" "}
+                      {convertGenter(ticket.ticket_type.gender)}
+                    </Text>
+                    <Text className="text-white text-lg font-semibold">
+                      {formatEventDate(ticket.event.date)}
+                    </Text>
                   </TouchableOpacity>
                 );
               })

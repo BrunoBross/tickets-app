@@ -1,14 +1,12 @@
 import clsx from "clsx";
 import { useReducer, useState } from "react";
-import { Alert, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { TicketCartInterface, useCart } from "../contexts/CartContext";
-import convertGenter, { GenderEnum } from "../utils/convertGender";
 import { EventInterface, TicketType } from "./EventCard";
 import uuid from "react-native-uuid";
 import { useAuth } from "../contexts/AuthContext";
-import { Feather } from "@expo/vector-icons";
-import colors from "tailwindcss/colors";
 import ConfirmModal from "./modals/ConfirmModal";
+import EventTicket from "./EventTicket";
 
 interface EventDetailsOptions {
   event: EventInterface;
@@ -130,62 +128,21 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
       {state.tickets && (
         <View className="flex gap-2 pt-2">
           {event.TicketType.length > 0 ? (
-            event.TicketType?.map((ticketType: TicketType) => {
-              const tax = ticketType.price * (15 / 100);
-              const ticketTaxPrice = ticketType.price + tax;
-
-              return (
-                <View
-                  key={ticketType.id}
-                  className="flex p-3 bg-zinc-800 rounded-md gap-1"
-                >
-                  <View className="flex-row justify-between">
-                    <Text className="text-white font-semibold text-lg">
-                      {ticketType.name}
-                      {" • "}
-                      {convertGenter(ticketType.gender)}
-                    </Text>
-                    <View className="items-end">
-                      <Text className="text-white font-semibold text-lg">
-                        R$ {ticketTaxPrice}
-                      </Text>
-                      <Text className="text-white font-semibold text-xs">
-                        R$ {ticketType.price} + R$ {tax} de taxa
-                      </Text>
-                    </View>
-                  </View>
-                  <View className="flex-row justify-between">
-                    <Text className="text-white font-semibold text-base">
-                      {ticketType.batch}º Lote
-                    </Text>
-                    <View className="flex-row items-center">
-                      <TouchableOpacity
-                        activeOpacity={0.7}
-                        className="bg-violet-600 px-2 h-10 justify-center rounded-l-md"
-                        onPress={() =>
-                          removeLastTicketCartByTicketType(ticketType)
-                        }
-                      >
-                        <Feather name="minus" size={20} color={colors.white} />
-                      </TouchableOpacity>
-                      <View className="border-y-2 border-violet-600 h-10 w-10 items-center justify-center">
-                        <Text className="text-white font-semibold text-xl">
-                          {getTicketCartAmount(ticketType)}
-                        </Text>
-                      </View>
-
-                      <TouchableOpacity
-                        activeOpacity={0.7}
-                        className="bg-violet-600 px-2 h-10 justify-center rounded-r-md"
-                        onPress={() => handleAddTicketToCart(ticketType)}
-                      >
-                        <Feather name="plus" size={20} color={colors.white} />
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                </View>
-              );
-            })
+            event.TicketType?.map((ticketType: TicketType) => (
+              <View
+                key={ticketType.id}
+                className="flex p-3 bg-zinc-800 rounded-md gap-1"
+              >
+                <EventTicket
+                  ticketType={ticketType}
+                  getTicketCartAmount={getTicketCartAmount}
+                  handleAddTicketToCart={handleAddTicketToCart}
+                  removeLastTicketCartByTicketType={
+                    removeLastTicketCartByTicketType
+                  }
+                />
+              </View>
+            ))
           ) : (
             <Text className="text-white font-semibold text-base">
               Nenhum tipo de ingresso a venda!

@@ -4,7 +4,7 @@ import {
   ReactNode,
   SetStateAction,
   useContext,
-  useEffect,
+  useMemo,
   useState,
 } from "react";
 import { TicketType } from "../components/EventCard";
@@ -25,6 +25,7 @@ export interface TicketCartInterface {
 interface CartContextInterface {
   cartList: TicketCartInterface[] | [];
   cartTotalPrice: number;
+  cartTotalTax: number;
   setCartList: Dispatch<SetStateAction<TicketCartInterface[] | []>>;
   addCartList: (ticket: TicketCartInterface) => void;
   clearCartList: () => void;
@@ -40,17 +41,17 @@ export default function CartProvider(props: CartProviderProps) {
   const api = useApi();
   const [isFinishModalOpen, setIsFinishModalOpen] = useState(false);
   const [cartList, setCartList] = useState<TicketCartInterface[]>([]);
-  const [cartTotalPrice, setCartTotalPrice] = useState(0);
 
-  useEffect(() => {
-    const newCartTotalPrice = cartList.reduce(
-      (total: any, item: TicketCartInterface) => {
-        return total + item.ticketType.price;
-      },
-      0
-    );
+  const cartTotalPrice = useMemo(() => {
+    return cartList.reduce((total, ticket) => {
+      return total + ticket.ticketType.price + ticket.ticketType.tax;
+    }, 0);
+  }, [cartList]);
 
-    setCartTotalPrice(newCartTotalPrice);
+  const cartTotalTax = useMemo(() => {
+    return cartList.reduce((total, ticket) => {
+      return total + ticket.ticketType.tax;
+    }, 0);
   }, [cartList]);
 
   const addCartList = (ticket: TicketCartInterface) => {
@@ -91,6 +92,7 @@ export default function CartProvider(props: CartProviderProps) {
       value={{
         cartList,
         cartTotalPrice,
+        cartTotalTax,
         setCartList,
         addCartList,
         clearCartList,

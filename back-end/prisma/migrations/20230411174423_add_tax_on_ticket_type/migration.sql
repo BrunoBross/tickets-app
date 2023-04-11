@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "tickets_type" ADD COLUMN     "tax" DOUBLE PRECISION NOT NULL DEFAULT 0;

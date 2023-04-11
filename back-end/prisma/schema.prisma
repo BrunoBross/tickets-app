@@ -60,6 +60,7 @@ model Event {
 model TicketType {
   id     String @id @default(uuid())
   price  Float
+  tax    Float
   name   String
   batch  Int
   gender Gender

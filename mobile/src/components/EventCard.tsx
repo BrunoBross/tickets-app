@@ -5,6 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 export interface TicketType {
   id: string;
   price: number;
+  tax: number;
   name: string;
   batch: number;
   gender: string;
