@@ -1,5 +1,6 @@
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import {
+  ActivityIndicator,
   RefreshControl,
   ScrollView,
   Text,
@@ -28,9 +29,9 @@ export default function MyTickets() {
   const { navigate, goBack } = useNavigation();
   const { user } = useAuth();
   const api = useApi();
-  const [myTicketList, setMyTicketList] = useState<TicketListInterface[] | []>(
-    []
-  );
+  const [myTicketList, setMyTicketList] = useState<
+    TicketListInterface[] | null
+  >(null);
   const [refreshing, setRefreshing] = useState(false);
 
   const retrieveTickets = async () => {
@@ -51,6 +52,23 @@ export default function MyTickets() {
       retrieveTickets();
     }, [])
   );
+
+  if (!myTicketList) {
+    return (
+      <View className="flex-1 bg-background p-5 gap-5">
+        <TouchableOpacity activeOpacity={0.7} onPress={goBack}>
+          <Ionicons
+            name="arrow-back-outline"
+            size={40}
+            color={colors.zinc[400]}
+          />
+        </TouchableOpacity>
+        <View className="flex-1 bg-background justify-center items-center">
+          <ActivityIndicator size="large" color={colors.violet[600]} />
+        </View>
+      </View>
+    );
+  }
 
   return (
     <View className="flex-1 bg-background p-5 gap-5">

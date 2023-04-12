@@ -1,13 +1,5 @@
 import clsx from "clsx";
-import {
-  Dimensions,
-  Platform,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import Modal from "react-native-modal";
-import ExtraDimensions from "react-native-extra-dimensions-android";
+import { Modal, Text, TouchableOpacity, View } from "react-native";
 
 interface AlertModalProps {
   isOpen: boolean;
@@ -18,32 +10,14 @@ interface AlertModalProps {
   buttonText: string;
 }
 
-const deviceWidth = Dimensions.get("window").width;
-const deviceHeight =
-  Platform.OS === "ios"
-    ? Dimensions.get("window").height
-    : ExtraDimensions.get("REAL_WINDOW_HEIGHT");
-
 export default function AlertModal(props: AlertModalProps) {
   const { isOpen, setIsOpen, title, message, buttonText, isError } = props;
 
   return (
     <View>
-      <Modal
-        isVisible={isOpen}
-        backdropOpacity={0.9}
-        style={{ margin: 0 }}
-        statusBarTranslucent={true}
-        animationInTiming={300}
-        animationOutTiming={300}
-        backdropTransitionInTiming={300}
-        backdropTransitionOutTiming={300}
-        onBackdropPress={() => setIsOpen(false)}
-        deviceWidth={deviceWidth}
-        deviceHeight={deviceHeight}
-      >
-        <View className="flex-1 justify-center items-center">
-          <View className="p-3 gap-y-3 w-[90%] bg-zinc-700 rounded-md">
+      <Modal visible={isOpen} presentationStyle="overFullScreen" transparent>
+        <View className="flex-1 justify-center items-center bg-transparent/90">
+          <View className="p-3 gap-y-3 w-[90%] bg-zinc-900 rounded-md">
             <Text
               className={clsx(" text-3xl font-semibold", {
                 ["text-white"]: !isError,
