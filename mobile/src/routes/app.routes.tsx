@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 const Tab = createBottomTabNavigator();
 
 import { CartPage, HomePage, ProfilePage, SearchPage } from "./custom.routes";
-import BottomBarNavigator from "../components/BottomBarNavigator";
+import BottomBarNavigator from "../components/bottomBar/BottomBarNavigator";
 import { useEffect, useState } from "react";
 import { useIsFocused } from "@react-navigation/native";
 import { Keyboard, KeyboardAvoidingView, Platform } from "react-native";

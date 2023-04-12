@@ -13,11 +13,11 @@ model User {
   surname    String
   email      String   @unique
   cpf        String   @unique
-  birth      DateTime
-  address    String
-  zip_code   String
   password   String
+  address    String
   created_at DateTime @default(now())
+  zip_code   String
+  birth      DateTime
   Ticket     Ticket[]
 
   @@map("users")
@@ -28,64 +28,56 @@ model Organizer {
   name     String
   surname  String
   email    String
-  cpf      String? // não é obrigatorio pois é validado no controlador
-  cnpj     String? // se pelo menos um foi inserido
+  cpf      String?
+  cnpj     String?
   password String
-
-  Event Event[]
+  Event    Event[]
 
   @@map("organizers")
 }
 
 model Event {
-  id            String   @id @default(uuid())
+  id            String       @id @default(uuid())
   name          String
   location      String
-  location_link String
   attraction    String
   description   String
   date          DateTime
   batch         Int
+  organizer_id  String
   file_name     String
-
-  organizer    Organizer @relation(fields: [organizer_id], references: [id])
-  organizer_id String
-
-  TicketType TicketType[]
-  Ticket     Ticket[]
+  location_link String
+  organizer     Organizer    @relation(fields: [organizer_id], references: [id])
+  Ticket        Ticket[]
+  TicketType    TicketType[]
 
   @@map("events")
 }
 
 model TicketType {
-  id     String @id @default(uuid())
-  price  Float
-  tax    Float
-  name   String
-  batch  Int
-  gender Gender
-
-  event    Event  @relation(fields: [event_id], references: [id])
+  id       String   @id @default(uuid())
+  price    Float
+  name     String
+  batch    Int
+  gender   Gender
   event_id String
-
-  Ticket Ticket[]
+  tax      Float
+  Ticket   Ticket[]
+  event    Event    @relation(fields: [event_id], references: [id])
 
   @@map("tickets_type")
 }
 
 model Ticket {
-  id            String   @id @default(uuid())
-  purchase_date DateTime @default(now())
-  used          Boolean  @default(false)
-
-  user    User   @relation(fields: [user_id], references: [id])
-  user_id String
-
-  event    Event  @relation(fields: [event_id], references: [id])
-  event_id String
-
-  ticket_type    TicketType @relation(fields: [ticket_type_id], references: [id])
+  id             String     @id @default(uuid())
+  purchase_date  DateTime   @default(now())
+  user_id        String
+  event_id       String
   ticket_type_id String
+  used           Boolean    @default(false)
+  event          Event      @relation(fields: [event_id], references: [id])
+  ticket_type    TicketType @relation(fields: [ticket_type_id], references: [id])
+  user           User       @relation(fields: [user_id], references: [id])
 
   @@map("tickets")
 }

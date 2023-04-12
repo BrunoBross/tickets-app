@@ -61,7 +61,7 @@ export default function EventDetails() {
   }
 
   return (
-    <View className="flex-1 bg-background p-5 gap-5">
+    <View className="flex-1 bg-background p-5 pb-0 gap-5">
       <View className="justify-center h-10">
         <TouchableOpacity activeOpacity={0.7} onPress={goBack}>
           <Ionicons

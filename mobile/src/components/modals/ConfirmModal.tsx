@@ -26,7 +26,7 @@ export default function ConfirmModal(props: ConfirmModalProps) {
   } = props;
 
   return (
-    <Modal visible={isOpen} transparent={true}>
+    <Modal visible={isOpen} presentationStyle="overFullScreen" transparent>
       <View className="flex-1 justify-center items-center bg-transparent/90">
         <View className="p-3 gap-y-3 w-[90%] bg-zinc-900 rounded-md">
           <Text className="text-white text-3xl font-semibold">{title}</Text>

@@ -18,7 +18,7 @@ export default function Search() {
   };
 
   return (
-    <View className="flex-1 bg-background p-5 gap-5">
+    <View className="flex-1 bg-background p-5 pb-0 gap-5">
       <View className="justify-center h-10">
         <Text className="text-white text-4xl font-extrabold tracking-widest">
           Procurar
