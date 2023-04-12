@@ -13,7 +13,7 @@ export default function Cart() {
 
   return (
     <View className="flex-1 bg-background p-5 pb-0 gap-5">
-      <View className="justify-center h-10">
+      <View className="justify-center h-14">
         <Text className="text-white text-4xl font-extrabold tracking-widest">
           Carrinho
         </Text>
@@ -24,13 +24,13 @@ export default function Cart() {
           <CartList cartList={cartList} />
         </View>
       ) : (
-        <View className="flex flex-1">
+        <View className="flex flex-1 gap-y-2">
           <Text className="text-white text-base font-semibold">
             Você precisa estar logado!
           </Text>
           <TouchableOpacity
             activeOpacity={0.7}
-            className="p-4 h-14 flex-row bg-violet-600 rounded-md mt-3"
+            className="p-4 h-14 flex-row bg-violet-600 rounded-md"
             onPress={() => navigate("profilePage")}
           >
             <MaterialCommunityIcons

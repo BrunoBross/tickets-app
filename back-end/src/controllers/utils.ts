@@ -22,7 +22,10 @@ export const verifyCep = async (cep: string) => {
 };
 
 export const verifyEmail = (email: string) => {
-  return emailRegex({ exact: true }).test(email);
+  const isValid = email.match(
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  );
+  return isValid;
 };
 
 export enum Gender {

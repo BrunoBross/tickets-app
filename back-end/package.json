@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsx watch src/index.ts",
+    "dev": "tsx watch src/index.ts",
+    "build": "tsup src",
+    "start": "node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -32,11 +34,12 @@
     "cpf-cnpj-validator": "^1.0.3",
     "dayjs": "^1.11.7",
     "dotenv": "^16.0.3",
-    "email-regex": "^5.0.0",
     "fastify": "^4.14.1",
     "fastify-multer": "^2.0.3",
     "fastify-plugin": "^4.5.0",
+    "fs": "^0.0.1-security",
     "jsonwebtoken": "^9.0.0",
+    "tsup": "^6.7.0",
     "tsx": "^3.12.3",
     "zod": "^3.21.4"
   }

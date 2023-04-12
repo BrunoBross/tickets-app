@@ -49,13 +49,12 @@ export default function EventDetails() {
       }
     )
       .then((response: any) => {
-        console.log(response);
-        if (response.vibrant === "#000000") {
+        if (response.vibrant === "#000000" || response.vibrant === "#ffffff") {
           return setAverageColor("#7C3AED");
         }
         setAverageColor(response.vibrant);
       })
-      .catch((error) => {
+      .catch(() => {
         setAverageColor("#7C3AED");
       });
   };

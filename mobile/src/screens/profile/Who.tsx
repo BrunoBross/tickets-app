@@ -8,16 +8,20 @@ export default function Who() {
 
   return (
     <View className="flex-1 bg-background p-5 gap-5">
-      <TouchableOpacity activeOpacity={0.7} onPress={goBack}>
-        <Ionicons
-          name="arrow-back-outline"
-          size={40}
-          color={colors.zinc[400]}
-        />
-      </TouchableOpacity>
-      <Text className="text-white text-base font-semibold">
-        Somos uma empresa séria
-      </Text>
+      <View className="justify-center h-14">
+        <TouchableOpacity activeOpacity={0.7} onPress={goBack}>
+          <Ionicons
+            name="arrow-back-outline"
+            size={40}
+            color={colors.zinc[400]}
+          />
+        </TouchableOpacity>
+      </View>
+      <View>
+        <Text className="text-white text-base font-semibold">
+          Somos uma empresa séria
+        </Text>
+      </View>
     </View>
   );
 }

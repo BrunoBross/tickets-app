@@ -2,10 +2,11 @@ import Fastify, { FastifyInstance } from "fastify";
 import { Routes } from "./routes";
 import Cors from "@fastify/cors";
 import Jwt from "@fastify/jwt";
-import { multer, multerUpload } from "./lib/multer";
+import { multer } from "./lib/multer";
 require("dotenv").config();
 
 const path = require("path");
+const fs = require("fs");
 const app: FastifyInstance = Fastify();
 const PORT = parseInt(process.env.PORT, 10) || 3000;
 
@@ -23,10 +24,16 @@ declare module "fastify" {
   }
 }
 
+const directory = path.join(__dirname, "/lib/uploads");
+
+if (!fs.existsSync(directory)) {
+  fs.mkdirSync(directory, { recursive: true });
+}
+
 app.register(multer.contentParser);
 
 app.register(require("@fastify/static"), {
-  root: path.join(__dirname, "/lib/uploads"),
+  root: directory,
   prefix: "/uploads/logo/",
 });
 

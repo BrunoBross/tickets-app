@@ -19,7 +19,7 @@ export default function Search() {
 
   return (
     <View className="flex-1 bg-background p-5 pb-0 gap-5">
-      <View className="justify-center h-10">
+      <View className="justify-center h-14">
         <Text className="text-white text-4xl font-extrabold tracking-widest">
           Procurar
         </Text>
@@ -30,8 +30,7 @@ export default function Search() {
           placeholder="Nome do evento"
           icon={<Feather name="search" size={28} color={colors.zinc[500]} />}
         />
-
-        <View className="pt-2">
+        <View className="mt-3">
           {eventList && eventList.length > 0 ? (
             <ScrollView className="pt-1">
               {eventList.map((event) => {
