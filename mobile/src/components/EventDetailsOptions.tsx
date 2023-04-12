@@ -10,6 +10,7 @@ import EventTicket from "./EventTicket";
 
 interface EventDetailsOptions {
   event: EventInterface;
+  averageColor: string;
 }
 
 const reducer = (state: any, action: any) => {
@@ -35,9 +36,9 @@ const initialValues = {
 };
 
 export default function EventDetailsOptions(props: EventDetailsOptions) {
+  const { event, averageColor } = props;
   const { user } = useAuth();
   const [state, dispatch] = useReducer(reducer, initialValues);
-  const { event } = props;
   const { addCartList, cartList, setCartList } = useCart();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -91,10 +92,11 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
       </ConfirmModal>
       <View className="flex flex-row">
         <TouchableOpacity
-          activeOpacity={0.9}
+          activeOpacity={1}
+          style={{ backgroundColor: averageColor }}
           className={clsx("flex-1 p-3 h-14 items-center rounded-tl-md", {
-            ["bg-violet-600 border-b-2 border-white"]: state.tickets === true,
-            ["bg-violet-950"]: state.tickets === false,
+            ["border-b-2 border-white"]: state.tickets === true,
+            ["opacity-50"]: state.tickets === false,
           })}
           onPress={() => dispatch({ type: "tickets" })}
         >
@@ -108,10 +110,11 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          activeOpacity={0.9}
+          activeOpacity={1}
+          style={{ backgroundColor: averageColor }}
           className={clsx("flex-1 p-3 h-14 items-center rounded-tr-md", {
-            ["bg-violet-600 border-b-2 border-white"]: state.info === true,
-            ["bg-violet-950"]: state.info === false,
+            ["border-b-2 border-white"]: state.info === true,
+            ["opacity-50"]: state.info === false,
           })}
           onPress={() => dispatch({ type: "info" })}
         >
@@ -140,6 +143,7 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
                   removeLastTicketCartByTicketType={
                     removeLastTicketCartByTicketType
                   }
+                  averageColor={averageColor}
                 />
               </View>
             ))

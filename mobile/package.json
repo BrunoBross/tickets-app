@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
+    "dev": "expo start --no-dev",
     "production": "expo start --dev-client",
     "android": "expo run:android",
     "ios": "expo run:ios",
@@ -29,6 +30,7 @@
     "react-native": "0.71.6",
     "react-native-dotenv": "^3.4.8",
     "react-native-extra-dimensions-android": "^1.2.5",
+    "react-native-image-colors": "^1.5.2",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-mask-input": "^1.2.3",
     "react-native-modal": "^13.0.1",

@@ -13,13 +13,15 @@ import {
   useNavigation,
   useRoute,
 } from "@react-navigation/native";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { EventInterface } from "../../components/EventCard";
 import formatDate from "../../utils/formatEventDate";
 import { Ionicons } from "@expo/vector-icons";
 import EventDetailsOptions from "../../components/EventDetailsOptions";
 import { Feather } from "@expo/vector-icons";
 import useApi from "../../lib/api";
+import ImageColors from "react-native-image-colors";
+import { useConnection } from "../../contexts/ConnectionContext";
 
 interface Params {
   eventId: string;
@@ -28,13 +30,34 @@ interface Params {
 export default function EventDetails() {
   const { goBack } = useNavigation();
   const api = useApi();
+  const { serverIp } = useConnection();
   const route = useRoute();
   const { eventId } = route.params as Params;
   const [event, setEvent] = useState<EventInterface | null>(null);
+  const [averageColor, setAverageColor] = useState<string | null>(null);
 
   const retrieveEventById = async () => {
     const response = await api.get(`/event/${eventId}`);
     setEvent(response.data);
+
+    await ImageColors.getColors(
+      `${serverIp}/uploads/logo/${response.data.file_name}`,
+      {
+        fallback: "#7C3AED",
+        quality: "highest",
+        key: "unique_key",
+      }
+    )
+      .then((response: any) => {
+        console.log(response);
+        if (response.vibrant === "#000000") {
+          return setAverageColor("#7C3AED");
+        }
+        setAverageColor(response.vibrant);
+      })
+      .catch((error) => {
+        setAverageColor("#7C3AED");
+      });
   };
 
   useFocusEffect(
@@ -43,7 +66,7 @@ export default function EventDetails() {
     }, [])
   );
 
-  if (!event) {
+  if (!event || !averageColor) {
     return (
       <View className="flex-1 bg-background p-5 gap-5">
         <TouchableOpacity activeOpacity={0.7} onPress={goBack}>
@@ -76,7 +99,7 @@ export default function EventDetails() {
         <View className="mb-32">
           <Image
             source={{
-              uri: `http://192.168.1.104:3001/uploads/logo/${event.file_name}`,
+              uri: `${serverIp}/uploads/logo/${event.file_name}`,
             }}
             className="w-full h-40 rounded-md"
           />
@@ -92,13 +115,14 @@ export default function EventDetails() {
             </View>
             <TouchableOpacity
               activeOpacity={0.7}
-              className="bg-violet-600 p-5 rounded-md"
+              className="p-5 rounded-md"
+              style={{ backgroundColor: averageColor }}
               onPress={() => Linking.openURL(event.location_link)}
             >
               <Feather name="map-pin" size={24} color={colors.white} />
             </TouchableOpacity>
           </View>
-          <EventDetailsOptions event={event} />
+          <EventDetailsOptions event={event} averageColor={averageColor} />
         </View>
       </ScrollView>
     </View>

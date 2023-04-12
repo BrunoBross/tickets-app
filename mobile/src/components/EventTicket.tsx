@@ -11,6 +11,7 @@ interface EventTicketProps {
   removeLastTicketCartByTicketType: (ticketType: TicketType) => void;
   getTicketCartAmount: (ticketType: TicketType) => number;
   handleAddTicketToCart: (ticketType: TicketType) => void;
+  averageColor: string;
 }
 
 export default function EventTicket(props: EventTicketProps) {
@@ -19,6 +20,7 @@ export default function EventTicket(props: EventTicketProps) {
     removeLastTicketCartByTicketType,
     getTicketCartAmount,
     handleAddTicketToCart,
+    averageColor,
   } = props;
 
   return (
@@ -45,12 +47,16 @@ export default function EventTicket(props: EventTicketProps) {
         <View className="flex-row items-center">
           <TouchableOpacity
             activeOpacity={0.7}
-            className="bg-violet-600 px-2 h-10 justify-center rounded-l-md"
+            style={{ backgroundColor: averageColor }}
+            className="px-2 h-10 justify-center rounded-l-md"
             onPress={() => removeLastTicketCartByTicketType(ticketType)}
           >
             <Feather name="minus" size={20} color={colors.white} />
           </TouchableOpacity>
-          <View className="border-y-2 border-violet-600 h-10 w-10 items-center justify-center">
+          <View
+            style={{ borderColor: averageColor }}
+            className="border-y-2 h-10 w-10 items-center justify-center"
+          >
             <Text className="text-white font-semibold text-xl">
               {getTicketCartAmount(ticketType)}
             </Text>
@@ -58,7 +64,8 @@ export default function EventTicket(props: EventTicketProps) {
 
           <TouchableOpacity
             activeOpacity={0.7}
-            className="bg-violet-600 px-2 h-10 justify-center rounded-r-md"
+            style={{ backgroundColor: averageColor }}
+            className="px-2 h-10 justify-center rounded-r-md"
             onPress={() => handleAddTicketToCart(ticketType)}
           >
             <Feather name="plus" size={20} color={colors.white} />
