@@ -91,6 +91,7 @@ export default function AuthProvider(props: AuthProviderProps) {
   async function Login(props: LoginProps) {
     const { email, password } = props;
 
+    setIsLoading(true);
     await api
       .post("/user/auth", {
         email,
@@ -101,9 +102,11 @@ export default function AuthProvider(props: AuthProviderProps) {
         api.defaults.headers.Authorization = `Bearer ${response.data.tokenId}`;
         await AsyncStorage.setItem("tokenId", response.data.tokenId);
         setError(null);
+        setIsLoading(false);
       })
       .catch((error) => {
         setError(error.response.data.error);
+        setIsLoading(false);
       });
   }
 
