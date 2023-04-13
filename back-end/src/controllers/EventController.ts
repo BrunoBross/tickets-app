@@ -130,6 +130,21 @@ export async function EventController(app: FastifyInstance) {
       });
   });
 
+  // delete event
+  app.delete("/event/delete/:eventId", async (request, response) => {
+    const eventParams = z.object({
+      eventId: z.string(),
+    });
+
+    const { eventId } = eventParams.parse(request.params);
+
+    await prisma.event.delete({
+      where: {
+        id: eventId,
+      },
+    });
+  });
+
   // create event
   app.post(
     "/event/:organizerId",
