@@ -173,12 +173,8 @@ export default function Ticket() {
         </View>
       </ConfirmModal>
       <View className="flex-1 bg-background p-5 gap-10">
-        <View className="flex-1 flex-row">
-          <TouchableOpacity
-            activeOpacity={0.7}
-            onPress={goBack}
-            className="flex-1"
-          >
+        <View className="flex-row items-center justify-between h-14">
+          <TouchableOpacity activeOpacity={0.7} onPress={goBack}>
             <Ionicons
               name="arrow-back-outline"
               size={40}
@@ -187,7 +183,7 @@ export default function Ticket() {
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.7}
-            className="flex-1 h-12 flex-row items-center justify-center border-2 border-violet-600 rounded-md"
+            className="h-12 w-40 flex-row items-center justify-center border-2 border-violet-600 rounded-md"
             onPress={handleTicketTransfer}
           >
             <MaterialCommunityIcons
@@ -200,23 +196,25 @@ export default function Ticket() {
             </Text>
           </TouchableOpacity>
         </View>
-        <ScrollView>
-          <View className="flex-1 items-center">
-            <View className="border-2 border-violet-600">
-              <QRCode value={ticketId} size={250} />
+        <View>
+          <ScrollView>
+            <View className="flex-1 items-center">
+              <View className="border-2 border-violet-600">
+                <QRCode value={ticketId} size={250} />
+              </View>
+              <Text className="text-white mt-2 text-4xl font-semibold">
+                {user?.name} {user?.surname}
+              </Text>
+              <Text className="text-white mt-2 text-3xl font-semibold">
+                {user && formatCpf(user.cpf)}
+              </Text>
+              <Text className="text-white text-2xl mt-2 bg-violet-600 px-3 py-1 rounded-md font-semibold">
+                {ticket?.ticket_type.name}{" "}
+                {ticket && convertGenter(ticket.ticket_type.gender)}{" "}
+              </Text>
             </View>
-            <Text className="text-white mt-2 text-4xl font-semibold">
-              {user?.name} {user?.surname}
-            </Text>
-            <Text className="text-white mt-2 text-3xl font-semibold">
-              {user && formatCpf(user.cpf)}
-            </Text>
-            <Text className="text-white text-2xl mt-2 bg-violet-600 px-3 py-1 rounded-md font-semibold">
-              {ticket?.ticket_type.name}{" "}
-              {ticket && convertGenter(ticket.ticket_type.gender)}{" "}
-            </Text>
-          </View>
-        </ScrollView>
+          </ScrollView>
+        </View>
       </View>
     </>
   );

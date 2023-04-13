@@ -23,38 +23,40 @@ export async function TicketTypeController(app: FastifyInstance) {
         response.send(ticketTypes);
       })
       .catch((error) => {
-        console.log(error);
-        response.status(500);
+        console.error(error);
+        response.status(500).send({ error: "Ocorreu um erro interno" });
       });
   });
 
-  // // find ticketType
-  // app.get("/ticket-type/:ticketTypeId", async (request, response) => {
-  //   const ticketTypeParams = z.object({
-  //     ticketTypeId: z.string(),
-  //   });
+  // find ticketType
+  app.get("/ticket-type/find/:ticketTypeId", async (request, response) => {
+    const ticketTypeParams = z.object({
+      ticketTypeId: z.string(),
+    });
 
-  //   const { ticketTypeId } = ticketTypeParams.parse(request.params);
+    const { ticketTypeId } = ticketTypeParams.parse(request.params);
 
-  //   await prisma.ticketType
-  //     .findFirst({
-  //       where: {
-  //         id: {
-  //           equals: ticketTypeId,
-  //         },
-  //       },
-  //     })
-  //     .then((ticketType) => {
-  //       if (!ticketType) {
-  //         response.code(204).send({ error: "ticketType does not exists" });
-  //       }
-  //       response.send(ticketType);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       response.status(500);
-  //     });
-  // });
+    await prisma.ticketType
+      .findFirst({
+        where: {
+          id: {
+            equals: ticketTypeId,
+          },
+        },
+      })
+      .then((ticketType) => {
+        if (!ticketType) {
+          response
+            .code(204)
+            .send({ error: "Esse tipo de ingresso não foi encontrado" });
+        }
+        response.send(ticketType);
+      })
+      .catch((error) => {
+        console.error(error);
+        response.status(500).send({ error: "Ocorreu um erro interno" });
+      });
+  });
 
   // create ticketType
   app.post("/ticket-type/:eventId", async (request, response) => {
@@ -87,11 +89,13 @@ export async function TicketTypeController(app: FastifyInstance) {
         },
       })
       .then(() => {
-        response.status(201);
+        response
+          .status(201)
+          .send({ message: "Tipo de ingresso cadastrado com sucesso" });
       })
       .catch((error) => {
-        console.log(error);
-        response.status(500);
+        console.error(error);
+        response.status(500).send({ error: "Ocorreu um erro interno" });
       });
   });
 }

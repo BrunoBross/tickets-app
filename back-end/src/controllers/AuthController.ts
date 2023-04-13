@@ -57,7 +57,7 @@ export async function AuthController(app: FastifyInstance) {
     });
 
     if (!organizer) {
-      return response.code(404).send({ error: "Email não encontrado" });
+      return response.code(404).send({ error: "E-mail ou senha incorreta" });
     }
 
     const isCorrectPassword = await bcrypt.compare(
@@ -66,7 +66,7 @@ export async function AuthController(app: FastifyInstance) {
     );
 
     if (!isCorrectPassword) {
-      return response.code(403).send({ error: "Senha incorreta" });
+      return response.code(403).send({ error: "E-mail ou senha incorreta" });
     }
 
     const data = {

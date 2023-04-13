@@ -126,7 +126,7 @@ export default function EventCard(props: EventCardProps) {
         <Image
           height="70%"
           objectFit="cover"
-          src={`http://localhost:3001/uploads/logo/${file_name}`}
+          src={`http://localhost:3000/uploads/logo/${file_name}`}
           backgroundColor="gray"
           borderRadius="1rem"
         />

@@ -11,8 +11,8 @@ export async function TicketController(app: FastifyInstance) {
         response.send(tickets);
       })
       .catch((error) => {
-        console.log(error);
-        response.status(500);
+        console.error(error);
+        response.status(500).send({ error: "Ocorreu um erro interno" });
       });
   });
 
@@ -37,13 +37,15 @@ export async function TicketController(app: FastifyInstance) {
       })
       .then((ticket) => {
         if (!ticket) {
-          response.code(204).send({ error: "ticket does not exists" });
+          response
+            .code(204)
+            .send({ error: "Esse ingresso não foi encontrado" });
         }
         response.send(ticket);
       })
       .catch((error) => {
-        console.log(error);
-        response.status(500);
+        console.error(error);
+        response.status(500).send({ error: "Ocorreu um erro interno" });
       });
   });
 
@@ -74,13 +76,15 @@ export async function TicketController(app: FastifyInstance) {
       })
       .then((ticket) => {
         if (!ticket) {
-          response.code(204).send({ error: "ticket does not exists" });
+          response
+            .code(204)
+            .send({ error: "Esse usuário não possui ingressos" });
         }
         response.send(ticket);
       })
       .catch((error) => {
-        console.log(error);
-        response.status(500);
+        console.error(error);
+        response.status(500).send({ error: "Ocorreu um erro interno" });
       });
   });
 
@@ -102,11 +106,13 @@ export async function TicketController(app: FastifyInstance) {
         },
       })
       .then(() => {
-        response.status(201);
+        response
+          .status(200)
+          .send({ message: "Ingresso transferido com sucesso" });
       })
       .catch((error) => {
-        console.log(error);
-        response.status(500);
+        console.error(error);
+        response.status(500).send({ error: "Ocorreu um erro interno" });
       });
   });
 
@@ -131,11 +137,11 @@ export async function TicketController(app: FastifyInstance) {
         },
       })
       .then(() => {
-        response.status(201);
+        response.status(200).send({ message: "Ingresso criado com sucesso" });
       })
       .catch((error) => {
-        console.log(error);
-        response.status(500);
+        console.error(error);
+        response.status(500).send({ error: "Ocorreu um erro interno" });
       });
   });
 }

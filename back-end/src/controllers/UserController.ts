@@ -13,8 +13,8 @@ export async function UserController(app: FastifyInstance) {
         response.send(users);
       })
       .catch((error) => {
-        console.log(error);
-        response.status(500);
+        console.error(error);
+        response.status(500).send({ error: "Ocorreu um erro interno" });
       });
   });
 
@@ -35,13 +35,13 @@ export async function UserController(app: FastifyInstance) {
       })
       .then((user) => {
         if (!user) {
-          response.code(204).send({ error: "User does not exists" });
+          response.code(204).send({ error: "Esse usuário não existe" });
         }
         response.send(user);
       })
       .catch((error) => {
-        console.log(error);
-        response.status(500);
+        console.error(error);
+        response.status(500).send({ error: "Ocorreu um erro interno" });
       });
   });
 
@@ -64,13 +64,13 @@ export async function UserController(app: FastifyInstance) {
       })
       .then((user) => {
         if (!user) {
-          response.code(204).send({ error: "User does not exists" });
+          response.code(204).send({ error: "Esse usuário não existe" });
         }
         response.send(user);
       })
       .catch((error) => {
-        console.log(error);
-        response.status(500);
+        console.error(error);
+        response.status(500).send({ error: "Ocorreu um erro interno" });
       });
   });
 
@@ -152,11 +152,13 @@ export async function UserController(app: FastifyInstance) {
         },
       })
       .then(() => {
-        response.status(201);
+        response
+          .status(201)
+          .send({ message: "Usuário cadastrado com sucesso" });
       })
       .catch((error) => {
-        console.log(error);
-        response.status(500);
+        console.error(error);
+        response.status(500).send({ error: "Ocorreu um erro interno" });
       });
   });
 }

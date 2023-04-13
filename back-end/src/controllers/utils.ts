@@ -1,13 +1,20 @@
 import { cpf as cpfValidator, cnpj as cnpjValidator } from "cpf-cnpj-validator";
 import cepFinder from "cep-promise";
-import emailRegex from "email-regex";
 
 export const verifyCpf = (cpf: string) => {
   return cpfValidator.isValid(cpf);
 };
 
+export const formatCpf = (cpf: string) => {
+  return cpf.replace(/\./g, "").replace("-", "");
+};
+
 export const verifyCnpj = (cnpj: string) => {
   return cnpjValidator.isValid(cnpj);
+};
+
+export const formatCnpj = (cnpj: string) => {
+  return cnpj.replace(/\./g, "").replace("/", "").replace("-", "");
 };
 
 export const verifyGender = (gender: string) => {

@@ -1,7 +1,13 @@
 import { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { prisma } from "../lib/prisma";
-import { verifyCnpj, verifyCpf, verifyEmail } from "./utils";
+import {
+  formatCnpj,
+  formatCpf,
+  verifyCnpj,
+  verifyCpf,
+  verifyEmail,
+} from "./utils";
 import bcrypt from "bcrypt";
 
 export async function OrganizerController(app: FastifyInstance) {
@@ -13,8 +19,8 @@ export async function OrganizerController(app: FastifyInstance) {
         response.send(organizers);
       })
       .catch((error) => {
-        console.log(error);
-        response.status(500);
+        console.error(error);
+        response.status(500).send({ error: "Ocorreu um erro interno" });
       });
   });
 
@@ -36,13 +42,15 @@ export async function OrganizerController(app: FastifyInstance) {
       })
       .then((organizer) => {
         if (!organizer) {
-          response.code(204).send({ error: "organizer does not exists" });
+          response
+            .code(204)
+            .send({ error: "Esse organizador não foi encontrado" });
         }
         response.send(organizer);
       })
       .catch((error) => {
-        console.log(error);
-        response.status(500);
+        console.error(error);
+        response.status(500).send({ error: "Ocorreu um erro interno" });
       });
   });
 
@@ -64,32 +72,32 @@ export async function OrganizerController(app: FastifyInstance) {
     if (password.length < 8) {
       return response
         .code(400)
-        .send({ error: "A senha deve possuir no minimo 8 caracteres" });
+        .send({ error: "A senha deve possuir no mínimo 8 caracteres" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 8);
 
     let formatedCpf;
     if (cpf) {
-      formatedCpf = cpf.replace(/\./g, "").replace("-", "");
+      formatedCpf = formatCpf(cpf);
       const isValidCpf = verifyCpf(formatedCpf);
       if (!isValidCpf) {
-        return response.code(400).send({ error: "Invalid CPF" });
+        return response.code(400).send({ error: "CPF inválido" });
       }
     }
 
     let formatedCnpj;
     if (cnpj) {
-      formatedCnpj = cnpj.replace(/\./g, "").replace("/", "").replace("-", "");
+      formatedCnpj = formatCnpj(cnpj);
       const isValidCnpj = verifyCnpj(formatedCnpj);
       if (!isValidCnpj) {
-        return response.code(400).send({ error: "Invalid CNPJ" });
+        return response.code(400).send({ error: "CNPJ inválido" });
       }
     }
 
     const isValidEmail = verifyEmail(email);
     if (!isValidEmail) {
-      return response.code(400).send({ error: "Invalid email" });
+      return response.code(400).send({ error: "E-mail inválido" });
     }
 
     let existsCpf;
@@ -124,19 +132,25 @@ export async function OrganizerController(app: FastifyInstance) {
 
     if (existsCpf) {
       console.log(existsCpf);
-      return response.code(409).send({ error: "Already exists CPF" });
+      return response
+        .code(409)
+        .send({ error: "Este CPF já está sendo utilizado" });
     }
 
     if (existsCnpj) {
-      return response.code(409).send({ error: "Already exists CNPJ" });
+      return response
+        .code(409)
+        .send({ error: "Este CNPJ já está sendo utilizado" });
     }
 
     if (existsEmail) {
-      return response.code(409).send({ error: "Already exists email" });
+      return response
+        .code(409)
+        .send({ error: "Este e-mail já está sendo utilizado" });
     }
 
     if (!formatedCpf && !formatedCnpj) {
-      return response.send({ error: "CPF or CNPJ is required" });
+      return response.send({ error: "CPF ou CNPJ são necessários" });
     }
 
     await prisma.organizer
@@ -151,11 +165,13 @@ export async function OrganizerController(app: FastifyInstance) {
         },
       })
       .then(() => {
-        response.status(201);
+        response
+          .status(201)
+          .send({ message: "Organizador cadastrado com sucesso" });
       })
       .catch((error) => {
-        console.log(error);
-        response.status(500);
+        console.error(error);
+        response.status(500).send({ error: "Ocorreu um erro interno" });
       });
   });
 }

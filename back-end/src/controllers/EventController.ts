@@ -19,8 +19,8 @@ export async function EventController(app: FastifyInstance) {
         response.send(events);
       })
       .catch((error) => {
-        console.log(error);
-        response.status(500);
+        console.error(error);
+        response.status(500).send({ error: "Ocorreu um erro interno" });
       });
   });
 
@@ -33,7 +33,7 @@ export async function EventController(app: FastifyInstance) {
     const { input } = eventSearchParams.parse(request.params);
 
     if (!input) {
-      response.code(200).send({ error: "Input null" });
+      response.code(200).send({ error: "Preencha o campo" });
     }
 
     await prisma.event
@@ -49,11 +49,16 @@ export async function EventController(app: FastifyInstance) {
         },
       })
       .then((events) => {
+        if (!events) {
+          response
+            .code(204)
+            .send({ error: "Não foi encontrado nenhum evento" });
+        }
         response.send(events);
       })
       .catch((error) => {
-        console.log(error);
-        response.status(500);
+        console.error(error);
+        response.status(500).send({ error: "Ocorreu um erro interno" });
       });
   });
 
@@ -77,11 +82,16 @@ export async function EventController(app: FastifyInstance) {
         },
       })
       .then((events) => {
+        if (!events) {
+          response
+            .code(204)
+            .send({ error: "Não foi encontrado nenhum evento" });
+        }
         response.send(events);
       })
       .catch((error) => {
-        console.log(error);
-        response.status(500);
+        console.error(error);
+        response.status(500).send({ error: "Ocorreu um erro interno" });
       });
   });
 
@@ -110,13 +120,13 @@ export async function EventController(app: FastifyInstance) {
       })
       .then((event) => {
         if (!event) {
-          response.code(204).send({ error: "Event does not exists" });
+          response.code(204).send({ error: "Este evento não foi encontrado" });
         }
         response.send(event);
       })
       .catch((error) => {
-        console.log(error);
-        response.status(500);
+        console.error(error);
+        response.status(500).send({ error: "Ocorreu um erro interno" });
       });
   });
 
@@ -170,10 +180,13 @@ export async function EventController(app: FastifyInstance) {
           },
         })
         .then(() => {
-          response.status(201);
+          response
+            .status(201)
+            .send({ message: "Evento cadastrado com sucesso" });
         })
         .catch((error) => {
-          response.status(500);
+          console.error(error);
+          response.status(500).send({ error: "Ocorreu um erro interno" });
         });
     }
   );

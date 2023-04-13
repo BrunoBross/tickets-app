@@ -157,7 +157,7 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
       {state.info && (
         <View className="flex mt-2">
           <View className="flex p-3 bg-zinc-800 rounded-md">
-            <Text className="text-white font-semibold text-xl">
+            <Text className="text-white font-semibold text-lg">
               {event.description}
             </Text>
           </View>

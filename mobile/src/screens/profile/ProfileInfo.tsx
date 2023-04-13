@@ -26,7 +26,7 @@ export default function ProfileInfo() {
         <TouchableOpacity activeOpacity={0.7} className="items-center">
           <FontAwesome name="user-circle-o" size={90} color={colors.white} />
         </TouchableOpacity>
-        <View className="flex gap-y-3">
+        <View className="flex gap-y-3 mt-5">
           <View className="flex-row">
             <View className="h-full w-1 bg-violet-600 mr-4"></View>
             <Text className="text-white font-semibold text-base">
@@ -64,7 +64,7 @@ export default function ProfileInfo() {
             </Text>
           </View>
         </View>
-        <View className="flex gap-y-3">
+        <View className="flex gap-y-3 mt-5">
           <View className="flex-row">
             <View className="h-full w-1 bg-violet-600 mr-4"></View>
             <Text className="text-white font-semibold text-base">Endereço</Text>

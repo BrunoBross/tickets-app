@@ -1,18 +1,11 @@
-import Fastify, {
-  FastifyInstance,
-  FastifyReply,
-  FastifyRequest,
-} from "fastify";
+import Fastify, { FastifyInstance } from "fastify";
 import { Routes } from "./routes";
 import Cors from "@fastify/cors";
 import Jwt from "@fastify/jwt";
-import { multer } from "./lib/multer";
+import { multerUpload } from "./lib/multer";
 import path from "path";
-
-require("dotenv").config();
-
-const app: FastifyInstance = Fastify();
-const PORT = parseInt(process.env.PORT, 10) || 3000;
+import dotenv from "dotenv";
+dotenv.config();
 
 interface Organizer {
   organizerId: number;
@@ -28,7 +21,11 @@ declare module "fastify" {
   }
 }
 
-app.register(multer.contentParser);
+const app: FastifyInstance = Fastify();
+const PORT = Number(process.env.PORT) || 3000;
+const JWT_SECRET = process.env.JWT_SECRET || "mysecret";
+
+app.register(multerUpload.contentParser);
 
 app.register(require("@fastify/static"), {
   root: path.join(__dirname, "/lib/uploads"),
@@ -38,25 +35,8 @@ app.register(require("@fastify/static"), {
 app.register(Cors);
 
 app.register(Jwt, {
-  secret: "mysecret",
+  secret: JWT_SECRET,
 });
-
-// decorator de autenticacao
-app.decorate("authenticate", async (request: any, response: any) => {
-  try {
-    await request.jwtVerify();
-  } catch (error) {
-    console.log(error);
-    response.code(401).send({ error: "Authentication failed" });
-  }
-});
-
-app.get(
-  "/connection",
-  async (request: FastifyRequest, response: FastifyReply) => {
-    response.code(200);
-  }
-);
 
 app.register(Routes);
 
@@ -69,6 +49,6 @@ app
     console.log(`Server is running on http://localhost:${PORT}`);
   })
   .catch((error) => {
-    console.log(error);
+    console.error(error);
     process.exit(1);
   });
