@@ -27,7 +27,7 @@ export default function App() {
 
   if (!fontsLoaded) {
     return (
-      <View className="flex-1 w-full h-full items-center justify-between bg-background">
+      <View className="flex-1 w-full h-full items-center justify-center bg-background">
         <ActivityIndicator size="large" color={colors.violet[600]} />
       </View>
     );

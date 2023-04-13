@@ -6,13 +6,21 @@ import { CartPage, HomePage, ProfilePage, SearchPage } from "./custom.routes";
 import BottomBarNavigator from "../components/bottomBar/BottomBarNavigator";
 import { useEffect, useState } from "react";
 import { useIsFocused } from "@react-navigation/native";
-import { Keyboard, KeyboardAvoidingView, Platform } from "react-native";
+import {
+  ActivityIndicator,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  View,
+} from "react-native";
 import UnableConnection from "../screens/home/UnableConnection";
 import useApi from "../lib/api";
+import colors from "tailwindcss/colors";
 
 export function AppRoutes() {
   const api = useApi();
   const isFocused = useIsFocused();
+  const [isLoading, setIsLoading] = useState(false);
   const [isServerOn, setIsServerOn] = useState(false);
   const [isTabBarVisible, setIsTabBarVisible] = useState(true);
 
@@ -23,12 +31,24 @@ export function AppRoutes() {
     setIsTabBarVisible(true);
   };
 
+  const testConnection = async () => {
+    setIsLoading(true);
+    await api
+      .get("/connection")
+      .then((response: any) => {
+        if (response.status == 200) {
+          setIsServerOn(true);
+          setIsLoading(false);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
+  };
+
   useEffect(() => {
-    api.get("/connection").then((response: any) => {
-      if (response.status == 200) {
-        setIsServerOn(true);
-      }
-    });
+    testConnection();
   }, []);
 
   useEffect(() => {
@@ -47,6 +67,18 @@ export function AppRoutes() {
     };
   }, []);
 
+  if (isLoading) {
+    return (
+      <View className="flex-1 w-full h-full items-center justify-center">
+        <ActivityIndicator size="large" color={colors.violet[600]} />
+      </View>
+    );
+  }
+
+  if (!isServerOn) {
+    return <UnableConnection testConnection={testConnection} />;
+  }
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -60,25 +92,13 @@ export function AppRoutes() {
             headerShown: false,
           }}
           tabBar={(props) =>
-            isTabBarVisible && isServerOn && <BottomBarNavigator {...props} />
+            isTabBarVisible && <BottomBarNavigator {...props} />
           }
         >
-          <Tab.Screen
-            name="homePage"
-            component={isServerOn ? HomePage : UnableConnection}
-          />
-          <Tab.Screen
-            name="searchPage"
-            component={isServerOn ? SearchPage : UnableConnection}
-          />
-          <Tab.Screen
-            name="cartPage"
-            component={isServerOn ? CartPage : UnableConnection}
-          />
-          <Tab.Screen
-            name="profilePage"
-            component={isServerOn ? ProfilePage : UnableConnection}
-          />
+          <Tab.Screen name="homePage" component={HomePage} />
+          <Tab.Screen name="searchPage" component={SearchPage} />
+          <Tab.Screen name="cartPage" component={CartPage} />
+          <Tab.Screen name="profilePage" component={ProfilePage} />
         </Tab.Navigator>
       )}
     </KeyboardAvoidingView>

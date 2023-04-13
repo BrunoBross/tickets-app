@@ -44,6 +44,8 @@ export default function EventCard(props: EventCardProps) {
     event: { id, name, date, location, file_name },
   } = props;
 
+  console.log(file_name);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = useRef(null);
   const finalRef = useRef(null);
@@ -126,7 +128,7 @@ export default function EventCard(props: EventCardProps) {
         <Image
           height="70%"
           objectFit="cover"
-          src={`http://localhost:3000/uploads/logo/${file_name}`}
+          src={`https://tickets-api.onrender.com/uploads/logo/${file_name}`}
           backgroundColor="gray"
           borderRadius="1rem"
         />

@@ -1,12 +1,5 @@
-import {
-  ReactNode,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { ReactNode, createContext, useContext } from "react";
 import { API_URL, API_PORT } from "@env";
-import useApi from "../lib/api";
 
 interface ConnectionProviderProps {
   children: ReactNode;
@@ -22,7 +15,8 @@ const ConnectionContext = createContext({} as ConnectionContextInterface);
 
 export default function ConnectionProvider(props: ConnectionProviderProps) {
   const { children } = props;
-  const serverIp = `${API_URL}:${API_PORT}`;
+  // const serverIp = `${API_URL}:${API_PORT}`;
+  const serverIp = `${API_URL}`;
 
   return (
     <ConnectionContext.Provider
