@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { z } from "zod";
-import { multerUpload } from "../lib/multer";
+import { multerUpload } from "../multer";
 import { prisma } from "../lib/prisma";
 
 export async function EventController(app: FastifyInstance) {

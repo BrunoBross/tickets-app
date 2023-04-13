@@ -2,7 +2,7 @@ import Fastify, { FastifyInstance } from "fastify";
 import { Routes } from "./routes";
 import Cors from "@fastify/cors";
 import Jwt from "@fastify/jwt";
-import { multerUpload } from "./lib/multer";
+import { multerUpload } from "./multer";
 import path from "path";
 import dotenv from "dotenv";
 dotenv.config();
@@ -28,7 +28,7 @@ const JWT_SECRET = process.env.JWT_SECRET || "mysecret";
 app.register(multerUpload.contentParser);
 
 app.register(require("@fastify/static"), {
-  root: path.join(__dirname, "/lib/uploads"),
+  root: path.join(__dirname, "/uploads"),
   prefix: "/uploads/logo/",
 });
 
