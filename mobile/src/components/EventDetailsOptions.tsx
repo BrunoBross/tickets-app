@@ -129,12 +129,12 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
         </TouchableOpacity>
       </View>
       {state.tickets && (
-        <View className="flex gap-2 pt-2">
+        <View className="flex mt-2">
           {event.TicketType.length > 0 ? (
             event.TicketType?.map((ticketType: TicketType) => (
               <View
                 key={ticketType.id}
-                className="flex p-3 bg-zinc-800 rounded-md gap-1"
+                className="flex p-3 bg-zinc-800 rounded-md mb-2"
               >
                 <EventTicket
                   ticketType={ticketType}
@@ -155,10 +155,12 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
         </View>
       )}
       {state.info && (
-        <View className="flex gap-1 pt-1">
-          <Text className="text-white font-semibold text-base">
-            {event.description}
-          </Text>
+        <View className="flex mt-2">
+          <View className="flex p-3 bg-zinc-800 rounded-md">
+            <Text className="text-white font-semibold text-xl">
+              {event.description}
+            </Text>
+          </View>
         </View>
       )}
     </View>

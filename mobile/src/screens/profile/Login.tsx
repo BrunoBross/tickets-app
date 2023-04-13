@@ -64,10 +64,12 @@ export default function Login() {
   };
 
   return (
-    <View className="flex-1 bg-background p-5 gap-5">
-      <Text className="text-white text-4xl font-extrabold tracking-widest">
-        Bem-vindo
-      </Text>
+    <View className="flex-1 bg-background p-5 pb-0 gap-5">
+      <View className="justify-center h-14">
+        <Text className="text-white text-4xl font-extrabold tracking-widest">
+          Bem-vindo
+        </Text>
+      </View>
       <View className="flex-1 justify-center">
         <ScrollView>
           <View className="flex gap-3 mb-32">

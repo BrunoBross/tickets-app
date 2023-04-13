@@ -7,16 +7,29 @@ import BottomBarNavigator from "../components/bottomBar/BottomBarNavigator";
 import { useEffect, useState } from "react";
 import { useIsFocused } from "@react-navigation/native";
 import { Keyboard, KeyboardAvoidingView, Platform } from "react-native";
+import UnableConnection from "../screens/home/UnableConnection";
+import useApi from "../lib/api";
 
 export function AppRoutes() {
+  const api = useApi();
+  const isFocused = useIsFocused();
+  const [isServerOn, setIsServerOn] = useState(false);
   const [isTabBarVisible, setIsTabBarVisible] = useState(true);
+
   const keyboardWillShow = () => {
     setIsTabBarVisible(false);
   };
   const keyboardWillHide = () => {
     setIsTabBarVisible(true);
   };
-  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    api.get("/connection").then((response: any) => {
+      if (response.status == 200) {
+        setIsServerOn(true);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     const keyboardWillShowListener = Keyboard.addListener(
@@ -47,13 +60,25 @@ export function AppRoutes() {
             headerShown: false,
           }}
           tabBar={(props) =>
-            isTabBarVisible && <BottomBarNavigator {...props} />
+            isTabBarVisible && isServerOn && <BottomBarNavigator {...props} />
           }
         >
-          <Tab.Screen name="homePage" component={HomePage} />
-          <Tab.Screen name="searchPage" component={SearchPage} />
-          <Tab.Screen name="cartPage" component={CartPage} />
-          <Tab.Screen name="profilePage" component={ProfilePage} />
+          <Tab.Screen
+            name="homePage"
+            component={isServerOn ? HomePage : UnableConnection}
+          />
+          <Tab.Screen
+            name="searchPage"
+            component={isServerOn ? SearchPage : UnableConnection}
+          />
+          <Tab.Screen
+            name="cartPage"
+            component={isServerOn ? CartPage : UnableConnection}
+          />
+          <Tab.Screen
+            name="profilePage"
+            component={isServerOn ? ProfilePage : UnableConnection}
+          />
         </Tab.Navigator>
       )}
     </KeyboardAvoidingView>

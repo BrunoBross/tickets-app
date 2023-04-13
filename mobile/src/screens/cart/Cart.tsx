@@ -24,13 +24,13 @@ export default function Cart() {
           <CartList cartList={cartList} />
         </View>
       ) : (
-        <View className="flex flex-1 gap-y-2">
+        <View className="flex flex-1">
           <Text className="text-white text-base font-semibold">
-            Você precisa estar logado!
+            Você precisa estar logado
           </Text>
           <TouchableOpacity
             activeOpacity={0.7}
-            className="p-4 h-14 flex-row bg-violet-600 rounded-md"
+            className="p-4 h-14 flex-row bg-violet-600 rounded-md mt-3"
             onPress={() => navigate("profilePage")}
           >
             <MaterialCommunityIcons

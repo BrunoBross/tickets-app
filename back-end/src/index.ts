@@ -1,11 +1,16 @@
-import Fastify, { FastifyInstance } from "fastify";
+import Fastify, {
+  FastifyInstance,
+  FastifyReply,
+  FastifyRequest,
+} from "fastify";
 import { Routes } from "./routes";
 import Cors from "@fastify/cors";
 import Jwt from "@fastify/jwt";
 import { multer } from "./lib/multer";
+import path from "path";
+
 require("dotenv").config();
 
-const path = require("path");
 const app: FastifyInstance = Fastify();
 const PORT = parseInt(process.env.PORT, 10) || 3000;
 
@@ -45,6 +50,13 @@ app.decorate("authenticate", async (request: any, response: any) => {
     response.code(401).send({ error: "Authentication failed" });
   }
 });
+
+app.get(
+  "/connection",
+  async (request: FastifyRequest, response: FastifyReply) => {
+    response.code(200);
+  }
+);
 
 app.register(Routes);
 

@@ -41,7 +41,7 @@ export default function App() {
             <View className="w-full h-full items-center justify-between bg-background">
               <Routes />
               <StatusBar
-                barStyle="light-content"
+                barStyle="default"
                 backgroundColor="transparent"
                 translucent
               />

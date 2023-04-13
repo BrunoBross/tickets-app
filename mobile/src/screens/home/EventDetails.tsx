@@ -55,6 +55,7 @@ export default function EventDetails() {
         setAverageColor(response.vibrant);
       })
       .catch(() => {
+        //feito um catch pois o ImageColors só funciona no app depois do build
         setAverageColor("#7C3AED");
       });
   };
@@ -67,14 +68,16 @@ export default function EventDetails() {
 
   if (!event || !averageColor) {
     return (
-      <View className="flex-1 bg-background p-5 gap-5">
-        <TouchableOpacity activeOpacity={0.7} onPress={goBack}>
-          <Ionicons
-            name="arrow-back-outline"
-            size={40}
-            color={colors.zinc[400]}
-          />
-        </TouchableOpacity>
+      <View className="flex-1 bg-background p-5 pb-0 gap-5">
+        <View className="justify-center h-14">
+          <TouchableOpacity activeOpacity={0.7} onPress={goBack}>
+            <Ionicons
+              name="arrow-back-outline"
+              size={40}
+              color={colors.zinc[400]}
+            />
+          </TouchableOpacity>
+        </View>
         <View className="flex-1 bg-background justify-center items-center">
           <ActivityIndicator size="large" color={colors.violet[600]} />
         </View>
@@ -84,7 +87,7 @@ export default function EventDetails() {
 
   return (
     <View className="flex-1 bg-background p-5 pb-0 gap-5">
-      <View className="justify-center h-10">
+      <View className="justify-center h-14">
         <TouchableOpacity activeOpacity={0.7} onPress={goBack}>
           <Ionicons
             name="arrow-back-outline"

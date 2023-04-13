@@ -1,5 +1,12 @@
-import { ReactNode, createContext, useContext } from "react";
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { API_URL, API_PORT } from "@env";
+import useApi from "../lib/api";
 
 interface ConnectionProviderProps {
   children: ReactNode;
