@@ -16,12 +16,12 @@ import {
 import UnableConnection from "../screens/home/UnableConnection";
 import useApi from "../lib/api";
 import colors from "tailwindcss/colors";
+import { useConnection } from "../contexts/ConnectionContext";
 
 export function AppRoutes() {
   const api = useApi();
+  const { testConnection, isLoading, isServerOn } = useConnection();
   const isFocused = useIsFocused();
-  const [isLoading, setIsLoading] = useState(false);
-  const [isServerOn, setIsServerOn] = useState(false);
   const [isTabBarVisible, setIsTabBarVisible] = useState(true);
 
   const keyboardWillShow = () => {
@@ -31,24 +31,8 @@ export function AppRoutes() {
     setIsTabBarVisible(true);
   };
 
-  const testConnection = async () => {
-    setIsLoading(true);
-    await api
-      .get("/connection")
-      .then((response: any) => {
-        if (response.status == 200) {
-          setIsServerOn(true);
-          setIsLoading(false);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        setIsLoading(false);
-      });
-  };
-
   useEffect(() => {
-    testConnection();
+    testConnection(api);
   }, []);
 
   useEffect(() => {
@@ -69,14 +53,14 @@ export function AppRoutes() {
 
   if (isLoading) {
     return (
-      <View className="flex-1 w-full h-full items-center justify-center">
+      <View className="flex-1 w-full h-full items-center justify-center bg-background">
         <ActivityIndicator size="large" color={colors.violet[600]} />
       </View>
     );
   }
 
   if (!isServerOn) {
-    return <UnableConnection testConnection={testConnection} />;
+    return <UnableConnection testConnection={() => testConnection(api)} />;
   }
 
   return (

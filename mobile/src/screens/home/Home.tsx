@@ -1,24 +1,26 @@
-import { useCallback, useState } from "react";
-import { Text, View } from "react-native";
+import { useCallback, useEffect, useState } from "react";
+import { ActivityIndicator, Text, View } from "react-native";
 import { EventInterface } from "../../components/EventCard";
 import EventList from "../../components/EventList";
 import { useFocusEffect } from "@react-navigation/native";
 import useApi from "../../lib/api";
+import colors from "tailwindcss/colors";
 
 export default function Home() {
   const api = useApi();
   const [eventList, setEventList] = useState<EventInterface[] | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const retrieveEventList = async () => {
+    setIsLoading(true);
     const response = await api.get("event");
     setEventList(response.data);
+    setIsLoading(false);
   };
 
-  useFocusEffect(
-    useCallback(() => {
-      retrieveEventList();
-    }, [])
-  );
+  useEffect(() => {
+    retrieveEventList();
+  }, []);
 
   return (
     <View className="flex-1 bg-background p-5 pb-0 gap-5">
@@ -28,12 +30,18 @@ export default function Home() {
         </Text>
       </View>
 
-      <View className="flex-1">
-        <EventList
-          eventList={eventList}
-          retrieveEventList={retrieveEventList}
-        />
-      </View>
+      {isLoading ? (
+        <View className="flex-1 w-full h-full items-center justify-center bg-background">
+          <ActivityIndicator size="large" color={colors.violet[600]} />
+        </View>
+      ) : (
+        <View className="flex-1">
+          <EventList
+            eventList={eventList}
+            retrieveEventList={retrieveEventList}
+          />
+        </View>
+      )}
     </View>
   );
 }

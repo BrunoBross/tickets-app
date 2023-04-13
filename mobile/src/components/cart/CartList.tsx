@@ -41,7 +41,7 @@ export default function CartList(props: CartListProps) {
           <TouchableOpacity
             activeOpacity={0.7}
             className="p-4 h-14 flex-row bg-violet-600 rounded-md mt-3"
-            onPress={() => navigate("homePage")}
+            onPress={() => navigate("home")}
           >
             <MaterialCommunityIcons
               name="ticket-confirmation-outline"

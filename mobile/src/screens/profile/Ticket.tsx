@@ -1,5 +1,11 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import QRCode from "react-native-qrcode-svg";
 import { useAuth } from "../../contexts/AuthContext";
@@ -115,6 +121,25 @@ export default function Ticket() {
     retrieveTicketType();
   }, []);
 
+  if (!ticket) {
+    return (
+      <View className="flex-1 bg-background p-5 pb-0 gap-5">
+        <View className="justify-center h-14">
+          <TouchableOpacity activeOpacity={0.7} onPress={goBack}>
+            <Ionicons
+              name="arrow-back-outline"
+              size={40}
+              color={colors.zinc[400]}
+            />
+          </TouchableOpacity>
+        </View>
+        <View className="flex-1 bg-background justify-center items-center">
+          <ActivityIndicator size="large" color={colors.violet[600]} />
+        </View>
+      </View>
+    );
+  }
+
   return (
     <>
       <ConfirmModal
@@ -166,8 +191,8 @@ export default function Ticket() {
           <Text className="text-white text-base font-semibold">
             Transferir ingresso para{" "}
             <Text className="text-red-600 text-lg font-semibold">
-              {userTransfer?.name.toUpperCase()}
-              {userTransfer?.surname.toUpperCase()}
+              {userTransfer && userTransfer.name.toUpperCase()}
+              {userTransfer && userTransfer.surname.toUpperCase()}
             </Text>
           </Text>
         </View>
