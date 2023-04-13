@@ -187,7 +187,7 @@ export default function Ticket() {
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.7}
-            className="flex-1 h-12 flex-row items-center justify-center border-[1px] border-violet-600 rounded-md"
+            className="flex-1 h-12 flex-row items-center justify-center border-2 border-violet-600 rounded-md"
             onPress={handleTicketTransfer}
           >
             <MaterialCommunityIcons
