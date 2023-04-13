@@ -36,7 +36,7 @@ export default function MyTickets() {
 
   const retrieveTickets = async () => {
     if (user) {
-      const response = await api.get(`/ticket/user/${user.id}`);
+      const response = await api.get(`ticket/user/${user.id}`);
       setMyTicketList(response.data);
     }
   };

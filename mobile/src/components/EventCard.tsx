@@ -47,7 +47,7 @@ export default function EventCard(props: EventProps) {
     >
       <Image
         source={{
-          uri: `${serverIp}/uploads/logo/${file_name}`,
+          uri: `${serverIp}uploads/logo/${file_name}`,
         }}
         className="w-full h-40 rounded-md"
       />

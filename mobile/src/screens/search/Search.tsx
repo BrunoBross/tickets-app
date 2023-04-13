@@ -13,7 +13,7 @@ export default function Search() {
 
   const searchEvent = async (input: string) => {
     setEventSearchInput(input);
-    const response = await api.get(`/event/search/${input}`);
+    const response = await api.get(`event/search/${input}`);
     setEventList(response.data);
   };
 

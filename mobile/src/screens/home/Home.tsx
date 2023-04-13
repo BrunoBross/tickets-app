@@ -10,7 +10,7 @@ export default function Home() {
   const [eventList, setEventList] = useState<EventInterface[] | null>(null);
 
   const retrieveEventList = async () => {
-    const response = await api.get("/event");
+    const response = await api.get("event");
     setEventList(response.data);
   };
 

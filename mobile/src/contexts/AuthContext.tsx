@@ -55,7 +55,7 @@ export default function AuthProvider(props: AuthProviderProps) {
     const tokenId = await AsyncStorage.getItem("tokenId");
 
     const requestUser = async () => {
-      const response = await api.get("/user/auth", {
+      const response = await api.get("user/auth", {
         headers: {
           Authorization: `Bearer ${tokenId}`,
         },
@@ -93,7 +93,7 @@ export default function AuthProvider(props: AuthProviderProps) {
 
     setIsLoading(true);
     await api
-      .post("/user/auth", {
+      .post("user/auth", {
         email,
         password,
       })

@@ -108,7 +108,7 @@ export default function Ticket() {
 
   useEffect(() => {
     const retrieveTicketType = async () => {
-      const response = await api.get(`/ticket/${ticketId}`);
+      const response = await api.get(`ticket/${ticketId}`);
       setTicket(response.data);
     };
 

@@ -15,7 +15,6 @@ const ConnectionContext = createContext({} as ConnectionContextInterface);
 
 export default function ConnectionProvider(props: ConnectionProviderProps) {
   const { children } = props;
-  // const serverIp = `${API_URL}:${API_PORT}`;
   const serverIp = `${API_URL}`;
 
   return (

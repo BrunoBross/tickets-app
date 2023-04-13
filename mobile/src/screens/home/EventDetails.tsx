@@ -37,11 +37,11 @@ export default function EventDetails() {
   const [averageColor, setAverageColor] = useState<string | null>(null);
 
   const retrieveEventById = async () => {
-    const response = await api.get(`/event/${eventId}`);
+    const response = await api.get(`event/${eventId}`);
     setEvent(response.data);
 
     await ImageColors.getColors(
-      `${serverIp}/uploads/logo/${response.data.file_name}`,
+      `${serverIp}uploads/logo/${response.data.file_name}`,
       {
         fallback: "#7C3AED",
         quality: "highest",
@@ -101,7 +101,7 @@ export default function EventDetails() {
         <View className="mb-32">
           <Image
             source={{
-              uri: `${serverIp}/uploads/logo/${event.file_name}`,
+              uri: `${serverIp}uploads/logo/${event.file_name}`,
             }}
             className="w-full h-40 rounded-md"
           />
