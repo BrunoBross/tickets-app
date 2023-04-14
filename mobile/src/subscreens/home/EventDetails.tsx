@@ -14,14 +14,14 @@ import {
   useRoute,
 } from "@react-navigation/native";
 import { useCallback, useState } from "react";
-import { EventInterface } from "../../components/EventCard";
+import { EventInterface } from "../../components/event/EventCard";
 import formatDate from "../../utils/formatEventDate";
 import { Ionicons } from "@expo/vector-icons";
-import EventDetailsOptions from "../../components/EventDetailsOptions";
 import { Feather } from "@expo/vector-icons";
 import useApi from "../../lib/api";
 import ImageColors from "react-native-image-colors";
 import { useConnection } from "../../contexts/ConnectionContext";
+import EventDetailsOptions from "../../components/event/EventDetailsOptions";
 
 interface Params {
   eventId: string;

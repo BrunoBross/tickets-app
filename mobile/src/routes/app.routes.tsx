@@ -13,10 +13,10 @@ import {
   Platform,
   View,
 } from "react-native";
-import UnableConnection from "../screens/home/UnableConnection";
 import useApi from "../lib/api";
 import colors from "tailwindcss/colors";
 import { useConnection } from "../contexts/ConnectionContext";
+import UnableConnection from "../components/UnableConnection";
 
 export function AppRoutes() {
   const api = useApi();

@@ -1,10 +1,10 @@
 import { Text, TouchableOpacity, View } from "react-native";
-import { useCart } from "../../contexts/CartContext";
+import { useCart } from "../contexts/CartContext";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import colors from "tailwindcss/colors";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 import { useNavigation } from "@react-navigation/native";
-import CartList from "../../components/cart/CartList";
+import CartList from "./cart/CartList";
 
 export default function Cart() {
   const { user } = useAuth();

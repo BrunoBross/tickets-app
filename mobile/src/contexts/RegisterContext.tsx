@@ -8,6 +8,7 @@ import {
   useState,
 } from "react";
 import {
+  Control,
   UseFormGetValues,
   UseFormHandleSubmit,
   UseFormRegister,
@@ -20,6 +21,8 @@ import ConfirmModal from "../components/modals/ConfirmModal";
 import AlertModal from "../components/modals/AlertModal";
 import { Text } from "react-native";
 import useApi from "../lib/api";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface RegisterProviderProps {
   children: ReactNode;
@@ -36,13 +39,14 @@ interface RegisterContextInterface {
 
   page: ReducerStateInterface;
   setPage: Dispatch<ReducerActionInterface>;
-  register: UseFormRegister<RegisterFormFields>;
+  register: UseFormRegister<RegisterUserType>;
 
-  onSubmit: () => void;
-  handleSubmit: UseFormHandleSubmit<RegisterFormFields>;
+  onSubmit: (data: RegisterUserType) => void;
+  handleSubmit: UseFormHandleSubmit<RegisterUserType>;
 
-  getValues: UseFormGetValues<RegisterFormFields>;
-  setValue: UseFormSetValue<RegisterFormFields>;
+  control: Control<RegisterUserType>;
+  getValues: UseFormGetValues<RegisterUserType>;
+  setValue: UseFormSetValue<RegisterUserType>;
   birthDate: Date | null;
   setBirthDate: Dispatch<React.SetStateAction<Date | null>>;
   cpf: string;
@@ -60,20 +64,6 @@ interface ReducerStateInterface {
 interface ReducerActionInterface {
   type: RegisterPageEnum;
   payload?: number;
-}
-
-interface RegisterFormFields {
-  name: string;
-  surname: string;
-  email: string;
-  confirmEmail: string;
-  birthDate: Date;
-  cpf: string;
-  cep: string;
-  address: string;
-  addressNumber: string;
-  password: string;
-  confirmPassword: string;
 }
 
 const reducer = (
@@ -110,56 +100,69 @@ const initialValues: ReducerStateInterface = {
   PASSWORD: false,
 };
 
+const registerUserSchema = z.object({
+  name: z.string().nonempty({ message: "O nome é obrigatório" }),
+  surname: z.string().nonempty({ message: "O sobrenome é obrigatório" }),
+  email: z
+    .string()
+    .nonempty({ message: "O e-mail é obrigatório" })
+    .email({ message: "Formato de e-mail inválido" })
+    .toLowerCase(),
+  confirmEmail: z
+    .string()
+    .nonempty({ message: "O e-mail é obrigatório" })
+    .email({ message: "Formato de e-mail inválido" })
+    .toLowerCase(),
+  cpf: z
+    .string()
+    .nonempty({ message: "O cpf é obrigatório" })
+    .min(14, { message: "Formato de cpf inválido" })
+    .regex(/^\d{3}\.\d{3}\.\d{3}\-\d{2}$/)
+    .transform((value) => value.replace(/[^0-9]/g, "")),
+  birth: z.date(),
+  zip_code: z.string().min(9, { message: "Formato de cep inválido" }),
+  address: z.string().nonempty({ message: "O endereço é obrigatório" }),
+  addressNumber: z.number(),
+  password: z
+    .string()
+    .nonempty({
+      message: "A senha é obrigatória",
+    })
+    .min(8, {
+      message: "A senha precisa ter no mínimo 8 caracteres",
+    }),
+});
+
+type RegisterUserType = z.infer<typeof registerUserSchema>;
+
 const RegisterContext = createContext({} as RegisterContextInterface);
 
 export default function RegisterProvider(props: RegisterProviderProps) {
   const { children } = props;
   const { navigate } = useNavigation();
   const api = useApi();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+
   const [page, setPage] = useReducer(reducer, initialValues);
   const [readyList, setReadyList] = useState<RegisterPageEnum[]>([]);
+
   const [error, setError] = useState("");
 
-  const { handleSubmit, register, getValues, setValue, watch } =
-    useForm<RegisterFormFields>();
+  const createRegisterForm = useForm<RegisterUserType>({
+    resolver: zodResolver(registerUserSchema),
+  });
+
+  const { handleSubmit, register, getValues, setValue, control } =
+    createRegisterForm;
   const [cpf, setCpf] = useState<string>("");
   const [cep, setCep] = useState<string>("");
   const [birthDate, setBirthDate] = useState<Date | null>(null);
 
-  useEffect(() => {
-    setValue("cpf", cpf);
-  }, [cpf]);
-
-  useEffect(() => {
-    setValue("cep", cep);
-  }, [cep]);
-
-  useEffect(() => {
-    birthDate && setValue("birthDate", birthDate);
-  }, [birthDate]);
-
-  const onSubmit = async () => {
-    await api
-      .post("/user", {
-        name: getValues("name"),
-        surname: getValues("surname"),
-        email: getValues("email"),
-        cpf: getValues("cpf"),
-        birth: getValues("birthDate"),
-        address: getValues("address") + ", " + getValues("addressNumber"),
-        zip_code: getValues("cep"),
-        password: getValues("password"),
-      })
-      .then(() => {
-        setIsModalOpen(true);
-        setError("");
-      })
-      .catch((error) => {
-        setError(error.response.data.error);
-        setIsErrorModalOpen(true);
-      });
+  const onSubmit = (data: RegisterUserType) => {
+    console.log("oi");
+    console.log(data);
   };
 
   const handleGoLogin = () => {
@@ -171,78 +174,12 @@ export default function RegisterProvider(props: RegisterProviderProps) {
     setIsModalOpen(false);
   };
 
-  const name = watch("name");
-  const surname = watch("surname");
-  const email = watch("email");
-  const confirmEmail = watch("confirmEmail");
-
-  useEffect(() => {
-    if (page.ACCOUNT) {
-      if (
-        name &&
-        surname &&
-        email &&
-        confirmEmail &&
-        birthDate &&
-        email === confirmEmail &&
-        verifyCpf(cpf)
-      ) {
-        if (!readyList.includes(RegisterPageEnum.ACCOUNT)) {
-          setReadyList((prevState) => [...prevState, RegisterPageEnum.ACCOUNT]);
-        }
-      } else {
-        const newReadyList = readyList.filter(
-          (filter) => filter !== RegisterPageEnum.ACCOUNT
-        );
-        setReadyList(newReadyList);
-      }
-    }
-  }, [name, surname, email, confirmEmail, cpf, birthDate]);
-
-  const address = watch("address");
-  const addressNumber = watch("addressNumber");
-
-  useEffect(() => {
-    if (page.ADDRESS) {
-      if (cep.length >= 9 && address && addressNumber) {
-        if (!readyList.includes(RegisterPageEnum.ADDRESS)) {
-          setReadyList((prevState) => [...prevState, RegisterPageEnum.ADDRESS]);
-        }
-      } else {
-        const newReadyList = readyList.filter(
-          (filter) => filter !== RegisterPageEnum.ADDRESS
-        );
-        setReadyList(newReadyList);
-      }
-    }
-  }, [cep, address, addressNumber]);
-
-  const password = watch("password");
-  const confirmPassword = watch("confirmPassword");
-
-  useEffect(() => {
-    if (page.PASSWORD) {
-      if (password.length >= 8 && password === confirmPassword) {
-        if (!readyList.includes(RegisterPageEnum.PASSWORD)) {
-          setReadyList((prevState) => [
-            ...prevState,
-            RegisterPageEnum.PASSWORD,
-          ]);
-        }
-      } else {
-        const newReadyList = readyList.filter(
-          (filter) => filter !== RegisterPageEnum.PASSWORD
-        );
-        setReadyList(newReadyList);
-      }
-    }
-  }, [password, confirmPassword]);
-
   return (
     <RegisterContext.Provider
       value={{
         readyList,
         page,
+        control,
         setPage,
         onSubmit,
         handleSubmit,

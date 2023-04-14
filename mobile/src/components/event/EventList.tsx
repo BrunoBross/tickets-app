@@ -31,7 +31,7 @@ export default function EventList(props: EventListProps) {
       showsVerticalScrollIndicator={false}
       className="h-full"
     >
-      <View className="flex-1 mb-32">
+      <View className="flex-1 pb-32">
         {eventList && eventList.length > 0 ? (
           eventList.map((event) => {
             return <EventCard key={event.id} event={event} />;

@@ -1,7 +1,7 @@
 import { Image, Text, TouchableOpacity } from "react-native";
-import formatEventDate from "../utils/formatEventDate";
+import formatEventDate from "../../utils/formatEventDate";
 import { useNavigation } from "@react-navigation/native";
-import { useConnection } from "../contexts/ConnectionContext";
+import { useConnection } from "../../contexts/ConnectionContext";
 
 export interface TicketType {
   id: string;

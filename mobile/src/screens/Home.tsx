@@ -1,10 +1,9 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ActivityIndicator, Text, View } from "react-native";
-import { EventInterface } from "../../components/EventCard";
-import EventList from "../../components/EventList";
-import { useFocusEffect } from "@react-navigation/native";
-import useApi from "../../lib/api";
+import { EventInterface } from "../components/event/EventCard";
+import useApi from "../lib/api";
 import colors from "tailwindcss/colors";
+import EventList from "../components/event/EventList";
 
 export default function Home() {
   const api = useApi();

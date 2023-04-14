@@ -1,12 +1,12 @@
 import clsx from "clsx";
 import { useReducer, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-import { TicketCartInterface, useCart } from "../contexts/CartContext";
 import { EventInterface, TicketType } from "./EventCard";
 import uuid from "react-native-uuid";
-import { useAuth } from "../contexts/AuthContext";
-import ConfirmModal from "./modals/ConfirmModal";
 import EventTicket from "./EventTicket";
+import { useAuth } from "../../contexts/AuthContext";
+import { TicketCartInterface, useCart } from "../../contexts/CartContext";
+import ConfirmModal from "../modals/ConfirmModal";
 
 interface EventDetailsOptions {
   event: EventInterface;

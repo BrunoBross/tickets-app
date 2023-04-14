@@ -10,7 +10,7 @@ import { Ionicons } from "@expo/vector-icons";
 import QRCode from "react-native-qrcode-svg";
 import { useAuth } from "../../contexts/AuthContext";
 import { useEffect, useState } from "react";
-import { TicketType } from "../../components/EventCard";
+import { TicketType } from "../../components/event/EventCard";
 import convertGenter from "../../utils/convertGender";
 import colors from "tailwindcss/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";

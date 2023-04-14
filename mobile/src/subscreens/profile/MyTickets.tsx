@@ -10,7 +10,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "../../contexts/AuthContext";
 import { useCallback, useState } from "react";
-import { EventInterface, TicketType } from "../../components/EventCard";
+import { EventInterface, TicketType } from "../../components/event/EventCard";
 import formatEventDate from "../../utils/formatEventDate";
 import convertGenter from "../../utils/convertGender";
 import colors from "tailwindcss/colors";

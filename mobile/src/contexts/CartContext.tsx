@@ -7,7 +7,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import { TicketType } from "../components/EventCard";
+import { TicketType } from "../components/event/EventCard";
 import { useAuth } from "./AuthContext";
 import AlertModal from "../components/modals/AlertModal";
 import useApi from "../lib/api";

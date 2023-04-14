@@ -1,10 +1,10 @@
 import { Text, TouchableOpacity, View } from "react-native";
 import { TicketType } from "./EventCard";
-import convertGenter from "../utils/convertGender";
 import { Feather } from "@expo/vector-icons";
 import colors from "tailwindcss/colors";
-import formatPrice from "../utils/formatPrice";
-import formatTotalPrice from "../utils/formatTotalPrice";
+import convertGenter from "../../utils/convertGender";
+import formatPrice from "../../utils/formatPrice";
+import formatTotalPrice from "../../utils/formatTotalPrice";
 
 interface EventTicketProps {
   ticketType: TicketType;

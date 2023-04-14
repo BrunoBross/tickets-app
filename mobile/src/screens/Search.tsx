@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { ScrollView, Text, View } from "react-native";
-import EventCard, { EventInterface } from "../../components/EventCard";
-import { Feather } from "@expo/vector-icons";
-import colors from "tailwindcss/colors";
-import { Form } from "../../components/form";
-import useApi from "../../lib/api";
+import EventCard, { EventInterface } from "../components/event/EventCard";
+import useApi from "../lib/api";
+import { Form } from "../components/form";
+import { useForm } from "react-hook-form";
 
 export default function Search() {
   const api = useApi();
   const [eventList, setEventList] = useState<EventInterface[] | null>([]);
   const [eventSearchInput, setEventSearchInput] = useState("");
+  const { control } = useForm();
 
   const searchEvent = async (input: string) => {
     setEventSearchInput(input);
@@ -25,10 +25,11 @@ export default function Search() {
         </Text>
       </View>
       <View>
-        <Form.Input
-          onChangeText={searchEvent}
+        <Form.ControlledInput
+          name="search"
+          control={control}
           placeholder="Nome do evento"
-          icon={<Feather name="search" size={28} color={colors.zinc[500]} />}
+          icon="search"
         />
         <View className="mt-3">
           {eventList && eventList.length > 0 ? (
