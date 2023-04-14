@@ -1,22 +1,18 @@
 import { ScrollView, View } from "react-native";
-import {
-  Control,
-  FieldErrors,
-  FieldValues,
-  UseFormHandleSubmit,
-} from "react-hook-form";
-import { RegisterUserType } from "./useRegister";
+import { Control, FieldErrors, UseFormHandleSubmit } from "react-hook-form";
 import { Form } from "../form";
+import { RegisterType } from "./registerSchema";
 
 interface RegisterFormProps {
-  control: Control<RegisterUserType>;
-  handleSubmit: UseFormHandleSubmit<RegisterUserType>;
+  control: Control<RegisterType>;
+  handleSubmit: UseFormHandleSubmit<RegisterType>;
   onSubmit: (data: any) => void;
-  errors: FieldErrors<RegisterUserType>;
+  isLoading: boolean;
+  errors: FieldErrors<RegisterType>;
 }
 
 export default function RegisterForm(props: RegisterFormProps) {
-  const { control, handleSubmit, onSubmit, errors } = props;
+  const { control, handleSubmit, onSubmit, isLoading, errors } = props;
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -33,6 +29,12 @@ export default function RegisterForm(props: RegisterFormProps) {
           control={control}
           error={errors.surname}
         />
+        <Form.ControlledDateInput
+          title="Data de nascimento"
+          name="birthDate"
+          control={control}
+          error={errors.birthDate}
+        />
         <Form.ControlledInput
           title="Email"
           name="email"
@@ -48,12 +50,14 @@ export default function RegisterForm(props: RegisterFormProps) {
         <Form.ControlledInput
           title="CPF"
           name="cpf"
+          placeholder="000.000.000-00"
           control={control}
           error={errors.cpf}
         />
         <Form.ControlledInput
           title="CEP"
           name="zipCode"
+          placeholder="00.000-000"
           control={control}
           error={errors.zipCode}
         />
@@ -84,8 +88,9 @@ export default function RegisterForm(props: RegisterFormProps) {
           error={errors.confirmPassword}
         />
         <Form.SubmitButton
-          text="Registrar-se"
+          text="Cadastrar"
           onPress={handleSubmit(onSubmit)}
+          isLoading={isLoading}
         />
       </View>
     </ScrollView>

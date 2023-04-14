@@ -4,6 +4,7 @@ import { EventInterface } from "../components/event/EventCard";
 import useApi from "../lib/api";
 import colors from "tailwindcss/colors";
 import EventList from "../components/event/EventList";
+import Container from "../components/Container";
 
 export default function Home() {
   const api = useApi();
@@ -22,13 +23,7 @@ export default function Home() {
   }, []);
 
   return (
-    <View className="flex-1 bg-background p-5 pb-0 gap-5">
-      <View className="justify-center h-14">
-        <Text className=" text-white text-4xl font-extrabold tracking-widest">
-          Eventos
-        </Text>
-      </View>
-
+    <Container title="Eventos">
       {isLoading ? (
         <View className="flex-1 w-full h-full items-center justify-center bg-background">
           <ActivityIndicator size="large" color={colors.violet[600]} />
@@ -41,6 +36,6 @@ export default function Home() {
           />
         </View>
       )}
-    </View>
+    </Container>
   );
 }

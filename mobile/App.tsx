@@ -14,6 +14,8 @@ import CartProvider from "./src/contexts/CartContext";
 import { QueryClient, QueryClientProvider } from "react-query";
 import React from "react";
 import ConnectionProvider from "./src/contexts/ConnectionContext";
+import { ToastProvider } from "react-native-toast-notifications";
+import CustomToast from "./src/components/CustomToast";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -35,20 +37,26 @@ export default function App() {
 
   return (
     <ConnectionProvider>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <CartProvider>
-            <View className="w-full h-full items-center justify-between bg-background">
-              <Routes />
-              <StatusBar
-                barStyle="default"
-                backgroundColor="transparent"
-                translucent
-              />
-            </View>
-          </CartProvider>
-        </AuthProvider>
-      </QueryClientProvider>
+      <ToastProvider
+        offsetBottom={70}
+        animationDuration={300}
+        renderToast={(toast) => <CustomToast toast={toast} />}
+      >
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <CartProvider>
+              <View className="w-full h-full items-center justify-between bg-background">
+                <Routes />
+                <StatusBar
+                  barStyle="default"
+                  backgroundColor="transparent"
+                  translucent
+                />
+              </View>
+            </CartProvider>
+          </AuthProvider>
+        </QueryClientProvider>
+      </ToastProvider>
     </ConnectionProvider>
   );
 }

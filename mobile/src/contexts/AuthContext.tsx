@@ -9,6 +9,7 @@ import {
 } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useApi from "../lib/api";
+import { useToast } from "react-native-toast-notifications";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -46,6 +47,7 @@ const AuthContext = createContext({} as AuthContextInterface);
 export default function AuthProvider(props: AuthProviderProps) {
   const { children } = props;
   const api = useApi();
+  const toast = useToast();
   const [user, setUser] = useState<UserInterface | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -83,7 +85,6 @@ export default function AuthProvider(props: AuthProviderProps) {
     }
   };
 
-  // verifica em primeira instancia se há algum token carregado
   useEffect(() => {
     verifyUserOnEnter();
   }, []);
@@ -107,6 +108,7 @@ export default function AuthProvider(props: AuthProviderProps) {
       .catch((error) => {
         setError(error.response.data.error);
         setIsLoading(false);
+        toast.show(error.response.data.error, { type: "danger" });
       });
   }
 

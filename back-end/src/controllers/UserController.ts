@@ -74,6 +74,33 @@ export async function UserController(app: FastifyInstance) {
       });
   });
 
+  // find user by email
+  app.get("/user/findByEmail/:userEmail", async (request, response) => {
+    const userParams = z.object({
+      userEmail: z.string(),
+    });
+    const { userEmail } = userParams.parse(request.params);
+
+    await prisma.user
+      .findFirst({
+        where: {
+          email: {
+            equals: userEmail,
+          },
+        },
+      })
+      .then((user) => {
+        if (!user) {
+          response.code(204).send({ error: "Esse usuário não existe" });
+        }
+        response.send(user);
+      })
+      .catch((error) => {
+        console.error(error);
+        response.status(500).send({ error: "Ocorreu um erro interno" });
+      });
+  });
+
   // create user
   app.post("/user", async (request, response) => {
     const userBody = z.object({

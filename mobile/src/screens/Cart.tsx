@@ -4,7 +4,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import colors from "tailwindcss/colors";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigation } from "@react-navigation/native";
-import CartList from "./cart/CartList";
+import CartList from "../components/cart/CartList";
+import Container from "../components/Container";
 
 export default function Cart() {
   const { user } = useAuth();
@@ -12,13 +13,7 @@ export default function Cart() {
   const { navigate } = useNavigation();
 
   return (
-    <View className="flex-1 bg-background p-5 pb-0 gap-5">
-      <View className="justify-center h-14">
-        <Text className="text-white text-4xl font-extrabold tracking-widest">
-          Carrinho
-        </Text>
-      </View>
-
+    <Container title="Carrinho">
       {user ? (
         <View className="flex-1">
           <CartList cartList={cartList} />
@@ -44,6 +39,6 @@ export default function Cart() {
           </TouchableOpacity>
         </View>
       )}
-    </View>
+    </Container>
   );
 }

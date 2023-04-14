@@ -2,7 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "../screens/Home";
 import EventDetails from "../subscreens/home/EventDetails";
 import Search from "../screens/Search";
-import Cart from "../components/Cart";
+import Cart from "../screens/Cart";
 import { useAuth } from "../contexts/AuthContext";
 import Profile from "../screens/Profile";
 import Login from "../subscreens/profile/Login";

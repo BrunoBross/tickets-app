@@ -1,10 +1,9 @@
-import { ScrollView } from "react-native";
 import Container from "../../components/Container";
 import RegisterForm from "../../components/register/RegisterForm";
 import useRegister from "../../components/register/useRegister";
 
 export default function Register() {
-  const { createRegisterForm, onSubmit } = useRegister();
+  const { createRegisterForm, onSubmit, isLoading } = useRegister();
   const {
     control,
     handleSubmit,
@@ -12,11 +11,12 @@ export default function Register() {
   } = createRegisterForm;
 
   return (
-    <Container title="Registrar">
+    <Container title="Cadastro" hasBack>
       <RegisterForm
         control={control}
         handleSubmit={handleSubmit}
         onSubmit={onSubmit}
+        isLoading={isLoading}
         errors={errors}
       />
     </Container>
