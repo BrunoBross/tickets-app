@@ -10,7 +10,7 @@ interface ControlledInputProps extends InputProps {
 }
 
 export function ControlledDateInput(props: ControlledInputProps) {
-  const { title, name, control, error, ...rest } = props;
+  const { title, placeholder, name, control, error, ...rest } = props;
 
   return (
     <Controller

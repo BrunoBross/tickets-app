@@ -40,17 +40,22 @@ export default function RegisterForm(props: RegisterFormProps) {
           name="email"
           control={control}
           error={errors.email}
+          keyboardType="email-address"
+          autoCapitalize="none"
         />
         <Form.ControlledInput
           title="Confirme o email"
           name="confirmEmail"
           control={control}
           error={errors.confirmEmail}
+          keyboardType="email-address"
+          autoCapitalize="none"
         />
         <Form.ControlledInput
           title="CPF"
           name="cpf"
           placeholder="000.000.000-00"
+          keyboardType="numeric"
           control={control}
           error={errors.cpf}
         />
@@ -58,6 +63,7 @@ export default function RegisterForm(props: RegisterFormProps) {
           title="CEP"
           name="zipCode"
           placeholder="00.000-000"
+          keyboardType="numeric"
           control={control}
           error={errors.zipCode}
         />
@@ -78,6 +84,7 @@ export default function RegisterForm(props: RegisterFormProps) {
           name="password"
           control={control}
           secureTextEntry
+          autoCapitalize="none"
           error={errors.password}
         />
         <Form.ControlledInput
@@ -85,6 +92,7 @@ export default function RegisterForm(props: RegisterFormProps) {
           name="confirmPassword"
           control={control}
           secureTextEntry
+          autoCapitalize="none"
           error={errors.confirmPassword}
         />
         <Form.SubmitButton

@@ -7,11 +7,16 @@ export default function Register() {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = createRegisterForm;
 
   return (
-    <Container title="Cadastro" hasBack>
+    <Container
+      title="Cadastro"
+      hasBack
+      askConfirm={isDirty}
+      message="Tem certeza que deseja cancelar?"
+    >
       <RegisterForm
         control={control}
         handleSubmit={handleSubmit}

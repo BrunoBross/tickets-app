@@ -2,12 +2,6 @@ import { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { useState } from "react";
 import { Platform } from "react-native";
 
-interface HandleChangeDateProps {
-  setDate: (date: Date) => void;
-  event: any;
-  selectedDate?: Date;
-}
-
 interface UseDatePickerProps {
   setDate: (date: Date) => void;
 }
@@ -36,7 +30,7 @@ export default function useDatePicker(props: UseDatePickerProps) {
     selectedDate: Date | undefined
   ) => {
     setIsDatePickerOpen(Platform.OS === "ios");
-    if (selectedDate) {
+    if (selectedDate && event.type === "set") {
       setDate(selectedDate);
     }
   };

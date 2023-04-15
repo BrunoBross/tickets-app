@@ -40,15 +40,18 @@ export function DatePickerInput(props: DatePickerInputProps) {
         {date ? (
           <Text className="text-white text-lg">{handleFormatDate(date)}</Text>
         ) : (
-          <Text className="text-zinc-500 text-lg">{title}</Text>
+          <Text className="text-zinc-500 text-lg">
+            {handleFormatDate(maximumDate)}
+          </Text>
         )}
       </TouchableOpacity>
       {isDatePickerOpen && (
         <DateTimePicker
+          locale="pt"
           value={date ? date : maximumDate}
           mode="date"
           dateFormat="day month year"
-          display="default"
+          display="spinner"
           maximumDate={maximumDate}
           onChange={handleChangeDate}
         />
