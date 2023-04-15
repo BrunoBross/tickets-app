@@ -14,8 +14,8 @@ export default function FloatingButton(props: FloatingButtonProps) {
     <TouchableOpacity
       activeOpacity={0.7}
       className={clsx("w-full h-14 items-center absolute", {
-        ["bottom-32"]: upper,
-        ["bottom-16"]: !upper,
+        ["bottom-[135]"]: upper,
+        ["bottom-[70]"]: !upper,
       })}
       onPress={handler}
     >

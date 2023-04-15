@@ -23,7 +23,7 @@ export default function ConnectionProvider(props: ConnectionProviderProps) {
   const testConnection = async (api: AxiosInstance) => {
     setIsLoading(true);
     await api
-      .get("/connection")
+      .get("connection")
       .then((response: any) => {
         if (response.status == 200) {
           setIsServerOn(true);
@@ -38,7 +38,12 @@ export default function ConnectionProvider(props: ConnectionProviderProps) {
 
   return (
     <ConnectionContext.Provider
-      value={{ serverIp: API_URL, testConnection, isLoading, isServerOn }}
+      value={{
+        serverIp: "http://192.168.1.105:3001/",
+        testConnection,
+        isLoading,
+        isServerOn,
+      }}
     >
       {children}
     </ConnectionContext.Provider>
