@@ -76,7 +76,7 @@ export async function UserController(app: FastifyInstance) {
 
       const result = await userService.deleteUserById(userId);
 
-      return response.send(result);
+      return response.status(result.status).send();
     } catch (error) {
       return ServerResponseError(error, response);
     }
@@ -88,7 +88,7 @@ export async function UserController(app: FastifyInstance) {
 
       const result = await userService.createUser(parsedCreateUserBody);
 
-      return response.send(result);
+      return response.status(result.status).send({ message: result.message });
     } catch (error) {
       return ServerResponseError(error, response);
     }

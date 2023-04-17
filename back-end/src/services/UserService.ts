@@ -38,7 +38,7 @@ export class UserService {
     });
 
     if (!user) {
-      throw new DefaultException("Usuário não encontrado", 400);
+      throw new DefaultException("Usuário não encontrado", 404);
     }
 
     return user;
@@ -62,7 +62,7 @@ export class UserService {
     });
 
     if (!user) {
-      throw new DefaultException("Usuário não encontrado", 400);
+      throw new DefaultException("Usuário não encontrado", 404);
     }
 
     return user;
@@ -84,7 +84,7 @@ export class UserService {
     });
 
     if (!user) {
-      throw new DefaultException("Usuário não encontrado", 400);
+      throw new DefaultException("Usuário não encontrado", 404);
     }
 
     return user;
@@ -103,7 +103,7 @@ export class UserService {
       },
     });
 
-    return { message: "Usuário removido com sucesso" };
+    return { status: 204 };
   }
 
   async createUser(user: CreateUserBodyInterface) {
@@ -134,7 +134,7 @@ export class UserService {
       })
       .then((response) => {
         if (response) {
-          throw new DefaultException("Este CPF já está sendo utilizado", 400);
+          throw new DefaultException("Este CPF já está sendo utilizado", 409);
         }
       });
 
@@ -155,7 +155,7 @@ export class UserService {
         if (response) {
           throw new DefaultException(
             "Este e-mail já está sendo utilizado",
-            400
+            409
           );
         }
       });
@@ -173,6 +173,6 @@ export class UserService {
       },
     });
 
-    return { message: "Usuário cadastrado com sucesso" };
+    return { message: "Usuário cadastrado com sucesso", status: 200 };
   }
 }
