@@ -10,11 +10,12 @@ interface ContainerProps {
   hasBack?: boolean;
   askConfirm?: boolean;
   message?: string;
+  button?: ReactNode;
   children: ReactNode;
 }
 
 export default function Container(props: ContainerProps) {
-  const { title, hasBack, askConfirm, message, children } = props;
+  const { title, hasBack, askConfirm, message, button, children } = props;
   const { goBack } = useNavigation();
   const [isBackModalOpen, setIsBackModalOpen] = useState(false);
 
@@ -33,25 +34,28 @@ export default function Container(props: ContainerProps) {
         />
       )}
       <View className="flex-1 bg-background p-5 pb-0 gap-5">
-        <View className="flex-row items-center">
-          {hasBack && (
-            <View className="justify-center h-14 pr-4">
-              <TouchableOpacity activeOpacity={0.7} onPress={handleGoBack}>
-                <Ionicons
-                  name="arrow-back-outline"
-                  size={40}
-                  color={colors.zinc[400]}
-                />
-              </TouchableOpacity>
-            </View>
-          )}
-          {title && (
-            <View className="justify-center h-14">
-              <Text className=" text-white text-4xl font-extrabold tracking-widest">
-                {title}
-              </Text>
-            </View>
-          )}
+        <View className="flex-row items-center justify-between">
+          <View className="flex-row items-center">
+            {hasBack && (
+              <View className="justify-center h-14 pr-4">
+                <TouchableOpacity activeOpacity={0.7} onPress={handleGoBack}>
+                  <Ionicons
+                    name="arrow-back-outline"
+                    size={40}
+                    color={colors.zinc[400]}
+                  />
+                </TouchableOpacity>
+              </View>
+            )}
+            {title && (
+              <View className="justify-center h-14">
+                <Text className=" text-white text-4xl font-extrabold tracking-widest">
+                  {title}
+                </Text>
+              </View>
+            )}
+          </View>
+          {button}
         </View>
         <View className="flex-1">{children}</View>
       </View>

@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, UseFormReturn, useForm } from "react-hook-form";
 import { RegisterType, registerSchema } from "./registerSchema";
 import useApi from "../../lib/api";
 import { useToast } from "react-native-toast-notifications";
@@ -12,9 +12,11 @@ export default function useRegister() {
   const { navigate } = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
 
-  const createRegisterForm = useForm<RegisterType>({
-    resolver: zodResolver(registerSchema),
-  });
+  const createRegisterForm: UseFormReturn<RegisterType> = useForm<RegisterType>(
+    {
+      resolver: zodResolver(registerSchema),
+    }
+  );
 
   const onSubmit: SubmitHandler<RegisterType> = async (data: RegisterType) => {
     setIsLoading(true);
@@ -25,8 +27,6 @@ export default function useRegister() {
         email: data.email,
         cpf: data.cpf,
         birth: data.birthDate,
-        address: data.address + ", " + data.addressNumber,
-        zip_code: data.zipCode,
         password: data.password,
       })
       .then((response) => {

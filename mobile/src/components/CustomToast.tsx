@@ -21,7 +21,7 @@ export default function CustomToast(props: CustomToastProps) {
   return (
     <View
       className={clsx(
-        "flex p-3 h-14 w-[90%] flex-row items-center justify-center rounded-md",
+        "flex p-3 my-1 h-14 w-[90%] flex-row items-center justify-center rounded-md",
         toastStyle
       )}
     >

@@ -60,26 +60,6 @@ export default function RegisterForm(props: RegisterFormProps) {
           error={errors.cpf}
         />
         <Form.ControlledInput
-          title="CEP"
-          name="zipCode"
-          placeholder="00.000-000"
-          keyboardType="numeric"
-          control={control}
-          error={errors.zipCode}
-        />
-        <Form.ControlledInput
-          title="Endereço"
-          name="address"
-          control={control}
-          error={errors.address}
-        />
-        <Form.ControlledInput
-          title="Número"
-          name="addressNumber"
-          control={control}
-          error={errors.addressNumber}
-        />
-        <Form.ControlledInput
           title="Senha"
           name="password"
           control={control}

@@ -1,4 +1,3 @@
-import { useToast } from "react-native-toast-notifications";
 import { LoginType, loginSchema } from "./loginSchema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";

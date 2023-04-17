@@ -7,7 +7,7 @@ import {
   verifyCnpj,
   verifyCpf,
   verifyEmail,
-} from "./utils";
+} from "../helpers/Utils";
 import bcrypt from "bcrypt";
 
 export async function OrganizerController(app: FastifyInstance) {

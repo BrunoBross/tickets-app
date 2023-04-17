@@ -17,6 +17,9 @@ export async function AuthController(app: FastifyInstance) {
         email: {
           equals: email,
         },
+        AND: {
+          active: true,
+        },
       },
     });
 

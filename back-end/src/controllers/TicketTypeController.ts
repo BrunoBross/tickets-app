@@ -67,13 +67,13 @@ export async function TicketTypeController(app: FastifyInstance) {
     const ticketTypeBody = z.object({
       price: z.number(),
       name: z.string(),
-      batch: z.number(),
-      gender: z.enum(["MALE", "FEMALE", "OTHER"]),
+      lot: z.number(),
+      amount: z.number(),
     });
 
     const { eventId } = ticketTypeParams.parse(request.params);
 
-    const { price, name, batch, gender } = ticketTypeBody.parse(request.body);
+    const { price, name, lot, amount } = ticketTypeBody.parse(request.body);
 
     const tax = price * (15 / 100);
 
@@ -83,8 +83,8 @@ export async function TicketTypeController(app: FastifyInstance) {
           price,
           tax,
           name,
-          batch,
-          gender,
+          lot,
+          amount,
           event_id: eventId,
         },
       })

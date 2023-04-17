@@ -24,17 +24,6 @@ export const registerSchema = z
       .string({ required_error: "O CPF é obrigatório" })
       .min(1, { message: "O CPF é obrigatório" })
       .refine(verifyCpf, "CPF inválido"),
-    zipCode: z
-      .string({ required_error: "O CEP é obrigatório" })
-      .min(1, { message: "O CEP é obrigatório" }),
-    address: z
-      .string({ required_error: "O endereço é obrigatório" })
-      .min(1, { message: "O endereço é obrigatório" }),
-    addressNumber: z
-      .string({
-        required_error: "O número do endereço é obrigatório",
-      })
-      .min(1, { message: "O número do endereço é obrigatório" }),
     password: z
       .string({ required_error: "A senha é obrigatória" })
       .min(1, { message: "A senha é obrigatória" })

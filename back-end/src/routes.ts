@@ -13,7 +13,7 @@ export async function Routes(app: FastifyInstance) {
       await request.jwtVerify();
     } catch (error) {
       console.log(error);
-      response.code(401).send({ error: "Authentication failed" });
+      response.code(401).send({ error: "Falha na autenticação" });
     }
   });
 
