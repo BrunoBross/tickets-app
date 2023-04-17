@@ -161,24 +161,14 @@ export async function EventController(app: FastifyInstance) {
         attraction: z.string(),
         description: z.string(),
         date: z.coerce.date(),
-        batch: z.string(),
       });
 
       const { organizerId } = eventParams.parse(request.params);
 
       const file_name = request.file.filename;
 
-      const {
-        name,
-        location,
-        location_link,
-        attraction,
-        description,
-        date,
-        batch,
-      } = eventBody.parse(request.body);
-
-      const intBatch = parseInt(batch, 10);
+      const { name, location, location_link, attraction, description, date } =
+        eventBody.parse(request.body);
 
       await prisma.event
         .create({
@@ -189,7 +179,6 @@ export async function EventController(app: FastifyInstance) {
             attraction,
             description,
             date,
-            batch: intBatch,
             organizer_id: organizerId,
             file_name,
           },

@@ -17,17 +17,20 @@ export async function AuthController(app: FastifyInstance) {
         email: {
           equals: email,
         },
+        AND: {
+          active: true,
+        },
       },
     });
 
     if (!user) {
-      return response.code(404).send({ error: "Email ou senha incorreta" });
+      return response.code(404).send({ error: "E-mail ou senha incorreta" });
     }
 
     const isCorrectPassword = await bcrypt.compare(password, user.password);
 
     if (!isCorrectPassword) {
-      return response.code(404).send({ error: "Email ou senha incorreta" });
+      return response.code(404).send({ error: "E-mail ou senha incorreta" });
     }
 
     const data = {

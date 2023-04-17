@@ -17,13 +17,14 @@ const ConnectionContext = createContext({} as ConnectionContextInterface);
 
 export default function ConnectionProvider(props: ConnectionProviderProps) {
   const { children } = props;
+  const serverIp = "http://192.168.1.100:3000/";
   const [isLoading, setIsLoading] = useState(false);
   const [isServerOn, setIsServerOn] = useState(false);
 
   const testConnection = async (api: AxiosInstance) => {
     setIsLoading(true);
     await api
-      .get("/connection")
+      .get("connection")
       .then((response: any) => {
         if (response.status == 200) {
           setIsServerOn(true);
@@ -38,7 +39,12 @@ export default function ConnectionProvider(props: ConnectionProviderProps) {
 
   return (
     <ConnectionContext.Provider
-      value={{ serverIp: API_URL, testConnection, isLoading, isServerOn }}
+      value={{
+        serverIp,
+        testConnection,
+        isLoading,
+        isServerOn,
+      }}
     >
       {children}
     </ConnectionContext.Provider>

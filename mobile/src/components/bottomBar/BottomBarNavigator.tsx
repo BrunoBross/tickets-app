@@ -19,7 +19,7 @@ export default function BottomBarNavigator({
   const showCartButton = state.index !== 2 && cartList.length > 0;
 
   return (
-    <View>
+    <View className="items-center">
       {showCartButton && (
         <FloatingButton handler={() => navigate("cartPage")}>
           <View className="flex-1 w-[93%] h-full bg-green-600 rounded-md flex-row items-center justify-between px-4">
@@ -72,7 +72,7 @@ export default function BottomBarNavigator({
           </FloatingButton>
         </>
       )}
-      <View className="flex-2 w-full pt-1 pb-4 border-t-2 border-zinc-900 px-5 flex-row justify-between">
+      <View className="flex-2 w-full border-t-2 gap-x-2 border-zinc-900 flex-row">
         {state.routes.map((route: any, index: any) => {
           const isFocused = state.index === index;
           const { options } = descriptors[route.key];
@@ -94,7 +94,7 @@ export default function BottomBarNavigator({
             <TouchableOpacity
               key={index}
               activeOpacity={0.7}
-              className="px-4 py-1"
+              className="flex-1 items-center justify-center p-4"
               onPress={onPress}
               accessibilityState={isFocused ? { selected: true } : {}}
               accessibilityLabel={options.tabBarAccessibilityLabel}

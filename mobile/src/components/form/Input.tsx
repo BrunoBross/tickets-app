@@ -1,25 +1,44 @@
-import { ReactNode } from "react";
-import { TextInput, View } from "react-native";
+import { Feather } from "@expo/vector-icons";
+import clsx from "clsx";
+import { ComponentProps } from "react";
+import { FieldError } from "react-hook-form";
+import { Text, TextInput, TextInputProps, View } from "react-native";
 import colors from "tailwindcss/colors";
 
-interface InputTextProps {
-  placeholder: string;
-  icon?: ReactNode;
-  onChangeText: (() => void) | ((input: string) => Promise<void>);
+export interface InputProps extends TextInputProps {
+  title: string;
+  onChangeText?: (...event: any[]) => void;
+  icon?: ComponentProps<typeof Feather>["name"];
+  error: FieldError | undefined;
 }
 
-export function Input(props: InputTextProps) {
-  const { placeholder, onChangeText, icon } = props;
+export function Input(props: InputProps) {
+  const { title, onChangeText, icon, error, ...rest } = props;
+
   return (
-    <View className="flex-row items-center px-3 bg-zinc-900 border-2 border-zinc-800 rounded-md focus:border-green-600">
+    <View>
+      <Text className="text-zinc-500 text-base font-semibold mb-2">
+        {title}
+      </Text>
       <TextInput
         selectionColor={colors.green[600]}
         placeholderTextColor={colors.zinc[500]}
         onChangeText={onChangeText}
-        placeholder={placeholder}
-        className="flex-1 h-14 text-base text-white "
+        className={clsx(
+          "flex-row h-14 p-3 mb-2 items-center justify-between text-white text-base bg-zinc-900 border-2 rounded-md",
+          {
+            ["border-zinc-800 focus:border-green-600"]: !error?.message,
+            ["border-red-600 focus:border-red-600"]: error?.message,
+          }
+        )}
+        placeholder={title}
+        {...rest}
       />
-      {icon}
+      {error?.message && (
+        <Text className="text-red-600 text-base font-semibold mb-2">
+          {error?.message}
+        </Text>
+      )}
     </View>
   );
 }
