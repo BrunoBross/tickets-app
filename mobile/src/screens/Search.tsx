@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { ScrollView, Text, TextInput } from "react-native";
+import { ScrollView, Text, TextInput, View } from "react-native";
 import EventCard, { EventInterface } from "../components/event/EventCard";
 import useApi from "../lib/api";
 import Container from "../components/Container";
 import colors from "tailwindcss/colors";
+import { Feather } from "@expo/vector-icons";
 
 export default function Search() {
   const api = useApi();
@@ -36,9 +37,12 @@ export default function Search() {
           Desculpe, não encontramos o evento "{eventSearchInput}"
         </Text>
       ) : (
-        <Text className="text-white font-semibold text-base">
-          Procure eventos pelo nome
-        </Text>
+        <View className="flex-row gap-x-2">
+          <Text className="text-white font-semibold text-base">
+            Procure eventos pelo nome
+          </Text>
+          <Feather name="search" size={24} color={colors.white} />
+        </View>
       )}
     </Container>
   );

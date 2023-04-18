@@ -2,6 +2,7 @@ import { RefreshControl, ScrollView, Text, View } from "react-native";
 import EventCard, { EventInterface } from "./EventCard";
 import { useCallback, useState } from "react";
 import colors from "tailwindcss/colors";
+import { Feather } from "@expo/vector-icons";
 
 interface EventListProps {
   eventList: EventInterface[] | null;
@@ -37,9 +38,12 @@ export default function EventList(props: EventListProps) {
             return <EventCard key={event.id} event={event} />;
           })
         ) : (
-          <Text className="text-white text-xl">
-            Nenhum evento disponível ;(
-          </Text>
+          <View className="flex-row gap-x-2">
+            <Text className="text-white text-base font-semibold">
+              Nenhum evento disponível
+            </Text>
+            <Feather name="frown" size={24} color={colors.white} />
+          </View>
         )}
       </View>
     </ScrollView>

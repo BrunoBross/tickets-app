@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "tickets",
-    "slug": "tickets",
+    "name": "UniTickets",
+    "description": "Um aplicativo de venda de ingressos de festas",
+    "slug": "uniTicketsApp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -9,18 +10,16 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#09090a"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#09090a"
       },
       "package": "com.anonymous.mobile"
     },
@@ -31,6 +30,9 @@
       "eas": {
         "projectId": "10923a48-dae2-4d02-98c5-14ee64b4c219"
       }
+    },
+    "androidStatusBar": {
+      "hidden": "true"
     }
   }
 }

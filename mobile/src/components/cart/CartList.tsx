@@ -31,7 +31,7 @@ export default function CartList(props: CartListProps) {
         </ScrollView>
       ) : (
         <View>
-          <View className="flex-row gap-2">
+          <View className="flex-row gap-x-2">
             <Text className="text-white text-base font-semibold">
               Seu carrinho está vazio
             </Text>

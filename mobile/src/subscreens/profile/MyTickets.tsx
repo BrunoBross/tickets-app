@@ -15,6 +15,7 @@ import formatEventDate from "../../utils/formatEventDate";
 import convertGenter from "../../utils/convertGender";
 import colors from "tailwindcss/colors";
 import useApi from "../../lib/api";
+import { Feather } from "@expo/vector-icons";
 
 interface TicketListInterface {
   id: string;
@@ -124,9 +125,12 @@ export default function MyTickets() {
                 );
               })
             ) : (
-              <Text className="text-white text-base font-semibold">
-                Você não possui nenhum ingresso!
-              </Text>
+              <View className="flex-row gap-x-2">
+                <Text className="text-white text-base font-semibold">
+                  Você não possui nenhum ingresso
+                </Text>
+                <Feather name="frown" size={24} color={colors.white} />
+              </View>
             )}
           </View>
         </ScrollView>

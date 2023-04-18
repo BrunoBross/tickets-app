@@ -22,6 +22,8 @@ export default function LoginForm(props: LoginFormProps) {
         <Form.ControlledInput
           title="E-mail"
           name="email"
+          keyboardType="email-address"
+          autoCapitalize="none"
           control={control}
           error={errors.email}
         />
