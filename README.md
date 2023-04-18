@@ -17,7 +17,7 @@ git clone git@github.com:BrunoBross/tickets-app.git
 Suba um banco de dados postgres (recomendado utilizar docker)
 
 ```
-docker run --name tickets -e POSTGRES_USER=tickets  -e POSTGRES_PASSWORD=tickets -p 5433:5432 -d postgres
+docker run --name tickets -e POSTGRES_USER=tickets  -e POSTGRES_PASSWORD=tickets --restart=always -p 5433:5432 -d postgres
 ```
 
 É possível alterar o nome, usuário, senha e porta, mas você deve lembrar pois será necessário mais a frente
