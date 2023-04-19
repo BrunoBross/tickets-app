@@ -9,8 +9,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Plus } from "phosphor-react";
-import { useEffect, useRef, useState } from "react";
-import { api } from "../../lib/api";
+import { useRef } from "react";
 import { formatDate } from "../../utils/dateFormatter";
 import DefaultModal from "../DefaultModal";
 
@@ -24,6 +23,7 @@ export interface EventInterface {
   batch: number;
   organizer_id: string;
   file_name: string;
+  TicketType: TicketTypeInterface[];
 }
 
 interface EventCardProps {
@@ -32,19 +32,18 @@ interface EventCardProps {
 
 interface TicketTypeInterface {
   id: string;
-  price: number;
   name: string;
-  batch: number;
-  gender: string;
+  price: number;
+  tax: number;
+  lot: number;
+  amount: number;
   event_id: string;
 }
 
 export default function EventCard(props: EventCardProps) {
   const {
-    event: { id, name, date, location, file_name },
+    event: { id, name, date, location, file_name, TicketType },
   } = props;
-
-  console.log(file_name);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = useRef(null);
@@ -52,19 +51,6 @@ export default function EventCard(props: EventCardProps) {
 
   const newDate = formatDate(date);
   const info = `${newDate} • ${location}`;
-
-  const [ticketTypesList, setTicketTypesList] = useState<
-    TicketTypeInterface[] | null
-  >();
-  const retrieveTicketTypes = async () => {
-    await api.get(`/ticket-type/${id}`).then((response) => {
-      setTicketTypesList(response.data);
-    });
-  };
-
-  useEffect(() => {
-    retrieveTicketTypes();
-  }, []);
 
   const Details = () => {
     return (
@@ -83,11 +69,10 @@ export default function EventCard(props: EventCardProps) {
               </Button>
             </HStack>
             <VStack w="100%" pl="2rem" alignItems="flex-start">
-              {ticketTypesList ? (
-                ticketTypesList.map((type) => (
+              {TicketType ? (
+                TicketType.map((type) => (
                   <Text key={type.id}>
-                    Lote: {type.batch} - {type.name} - R$ {type.price} -{" "}
-                    {type.gender}
+                    Lote: {type.lot} - {type.name} - R$ {type.price} -{" "}
                   </Text>
                 ))
               ) : (
@@ -128,7 +113,7 @@ export default function EventCard(props: EventCardProps) {
         <Image
           height="70%"
           objectFit="cover"
-          src={`https://tickets-api.onrender.com/uploads/logo/${file_name}`}
+          src={`http://localhost:3000/uploads/logo/${file_name}`}
           backgroundColor="gray"
           borderRadius="1rem"
         />

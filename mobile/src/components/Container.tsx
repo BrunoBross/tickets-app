@@ -3,24 +3,43 @@ import { ReactNode, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import colors from "tailwindcss/colors";
-import NewConfirmModal from "./modals/NewConfirmModal";
+import NewConfirmModal from "./modals/ConfirmModal";
 
 interface ContainerProps {
   title?: string;
   hasBack?: boolean;
+  onBack?: () => void;
   askConfirm?: boolean;
   message?: string;
+  confirmText?: string;
+  cancelText?: string;
+  isDanger?: boolean;
   button?: ReactNode;
   children: ReactNode;
 }
 
 export default function Container(props: ContainerProps) {
-  const { title, hasBack, askConfirm, message, button, children } = props;
+  const {
+    title,
+    hasBack,
+    onBack,
+    askConfirm,
+    message,
+    confirmText,
+    cancelText,
+    isDanger,
+    button,
+    children,
+  } = props;
   const { goBack } = useNavigation();
   const [isBackModalOpen, setIsBackModalOpen] = useState(false);
 
   const handleGoBack = () => {
-    askConfirm ? setIsBackModalOpen(!isBackModalOpen) : goBack();
+    askConfirm && !onBack
+      ? setIsBackModalOpen(!isBackModalOpen)
+      : onBack
+      ? onBack()
+      : goBack();
   };
 
   return (
@@ -30,7 +49,10 @@ export default function Container(props: ContainerProps) {
           isVisible={isBackModalOpen}
           setIsVisible={setIsBackModalOpen}
           message={message}
+          confirmText={confirmText}
+          cancelText={cancelText}
           handler={goBack}
+          isDanger={isDanger}
         />
       )}
       <View className="flex-1 bg-background p-5 pb-0 gap-5">

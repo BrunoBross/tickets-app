@@ -11,7 +11,6 @@ interface EventTicketProps {
   removeLastTicketCartByTicketType: (ticketType: TicketType) => void;
   getTicketCartAmount: (ticketType: TicketType) => number;
   handleAddTicketToCart: (ticketType: TicketType) => void;
-  averageColor: string;
 }
 
 export default function EventTicket(props: EventTicketProps) {
@@ -20,7 +19,6 @@ export default function EventTicket(props: EventTicketProps) {
     removeLastTicketCartByTicketType,
     getTicketCartAmount,
     handleAddTicketToCart,
-    averageColor,
   } = props;
 
   return (
@@ -33,7 +31,7 @@ export default function EventTicket(props: EventTicketProps) {
           {convertGenter(ticketType.gender)}
         </Text>
         <Text className="text-white font-semibold text-lg">
-          {ticketType.batch}º Lote
+          {ticketType.lot}º Lote
         </Text>
         <Text className="text-zinc-400 font-semibold text-xs">
           {formatPrice(ticketType.price)} + {formatPrice(ticketType.tax)} de
@@ -47,16 +45,12 @@ export default function EventTicket(props: EventTicketProps) {
         <View className="flex-row items-center">
           <TouchableOpacity
             activeOpacity={0.7}
-            style={{ backgroundColor: averageColor }}
-            className="px-2 h-10 justify-center rounded-l-md"
+            className="px-2 h-10 bg-violet-600 justify-center rounded-l-md"
             onPress={() => removeLastTicketCartByTicketType(ticketType)}
           >
             <Feather name="minus" size={20} color={colors.white} />
           </TouchableOpacity>
-          <View
-            style={{ borderColor: averageColor }}
-            className="border-y-2 h-10 w-10 items-center justify-center"
-          >
+          <View className="border-y-2 border-violet-600 h-10 w-10 items-center justify-center">
             <Text className="text-white font-semibold text-xl">
               {getTicketCartAmount(ticketType)}
             </Text>
@@ -64,8 +58,7 @@ export default function EventTicket(props: EventTicketProps) {
 
           <TouchableOpacity
             activeOpacity={0.7}
-            style={{ backgroundColor: averageColor }}
-            className="px-2 h-10 justify-center rounded-r-md"
+            className="px-2 h-10 bg-violet-600 justify-center rounded-r-md"
             onPress={() => handleAddTicketToCart(ticketType)}
           >
             <Feather name="plus" size={20} color={colors.white} />

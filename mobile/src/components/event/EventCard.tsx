@@ -1,14 +1,17 @@
-import { Image, Text, TouchableOpacity } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import formatEventDate from "../../utils/formatEventDate";
-import { useNavigation } from "@react-navigation/native";
 import useApi from "../../lib/api";
+import ContentModal from "../modals/ContentModal";
+import { useState } from "react";
+import EventDetails from "./EventDetails";
 
 export interface TicketType {
   id: string;
   price: number;
   tax: number;
   name: string;
-  batch: number;
+  lot: number;
+  amount: number;
   gender: string;
 }
 
@@ -31,28 +34,36 @@ interface EventProps {
 }
 
 export default function EventCard(props: EventProps) {
-  const {
-    event: { id, date, location, file_name },
-  } = props;
+  const { event } = props;
   const { serverIp } = useApi();
-  const { navigate } = useNavigation();
-  const newDate = formatEventDate(date);
-  const info = `${newDate} • ${location}`;
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleToggleModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
+
+  const newDate = formatEventDate(event.date);
+  const info = `${newDate} • ${event.location}`;
 
   return (
-    <TouchableOpacity
-      activeOpacity={0.7}
-      className="mb-4"
-      onPress={() => navigate("details", { eventId: id })}
-    >
-      <Image
-        source={{
-          uri: `${serverIp}uploads/logo/${file_name}`,
-        }}
-        className="w-full h-40 rounded-md"
-      />
+    <>
+      <ContentModal isVisible={isModalVisible} setIsVisible={setIsModalVisible}>
+        <EventDetails event={event} handleCloseModal={handleToggleModal} />
+      </ContentModal>
+      <TouchableOpacity
+        activeOpacity={0.7}
+        className="mb-4"
+        onPress={handleToggleModal}
+      >
+        <Image
+          source={{
+            uri: `${serverIp}uploads/logo/${event.file_name}`,
+          }}
+          className="w-full h-40 rounded-md"
+        />
 
-      <Text className="text-white pt-2 text-base font-semibold">{info}</Text>
-    </TouchableOpacity>
+        <Text className="text-white pt-2 text-base font-semibold">{info}</Text>
+      </TouchableOpacity>
+    </>
   );
 }

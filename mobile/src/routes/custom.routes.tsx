@@ -1,17 +1,16 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "../screens/Home";
-import EventDetails from "../subscreens/home/EventDetails";
 import Search from "../screens/Search";
 import Cart from "../screens/Cart";
 import { useAuth } from "../contexts/AuthContext";
 import Profile from "../screens/Profile";
-import Login from "../subscreens/profile/Login";
-import Register from "../subscreens/profile/Register";
-import MyTickets from "../subscreens/profile/MyTickets";
-import ProfileInfo from "../subscreens/profile/ProfileInfo";
-import Ticket from "../subscreens/profile/Ticket";
-import Who from "../subscreens/profile/Who";
-import Help from "../subscreens/profile/Help";
+import Login from "../screens/profile/Login";
+import Register from "../screens/profile/Register";
+import MyTickets from "../screens/profile/MyTickets";
+import ProfileInfo from "../screens/profile/ProfileInfo";
+import Ticket from "../screens/profile/Ticket";
+import Who from "../screens/profile/Who";
+import Help from "../screens/profile/Help";
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -24,7 +23,6 @@ const HomePage = () => {
       }}
     >
       <Screen name="home" component={Home} />
-      <Screen name="details" component={EventDetails} />
     </Navigator>
   );
 };

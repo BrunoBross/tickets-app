@@ -10,7 +10,6 @@ import ConfirmModal from "../modals/ConfirmModal";
 
 interface EventDetailsOptions {
   event: EventInterface;
-  averageColor: string;
 }
 
 const reducer = (state: any, action: any) => {
@@ -36,7 +35,7 @@ const initialValues = {
 };
 
 export default function EventDetailsOptions(props: EventDetailsOptions) {
-  const { event, averageColor } = props;
+  const { event } = props;
   const { user } = useAuth();
   const [state, dispatch] = useReducer(reducer, initialValues);
   const { addCartList, cartList, setCartList } = useCart();
@@ -57,9 +56,7 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
 
   const removeLastTicketCartByTicketType = (ticketType: TicketType) => {
     const ticketIndex = cartList.findIndex(
-      (ticket) =>
-        ticket.ticketType.name === ticketType.name &&
-        ticket.ticketType.gender === ticketType.gender
+      (ticket) => ticket.ticketType.id === ticketType.id
     );
 
     if (ticketIndex !== -1) {
@@ -71,33 +68,30 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
   };
 
   const getTicketCartAmount = (ticketType: TicketType) => {
-    return cartList.filter(
-      (ticket) =>
-        ticket.ticketType.name === ticketType.name &&
-        ticket.ticketType.gender === ticketType.gender
-    ).length;
+    return cartList.filter((ticket) => ticket.ticketType.id === ticketType.id)
+      .length;
   };
 
   return (
     <View className="flex pt-2">
       <ConfirmModal
-        isOpen={isModalOpen}
+        isVisible={isModalOpen}
+        setIsVisible={setIsModalOpen}
         title="Erro"
+        message="Você precisa estar logado"
         confirmText="Confirmar"
         handler={() => setIsModalOpen(false)}
-      >
-        <Text className="text-white text-base font-semibold">
-          Você precisa estar logado!
-        </Text>
-      </ConfirmModal>
+      />
       <View className="flex flex-row">
         <TouchableOpacity
           activeOpacity={1}
-          style={{ backgroundColor: averageColor }}
-          className={clsx("flex-1 p-3 h-14 items-center rounded-tl-md", {
-            ["border-b-2 border-white"]: state.tickets === true,
-            ["opacity-50"]: state.tickets === false,
-          })}
+          className={clsx(
+            "flex-1 p-3 h-14 bg-violet-600 items-center rounded-tl-md",
+            {
+              ["border-b-2 border-white"]: state.tickets === true,
+              ["opacity-50"]: state.tickets === false,
+            }
+          )}
           onPress={() => dispatch({ type: "tickets" })}
         >
           <Text
@@ -111,11 +105,13 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={1}
-          style={{ backgroundColor: averageColor }}
-          className={clsx("flex-1 p-3 h-14 items-center rounded-tr-md", {
-            ["border-b-2 border-white"]: state.info === true,
-            ["opacity-50"]: state.info === false,
-          })}
+          className={clsx(
+            "flex-1 p-3 h-14 bg-violet-600 items-center rounded-tr-md",
+            {
+              ["border-b-2 border-white"]: state.info === true,
+              ["opacity-50"]: state.info === false,
+            }
+          )}
           onPress={() => dispatch({ type: "info" })}
         >
           <Text
@@ -143,7 +139,6 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
                   removeLastTicketCartByTicketType={
                     removeLastTicketCartByTicketType
                   }
-                  averageColor={averageColor}
                 />
               </View>
             ))

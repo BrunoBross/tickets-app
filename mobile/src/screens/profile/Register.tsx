@@ -16,6 +16,9 @@ export default function Register() {
       hasBack
       askConfirm={isDirty}
       message="Tem certeza que deseja cancelar?"
+      confirmText="Cancelar"
+      cancelText="Não"
+      isDanger
     >
       <RegisterForm
         control={control}

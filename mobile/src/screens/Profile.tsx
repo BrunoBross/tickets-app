@@ -1,11 +1,12 @@
-import { Alert, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { useAuth } from "../contexts/AuthContext";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-
+import { Feather } from "@expo/vector-icons";
 import colors from "tailwindcss/colors";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
+import Container from "../components/Container";
 import ConfirmModal from "../components/modals/ConfirmModal";
 
 export default function Profile() {
@@ -20,28 +21,23 @@ export default function Profile() {
   return (
     <>
       <ConfirmModal
-        isOpen={isModalOpen}
+        isVisible={isModalOpen}
+        setIsVisible={setIsModalOpen}
         title="Sair"
-        handler={Logout}
-        cancelHandler={() => setIsModalOpen(false)}
+        message="Tem certeza que deseja sair?"
         confirmText="Confirmar"
         cancelText="Cancelar"
-      >
-        <Text className="text-white text-base font-semibold">
-          Tem certeza que deseja sair?
-        </Text>
-      </ConfirmModal>
-
-      <View className="flex-1 bg-background p-5 pb-0 gap-5">
-        <View className="justify-center h-14">
-          <Text className="text-white text-4xl font-extrabold tracking-widest">
-            Olá, {user?.name}
-          </Text>
-        </View>
-        <View>
-          <Text className="text-white text-base font-semibold">
-            Seja bem-vindo novamente
-          </Text>
+        handler={Logout}
+        isDanger
+      />
+      <Container title={`Olá, ${user?.name}`}>
+        <View className="flex-1">
+          <View className="flex-row gap-x-2">
+            <Text className="text-white text-base font-semibold">
+              Seja bem-vindo novamente
+            </Text>
+            <Feather name="smile" size={24} color={colors.white} />
+          </View>
           <TouchableOpacity
             activeOpacity={0.7}
             className="flex flex-row bg-violet-600 p-4 rounded-md mt-3"
@@ -109,7 +105,7 @@ export default function Profile() {
             </Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </Container>
     </>
   );
 }

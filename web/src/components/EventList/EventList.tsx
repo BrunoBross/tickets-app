@@ -1,7 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import EventCard, { EventInterface } from "../EventCard/EventCard";
 import Loading from "../Loading/Loading";
-import styles from "./EventList.css";
 
 interface EventListProps {
   eventList: EventInterface[] | null;

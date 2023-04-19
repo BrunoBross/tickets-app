@@ -7,7 +7,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import Container from "../../components/Container";
 import { Feather } from "@expo/vector-icons";
 import useProfileInfo from "../../hooks/useProfileInfo";
-import NewConfirmModal from "../../components/modals/NewConfirmModal";
+import NewConfirmModal from "../../components/modals/ConfirmModal";
 
 export default function ProfileInfo() {
   const { user } = useAuth();
@@ -23,6 +23,7 @@ export default function ProfileInfo() {
         confirmText="Deletar"
         cancelText="Cancelar"
         handler={handleRemoveAccount}
+        isDanger
       />
       <Container
         hasBack

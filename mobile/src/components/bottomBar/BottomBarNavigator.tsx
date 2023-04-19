@@ -21,55 +21,19 @@ export default function BottomBarNavigator({
   return (
     <View className="items-center">
       {showCartButton && (
-        <FloatingButton handler={() => navigate("cartPage")}>
-          <View className="flex-1 w-[93%] h-full bg-green-600 rounded-md flex-row items-center justify-between px-4">
-            <View className="flex flex-row">
-              <MaterialCommunityIcons
-                name="cart-arrow-down"
-                size={24}
-                color={colors.white}
-              />
-              <Text className=" text-white text-base font-semibold pl-2">
-                Ir para o carrinho
-              </Text>
-            </View>
-            <Text className=" text-white text-base font-semibold pl-2">
-              {formatPrice(cartTotalPrice)}
-            </Text>
-          </View>
-        </FloatingButton>
+        <FloatingButton
+          title="Ir para o carrinho"
+          handler={() => navigate("cartPage")}
+        />
       )}
       {!showCartButton && cartList.length > 0 && (
         <>
-          <FloatingButton handler={handleBuyTickets}>
-            <View className="flex-1 w-[93%] h-full bg-green-600 rounded-md flex-row items-center justify-between px-4">
-              <View className="flex flex-row">
-                <MaterialCommunityIcons
-                  name="cart-arrow-down"
-                  size={24}
-                  color={colors.white}
-                />
-                <Text className=" text-white text-base font-semibold pl-2">
-                  Finalizar compra
-                </Text>
-              </View>
-              <Text className=" text-white text-base font-semibold pl-2">
-                {formatPrice(cartTotalPrice)}
-              </Text>
-            </View>
-          </FloatingButton>
-          <FloatingButton handler={clearCartList} upper>
-            <View className="flex-1 w-[93%] h-full bg-zinc-700 rounded-md flex-row items-center px-4">
-              <MaterialCommunityIcons
-                name="cart-remove"
-                size={24}
-                color={colors.white}
-              />
-              <Text className=" text-white text-base font-semibold pl-2">
-                Esvaziar carrinho
-              </Text>
-            </View>
-          </FloatingButton>
+          <FloatingButton
+            title="Esvaziar carrinho"
+            handler={clearCartList}
+            upper
+          />
+          <FloatingButton title="Efetuar compra" handler={handleBuyTickets} />
         </>
       )}
       <View className="flex-2 w-full border-t-2 gap-x-2 border-zinc-900 flex-row">

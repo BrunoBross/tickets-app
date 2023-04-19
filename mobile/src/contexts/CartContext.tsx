@@ -9,8 +9,8 @@ import {
 } from "react";
 import { TicketType } from "../components/event/EventCard";
 import { useAuth } from "./AuthContext";
-import AlertModal from "../components/modals/AlertModal";
 import useApi from "../lib/api";
+import { useToast } from "react-native-toast-notifications";
 
 interface CartProviderProps {
   children: ReactNode;
@@ -39,8 +39,8 @@ export default function CartProvider(props: CartProviderProps) {
   const { children } = props;
   const { user } = useAuth();
   const { api } = useApi();
-  const [isFinishModalOpen, setIsFinishModalOpen] = useState(false);
   const [cartList, setCartList] = useState<TicketCartInterface[]>([]);
+  const toast = useToast();
 
   const cartTotalPrice = useMemo(() => {
     return cartList.reduce((total, ticket) => {
@@ -83,7 +83,7 @@ export default function CartProvider(props: CartProviderProps) {
         });
       });
       clearCartList();
-      setIsFinishModalOpen(true);
+      toast.show("Compra efetuada com sucesso", { type: "success" });
     }
   };
 
@@ -100,13 +100,6 @@ export default function CartProvider(props: CartProviderProps) {
         handleBuyTickets,
       }}
     >
-      <AlertModal
-        isOpen={isFinishModalOpen}
-        setIsOpen={setIsFinishModalOpen}
-        title="Obrigado"
-        message="Compra efetuada com sucesso!"
-        buttonText="Continuar"
-      />
       {children}
     </CartContext.Provider>
   );
