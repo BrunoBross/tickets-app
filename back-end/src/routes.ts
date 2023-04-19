@@ -7,7 +7,6 @@ import { TicketTypeController } from "./controllers/TicketTypeController";
 import { UserController } from "./controllers/UserController";
 
 export async function Routes(app: FastifyInstance) {
-  // decorator de autenticacao
   app.decorate("authenticate", async (request: any, response: any) => {
     try {
       await request.jwtVerify();
