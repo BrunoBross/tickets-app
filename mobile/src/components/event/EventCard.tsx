@@ -1,7 +1,7 @@
 import { Image, Text, TouchableOpacity } from "react-native";
 import formatEventDate from "../../utils/formatEventDate";
 import { useNavigation } from "@react-navigation/native";
-import { useConnection } from "../../contexts/ConnectionContext";
+import useApi from "../../lib/api";
 
 export interface TicketType {
   id: string;
@@ -34,7 +34,7 @@ export default function EventCard(props: EventProps) {
   const {
     event: { id, date, location, file_name },
   } = props;
-  const { serverIp } = useConnection();
+  const { serverIp } = useApi();
   const { navigate } = useNavigation();
   const newDate = formatEventDate(date);
   const info = `${newDate} • ${location}`;

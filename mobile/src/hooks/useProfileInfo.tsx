@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import useApi from "../lib/api";
 
 export default function useProfileInfo() {
-  const api = useApi();
+  const { api } = useApi();
   const { Logout, user } = useAuth();
   const { navigate } = useNavigation();
   const toast = useToast();

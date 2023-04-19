@@ -7,7 +7,7 @@ import EventList from "../components/event/EventList";
 import Container from "../components/Container";
 
 export default function Home() {
-  const api = useApi();
+  const { api } = useApi();
   const [eventList, setEventList] = useState<EventInterface[] | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 

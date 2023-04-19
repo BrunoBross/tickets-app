@@ -20,7 +20,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import useApi from "../../lib/api";
 import ImageColors from "react-native-image-colors";
-import { useConnection } from "../../contexts/ConnectionContext";
 import EventDetailsOptions from "../../components/event/EventDetailsOptions";
 
 interface Params {
@@ -29,8 +28,7 @@ interface Params {
 
 export default function EventDetails() {
   const { goBack } = useNavigation();
-  const api = useApi();
-  const { serverIp } = useConnection();
+  const { api, serverIp } = useApi();
   const route = useRoute();
   const { eventId } = route.params as Params;
   const [event, setEvent] = useState<EventInterface | null>(null);

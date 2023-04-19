@@ -29,7 +29,7 @@ interface TicketListInterface {
 export default function MyTickets() {
   const { navigate, goBack } = useNavigation();
   const { user } = useAuth();
-  const api = useApi();
+  const { api } = useApi();
   const [myTicketList, setMyTicketList] = useState<
     TicketListInterface[] | null
   >(null);

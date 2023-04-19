@@ -7,7 +7,7 @@ import colors from "tailwindcss/colors";
 import { Feather } from "@expo/vector-icons";
 
 export default function Search() {
-  const api = useApi();
+  const { api } = useApi();
   const [eventList, setEventList] = useState<EventInterface[] | null>([]);
   const [eventSearchInput, setEventSearchInput] = useState("");
 

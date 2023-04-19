@@ -7,7 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 
 export default function useRegister() {
-  const api = useApi();
+  const { api } = useApi();
   const toast = useToast();
   const { navigate } = useNavigation();
   const [isLoading, setIsLoading] = useState(false);

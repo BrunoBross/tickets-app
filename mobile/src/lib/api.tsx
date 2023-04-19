@@ -1,10 +1,10 @@
 import axios from "axios";
-import { useConnection } from "../contexts/ConnectionContext";
 
 export default function useApi() {
-  const { serverIp } = useConnection();
-
-  return axios.create({
+  const serverIp = "http://192.168.1.100:3000/";
+  const api = axios.create({
     baseURL: serverIp,
   });
+
+  return { api, serverIp };
 }

@@ -46,7 +46,7 @@ const AuthContext = createContext({} as AuthContextInterface);
 
 export default function AuthProvider(props: AuthProviderProps) {
   const { children } = props;
-  const api = useApi();
+  const { api } = useApi();
   const toast = useToast();
   const [user, setUser] = useState<UserInterface | null>(null);
   const [isLoading, setIsLoading] = useState(false);

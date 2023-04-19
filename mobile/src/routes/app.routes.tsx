@@ -6,21 +6,9 @@ import { CartPage, HomePage, ProfilePage, SearchPage } from "./custom.routes";
 import BottomBarNavigator from "../components/bottomBar/BottomBarNavigator";
 import { useEffect, useState } from "react";
 import { useIsFocused } from "@react-navigation/native";
-import {
-  ActivityIndicator,
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  View,
-} from "react-native";
-import useApi from "../lib/api";
-import colors from "tailwindcss/colors";
-import { useConnection } from "../contexts/ConnectionContext";
-import UnableConnection from "../components/UnableConnection";
+import { Keyboard, KeyboardAvoidingView, Platform } from "react-native";
 
 export function AppRoutes() {
-  const api = useApi();
-  const { testConnection, isLoading, isServerOn } = useConnection();
   const isFocused = useIsFocused();
   const [isTabBarVisible, setIsTabBarVisible] = useState(true);
 
@@ -30,10 +18,6 @@ export function AppRoutes() {
   const keyboardWillHide = () => {
     setIsTabBarVisible(true);
   };
-
-  useEffect(() => {
-    testConnection(api);
-  }, []);
 
   useEffect(() => {
     const keyboardWillShowListener = Keyboard.addListener(
@@ -50,18 +34,6 @@ export function AppRoutes() {
       keyboardWillHideListener.remove();
     };
   }, []);
-
-  if (isLoading) {
-    return (
-      <View className="flex-1 w-full h-full items-center justify-center bg-background">
-        <ActivityIndicator size="large" color={colors.violet[600]} />
-      </View>
-    );
-  }
-
-  if (!isServerOn) {
-    return <UnableConnection testConnection={() => testConnection(api)} />;
-  }
 
   return (
     <KeyboardAvoidingView

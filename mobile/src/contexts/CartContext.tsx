@@ -38,7 +38,7 @@ const CartContext = createContext({} as CartContextInterface);
 export default function CartProvider(props: CartProviderProps) {
   const { children } = props;
   const { user } = useAuth();
-  const api = useApi();
+  const { api } = useApi();
   const [isFinishModalOpen, setIsFinishModalOpen] = useState(false);
   const [cartList, setCartList] = useState<TicketCartInterface[]>([]);
 

@@ -38,7 +38,7 @@ interface TicketInterface {
 export default function Ticket() {
   const { user } = useAuth();
   const { goBack } = useNavigation();
-  const api = useApi();
+  const { api } = useApi();
   const route = useRoute();
   const { ticketId } = route.params as Params;
   const [ticket, setTicket] = useState<TicketInterface | null>(null);

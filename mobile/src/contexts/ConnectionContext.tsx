@@ -1,13 +1,21 @@
-import { ReactNode, createContext, useContext, useState } from "react";
-import { API_URL } from "@env";
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { AxiosInstance } from "axios";
+import useApi from "../lib/api";
+import { ActivityIndicator, View } from "react-native";
+import colors from "tailwindcss/colors";
+import UnableConnection from "../components/UnableConnection";
 
 interface ConnectionProviderProps {
   children: ReactNode;
 }
 
 interface ConnectionContextInterface {
-  serverIp: string;
   testConnection: (api: AxiosInstance) => void;
   isLoading: boolean;
   isServerOn: boolean;
@@ -17,9 +25,13 @@ const ConnectionContext = createContext({} as ConnectionContextInterface);
 
 export default function ConnectionProvider(props: ConnectionProviderProps) {
   const { children } = props;
-  const serverIp = "http://192.168.1.100:3000/";
+  const { api } = useApi();
   const [isLoading, setIsLoading] = useState(false);
   const [isServerOn, setIsServerOn] = useState(false);
+
+  useEffect(() => {
+    testConnection(api);
+  }, []);
 
   const testConnection = async (api: AxiosInstance) => {
     setIsLoading(true);
@@ -37,10 +49,21 @@ export default function ConnectionProvider(props: ConnectionProviderProps) {
       });
   };
 
+  if (isLoading) {
+    return (
+      <View className="flex-1 w-full h-full items-center justify-center bg-background">
+        <ActivityIndicator size="large" color={colors.violet[600]} />
+      </View>
+    );
+  }
+
+  if (!isServerOn) {
+    return <UnableConnection testConnection={() => testConnection(api)} />;
+  }
+
   return (
     <ConnectionContext.Provider
       value={{
-        serverIp,
         testConnection,
         isLoading,
         isServerOn,
