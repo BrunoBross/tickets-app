@@ -9,7 +9,11 @@ export async function EventController(app: FastifyInstance) {
     await prisma.event
       .findMany({
         include: {
-          TicketType: true,
+          TicketType: {
+            orderBy: {
+              price: "asc",
+            },
+          },
         },
         orderBy: {
           date: "asc",

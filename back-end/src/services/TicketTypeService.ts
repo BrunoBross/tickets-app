@@ -10,6 +10,9 @@ export class TicketTypeService {
           equals: eventId,
         },
       },
+      orderBy: {
+        price: "asc",
+      },
     });
 
     return ticketTypes;
