@@ -131,7 +131,6 @@ export async function OrganizerController(app: FastifyInstance) {
     });
 
     if (existsCpf) {
-      console.log(existsCpf);
       return response
         .code(409)
         .send({ error: "Este CPF já está sendo utilizado" });

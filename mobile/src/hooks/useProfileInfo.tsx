@@ -12,8 +12,6 @@ export default function useProfileInfo() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleRemoveAccount = async () => {
-    console.log(user?.id);
-
     await api.delete(`/user/deleteById/${user?.id}`);
 
     navigate("profile");

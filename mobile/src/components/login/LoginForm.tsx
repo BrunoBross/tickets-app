@@ -24,7 +24,7 @@ export default function LoginForm(props: LoginFormProps) {
         isVisible={isRegisterModalOpen}
         setIsVisible={setIsRegisterModalOpen}
       >
-        <Register setIsModaPageOpen={setIsRegisterModalOpen} />
+        <Register setIsModalPageOpen={setIsRegisterModalOpen} />
       </ContentModal>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View className="flex-1 pb-32">

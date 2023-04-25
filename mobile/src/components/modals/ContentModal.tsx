@@ -21,6 +21,7 @@ export default function ContentModal(props: ContentModalProps) {
       isVisible={isVisible}
       onSwipeComplete={handleCloseModal}
       onBackdropPress={handleCloseModal}
+      onBackButtonPress={handleCloseModal}
       className="m-0"
     >
       <View className="flex-1">{children}</View>

@@ -68,15 +68,15 @@ export default function ProfileInfo(props: ModalPageProps) {
             </View>
           </View>
         </View>
-        <View className="items-start">
+        <View>
           <TouchableOpacity
             activeOpacity={0.7}
-            className="h-12 px-5 mb-2 flex-row items-center justify-center bg-red-600 rounded-md"
+            className="h-14 px-5 mb-2 flex-row items-center justify-center bg-zinc-900 rounded-md"
             onPress={() => setIsModalOpen(true)}
           >
-            <Feather name="trash-2" size={24} color={colors.white} />
-            <Text className="text-white font-semibold text-base pl-3">
-              Deletar
+            <Feather name="trash-2" size={24} color={colors.zinc[700]} />
+            <Text className="text-zinc-700 font-semibold text-base pl-3">
+              Deletar conta
             </Text>
           </TouchableOpacity>
         </View>

@@ -4,7 +4,7 @@ import useRegister from "../../components/register/useRegister";
 import { ModalPageProps } from "../../screens/Profile";
 
 export default function Register(props: ModalPageProps) {
-  const { setIsModaPageOpen } = props;
+  const { setIsModalPageOpen } = props;
   const { createRegisterForm, onSubmit, isLoading } = useRegister();
   const {
     control,
@@ -16,7 +16,7 @@ export default function Register(props: ModalPageProps) {
     <Container
       title="Cadastro"
       hasBack
-      onBack={() => setIsModaPageOpen(false)}
+      onBack={() => setIsModalPageOpen(false)}
       askConfirm={isDirty}
       message="Tem certeza que deseja cancelar?"
       confirmText="Cancelar"

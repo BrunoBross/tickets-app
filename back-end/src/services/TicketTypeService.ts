@@ -16,8 +16,6 @@ export class TicketTypeService {
       },
     });
 
-    console.log(ticketTypes);
-
     return ticketTypes;
   }
 

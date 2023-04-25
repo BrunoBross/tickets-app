@@ -41,21 +41,21 @@ const initialValues = {
 export default function EventDetailsOptions(props: EventDetailsOptions) {
   const { event } = props;
   const { user } = useAuth();
-  const { api } = useApi();
+  // const { api } = useApi();
   const [state, dispatch] = useReducer(reducer, initialValues);
   const { addCartList, cartList, setCartList } = useCart();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [ticketTypes, setTicketTypes] = useState<TicketType[]>([]);
+  // const [ticketTypes, setTicketTypes] = useState<TicketType[]>([]);
 
-  useEffect(() => {
-    const getTicketTypes = async () => {
-      const result = await api.get(`ticket-type/${event.id}`);
+  // useEffect(() => {
+  //   const getTicketTypes = async () => {
+  //     const result = await api.get(`ticket-type/${event.id}`);
 
-      setTicketTypes(result.data);
-    };
+  //     setTicketTypes(result.data);
+  //   };
 
-    getTicketTypes();
-  }, []);
+  //   getTicketTypes();
+  // }, []);
 
   const handleAddTicketToCart = (ticketType: TicketType) => {
     if (user) {
@@ -113,7 +113,7 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
       </View>
       {state.tickets && (
         <EventTicketList
-          ticketTypes={ticketTypes}
+          ticketTypes={event.TicketType}
           getTicketCartAmount={getTicketCartAmount}
           handleAddTicketToCart={handleAddTicketToCart}
           removeLastTicketCartByTicketType={removeLastTicketCartByTicketType}

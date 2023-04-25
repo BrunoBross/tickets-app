@@ -30,19 +30,6 @@ export default function MyEvents() {
   const initialRef = useRef(null);
   const finalRef = useRef(null);
 
-  // const hasNonEmptyFieldValue = (
-  //   data: Record<string, string | number>
-  // ): Boolean => {
-  //   for (let key in data) {
-  //     if (data[key] !== "") {
-  //       return true;
-  //     }
-  //   }
-  //   return false;
-  // };
-
-  console.log(eventList);
-
   const retrieveEventList = async () => {
     await api.get(`/organizer/event/${organizer?.id}`).then((response) => {
       setEventList(response.data);
