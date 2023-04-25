@@ -47,7 +47,11 @@ export default function EventCard(props: EventProps) {
 
   return (
     <>
-      <ContentModal isVisible={isModalVisible} setIsVisible={setIsModalVisible}>
+      <ContentModal
+        isVisible={isModalVisible}
+        setIsVisible={setIsModalVisible}
+        swipeDir="down"
+      >
         <EventDetails event={event} handleCloseModal={handleToggleModal} />
       </ContentModal>
       <TouchableOpacity
@@ -61,7 +65,6 @@ export default function EventCard(props: EventProps) {
           }}
           className="w-full h-40 rounded-md"
         />
-
         <Text className="text-white pt-2 text-base font-semibold">{info}</Text>
       </TouchableOpacity>
     </>

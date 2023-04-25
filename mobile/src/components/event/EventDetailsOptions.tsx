@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { EventInterface, TicketType } from "./EventCard";
 import uuid from "react-native-uuid";
@@ -7,6 +7,7 @@ import EventTicket from "./EventTicket";
 import { useAuth } from "../../contexts/AuthContext";
 import { TicketCartInterface, useCart } from "../../contexts/CartContext";
 import ConfirmModal from "../modals/ConfirmModal";
+import useApi from "../../lib/api";
 
 interface EventDetailsOptions {
   event: EventInterface;
@@ -37,9 +38,21 @@ const initialValues = {
 export default function EventDetailsOptions(props: EventDetailsOptions) {
   const { event } = props;
   const { user } = useAuth();
+  const { api } = useApi();
   const [state, dispatch] = useReducer(reducer, initialValues);
   const { addCartList, cartList, setCartList } = useCart();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [ticketTypes, setTicketTypes] = useState<TicketType[]>([]);
+
+  useEffect(() => {
+    const getTicketTypes = async () => {
+      const result = await api.get(`ticket-type/${event.id}`);
+
+      setTicketTypes(result.data);
+    };
+
+    getTicketTypes();
+  }, []);
 
   const handleAddTicketToCart = (ticketType: TicketType) => {
     if (user) {
@@ -126,8 +139,8 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
       </View>
       {state.tickets && (
         <View className="flex mt-2">
-          {event.TicketType.length > 0 ? (
-            event.TicketType?.map((ticketType: TicketType) => (
+          {ticketTypes.length > 0 ? (
+            ticketTypes.map((ticketType: TicketType) => (
               <View
                 key={ticketType.id}
                 className="flex p-3 bg-zinc-800 rounded-md mb-2"

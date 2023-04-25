@@ -2,30 +2,20 @@ import { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { multerUpload } from "../multer";
 import { prisma } from "../lib/prisma";
+import { ServerResponseError } from "../helpers/ServerResponseError";
+import { EventService } from "../services/EventService";
+
+const eventService = new EventService();
 
 export async function EventController(app: FastifyInstance) {
-  // get events
   app.get("/event", async (request, response) => {
-    await prisma.event
-      .findMany({
-        include: {
-          TicketType: {
-            orderBy: {
-              price: "asc",
-            },
-          },
-        },
-        orderBy: {
-          date: "asc",
-        },
-      })
-      .then((events) => {
-        response.send(events);
-      })
-      .catch((error) => {
-        console.error(error);
-        response.status(500).send({ error: "Ocorreu um erro interno" });
-      });
+    try {
+      const events = await eventService.getAllEvents();
+
+      response.send(events);
+    } catch (error) {
+      return ServerResponseError(error, response);
+    }
   });
 
   // get events
@@ -49,7 +39,11 @@ export async function EventController(app: FastifyInstance) {
           },
         },
         include: {
-          TicketType: true,
+          TicketType: {
+            where: {
+              active: true,
+            },
+          },
         },
       })
       .then((events) => {
@@ -82,7 +76,11 @@ export async function EventController(app: FastifyInstance) {
           },
         },
         include: {
-          TicketType: true,
+          TicketType: {
+            where: {
+              active: true,
+            },
+          },
         },
       })
       .then((events) => {
@@ -116,6 +114,9 @@ export async function EventController(app: FastifyInstance) {
         },
         include: {
           TicketType: {
+            where: {
+              active: true,
+            },
             orderBy: {
               price: "asc",
             },

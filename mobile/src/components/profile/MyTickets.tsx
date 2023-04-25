@@ -16,6 +16,8 @@ import convertGenter from "../../utils/convertGender";
 import colors from "tailwindcss/colors";
 import useApi from "../../lib/api";
 import { Feather } from "@expo/vector-icons";
+import { ModalPageProps } from "../../screens/Profile";
+import Container from "../Container";
 
 interface TicketListInterface {
   id: string;
@@ -26,7 +28,8 @@ interface TicketListInterface {
   ticket_type: TicketType;
 }
 
-export default function MyTickets() {
+export default function MyTickets(props: ModalPageProps) {
+  const { setIsModalPageOpen } = props;
   const { navigate, goBack } = useNavigation();
   const { user } = useAuth();
   const { api } = useApi();
@@ -56,35 +59,16 @@ export default function MyTickets() {
 
   if (!myTicketList) {
     return (
-      <View className="flex-1 bg-background p-5 gap-5">
-        <View className="justify-center h-14">
-          <TouchableOpacity activeOpacity={0.7} onPress={goBack}>
-            <Ionicons
-              name="arrow-back-outline"
-              size={40}
-              color={colors.zinc[400]}
-            />
-          </TouchableOpacity>
-        </View>
+      <Container hasBack onBack={() => setIsModalPageOpen(false)}>
         <View className="flex-1 bg-background justify-center items-center">
           <ActivityIndicator size="large" color={colors.violet[600]} />
         </View>
-      </View>
+      </Container>
     );
   }
 
   return (
-    <View className="flex-1 bg-background p-5 gap-5">
-      <View className="justify-center h-14">
-        <TouchableOpacity activeOpacity={0.7} onPress={goBack}>
-          <Ionicons
-            name="arrow-back-outline"
-            size={40}
-            color={colors.zinc[400]}
-          />
-        </TouchableOpacity>
-      </View>
-
+    <Container hasBack onBack={() => setIsModalPageOpen(false)}>
       <View>
         <ScrollView
           refreshControl={
@@ -135,6 +119,6 @@ export default function MyTickets() {
           </View>
         </ScrollView>
       </View>
-    </View>
+    </Container>
   );
 }

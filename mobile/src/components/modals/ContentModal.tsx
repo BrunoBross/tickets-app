@@ -5,11 +5,12 @@ import Modal from "react-native-modal";
 interface ContentModalProps {
   isVisible: boolean;
   setIsVisible: (state: boolean) => void;
+  swipeDir?: "down" | "up" | "left" | "right";
   children: ReactNode;
 }
 
 export default function ContentModal(props: ContentModalProps) {
-  const { isVisible, setIsVisible, children } = props;
+  const { isVisible, setIsVisible, swipeDir, children } = props;
 
   const handleCloseModal = () => {
     setIsVisible(!isVisible);

@@ -15,7 +15,9 @@ export async function TicketTypeController(app: FastifyInstance) {
 
       const { eventId } = ticketTypeParams.parse(request.params);
 
-      const ticketTypes = ticketTypeService.getAllTicketTypesByEventId(eventId);
+      const ticketTypes = await ticketTypeService.getAllTicketTypesByEventId(
+        eventId
+      );
 
       response.send(ticketTypes);
     } catch (error) {

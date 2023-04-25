@@ -1,7 +1,5 @@
 import { ActivityIndicator, StatusBar } from "react-native";
 import { View } from "react-native";
-import AuthProvider from "./src/contexts/AuthContext";
-import { Routes } from "./src/routes";
 import {
   useFonts,
   Inter_400Regular,
@@ -10,12 +8,15 @@ import {
   Inter_800ExtraBold,
 } from "@expo-google-fonts/inter";
 import colors from "tailwindcss/colors";
-import CartProvider from "./src/contexts/CartContext";
 import { QueryClient, QueryClientProvider } from "react-query";
-import React from "react";
+import React, { useState } from "react";
+import { TabBar, TabView } from "react-native-tab-view";
 import ConnectionProvider from "./src/contexts/ConnectionContext";
 import { ToastProvider } from "react-native-toast-notifications";
 import CustomToast from "./src/components/CustomToast";
+import AuthProvider from "./src/contexts/AuthContext";
+import CartProvider from "./src/contexts/CartContext";
+import { Routes } from "./src/routes";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -45,14 +46,12 @@ export default function App() {
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
             <CartProvider>
-              <View className="w-full h-full items-center justify-between bg-background">
-                <Routes />
-                <StatusBar
-                  barStyle="default"
-                  backgroundColor="transparent"
-                  translucent
-                />
-              </View>
+              <Routes />
+              <StatusBar
+                barStyle="default"
+                backgroundColor="transparent"
+                translucent
+              />
             </CartProvider>
           </AuthProvider>
         </QueryClientProvider>

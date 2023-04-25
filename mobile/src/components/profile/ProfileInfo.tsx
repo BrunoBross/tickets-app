@@ -8,8 +8,10 @@ import Container from "../../components/Container";
 import { Feather } from "@expo/vector-icons";
 import useProfileInfo from "../../hooks/useProfileInfo";
 import NewConfirmModal from "../../components/modals/ConfirmModal";
+import { ModalPageProps } from "../../screens/Profile";
 
-export default function ProfileInfo() {
+export default function ProfileInfo(props: ModalPageProps) {
+  const { setIsModalPageOpen } = props;
   const { user } = useAuth();
   const { handleRemoveAccount, isModalOpen, setIsModalOpen } = useProfileInfo();
 
@@ -27,10 +29,11 @@ export default function ProfileInfo() {
       />
       <Container
         hasBack
+        onBack={() => setIsModalPageOpen(false)}
         button={
           <TouchableOpacity
             activeOpacity={0.7}
-            className="h-12 px-5 flex-row items-center justify-center border-2 border-violet-600 rounded-md"
+            className="h-12 px-5 flex-row items-center justify-center bg-red-600 rounded-md"
             onPress={() => setIsModalOpen(true)}
           >
             <Feather name="trash-2" size={24} color={colors.white} />

@@ -56,12 +56,13 @@ model Event {
 }
 
 model TicketType {
-  id     String @id @default(uuid())
-  name   String
-  price  Float
-  tax    Float
-  lot    Int
-  amount Int
+  id         String  @id @default(uuid())
+  name       String
+  price      Float
+  tax        Float
+  lot_number Int
+  amount     Int
+  active     Boolean @default(true)
 
   event_id String
   event    Event  @relation(fields: [event_id], references: [id])

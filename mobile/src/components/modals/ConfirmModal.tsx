@@ -35,7 +35,6 @@ export default function ConfirmModal(props: NewConfirmModalProps) {
       isVisible={isVisible}
       onSwipeComplete={handleCloseModal}
       onBackdropPress={handleCloseModal}
-      swipeDirection={["right", "left", "down"]}
       className="m-0 justify-end"
     >
       <View className="bg-zinc-900 p-4">

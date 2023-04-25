@@ -9,11 +9,14 @@ export class TicketTypeService {
         event_id: {
           equals: eventId,
         },
+        active: true,
       },
       orderBy: {
         price: "asc",
       },
     });
+
+    console.log(ticketTypes);
 
     return ticketTypes;
   }
@@ -36,9 +39,12 @@ export class TicketTypeService {
     // Check ticketType exists
     await this.findTicketTypeById(ticketTypeId);
 
-    await prisma.ticketType.delete({
+    await prisma.ticketType.update({
       where: {
         id: ticketTypeId,
+      },
+      data: {
+        active: false,
       },
     });
 
@@ -49,7 +55,7 @@ export class TicketTypeService {
     eventId: string,
     ticketTypeBody: CreateTicketTypeBodyInterface
   ) {
-    const { name, price, lot, amount } = ticketTypeBody;
+    const { name, price, lot_number, amount } = ticketTypeBody;
 
     const tax = price * (15 / 100);
 
@@ -58,7 +64,7 @@ export class TicketTypeService {
         price,
         tax,
         name,
-        lot,
+        lot_number,
         amount,
         event_id: eventId,
       },
