@@ -10,7 +10,7 @@ interface ContentModalProps {
 }
 
 export default function ContentModal(props: ContentModalProps) {
-  const { isVisible, setIsVisible, swipeDir, children } = props;
+  const { isVisible, setIsVisible, children } = props;
 
   const handleCloseModal = () => {
     setIsVisible(!isVisible);

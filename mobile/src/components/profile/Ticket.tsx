@@ -163,7 +163,7 @@ export default function Ticket(props: TicketProps) {
         <ScrollView>
           <View className="flex-1 items-center">
             <View className="border-2 border-violet-600">
-              <QRCode value={ticket.id} size={250} />
+              <QRCode value={ticket.id} size={250} quietZone={5} />
             </View>
             <Text className="text-white mt-2 text-4xl font-semibold">
               {user?.name} {user?.surname}

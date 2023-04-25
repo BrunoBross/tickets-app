@@ -7,7 +7,6 @@ module.exports = {
     extend: {
       colors: {
         background: "#09090a",
-        zinc: "",
       },
       fontFamily: {
         regular: "Inter_400Regular",

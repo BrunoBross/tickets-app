@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { TabBar, TabView } from "react-native-tab-view";
 import { ProfilePage } from "./custom.routes";
 import { NavigationContainer } from "@react-navigation/native";
@@ -6,22 +5,10 @@ import Home from "../screens/Home";
 import Search from "../screens/Search";
 import Cart from "../screens/Cart";
 import { View } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import colors from "tailwindcss/colors";
 import { useCart } from "../contexts/CartContext";
 import FloatingButton from "../components/bottomBar/FloatingButton";
-
-interface RouteType {
-  key: string;
-  title: string;
-  icon: string | any;
-  iconFocused: string | any;
-}
-
-interface RenderType {
-  route: RouteType;
-  focused: boolean;
-}
+import { useRoute } from "../contexts/RouteContext";
 
 const renderScene = ({ route }: any) => {
   switch (route.key) {
@@ -39,42 +26,20 @@ const renderScene = ({ route }: any) => {
 };
 
 export function Routes() {
-  const [index, setIndex] = useState(0);
-  const [routes] = useState<RouteType[]>([
-    { key: "home", title: "Home", icon: "home-outline", iconFocused: "home" },
-    {
-      key: "search",
-      title: "Search",
-      icon: "search-outline",
-      iconFocused: "search",
-    },
-    { key: "cart", title: "Cart", icon: "cart-outline", iconFocused: "cart" },
-    {
-      key: "profile",
-      title: "Profile",
-      icon: "person-circle-outline",
-      iconFocused: "person-circle",
-    },
-  ]);
+  const { index, routes, setIndex, renderIcon } = useRoute();
+  const { cartList, clearCartList, handleBuyTickets } = useCart();
 
-  const { cartList, cartTotalPrice, clearCartList, handleBuyTickets } =
-    useCart();
   const showCartButton = index !== 2 && cartList.length > 0;
-
-  const renderIcon = ({ route, focused }: RenderType) => {
-    const iconName = focused ? route.iconFocused : route.icon;
-    const iconColor = focused ? colors.white : colors.zinc[700];
-    return <Ionicons name={iconName} size={30} color={iconColor} />;
-  };
 
   return (
     <NavigationContainer>
-      <View className="flex-1 pt-2 bg-background">
+      <View className="flex-1 pt-5 bg-background">
         <TabView
           navigationState={{ index, routes }}
           renderScene={renderScene}
           onIndexChange={setIndex}
           tabBarPosition="bottom"
+          keyboardDismissMode="auto"
           renderTabBar={(props) => (
             <>
               {showCartButton && (
@@ -99,7 +64,6 @@ export function Routes() {
               <TabBar
                 {...props}
                 renderIcon={renderIcon}
-                activeColor="red"
                 labelStyle={{ display: "none" }}
                 indicatorContainerStyle={{
                   backgroundColor: "#09090a",

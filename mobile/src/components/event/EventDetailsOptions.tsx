@@ -8,6 +8,9 @@ import { useAuth } from "../../contexts/AuthContext";
 import { TicketCartInterface, useCart } from "../../contexts/CartContext";
 import ConfirmModal from "../modals/ConfirmModal";
 import useApi from "../../lib/api";
+import EventDescription from "./EventDescription";
+import EventTicketList from "./EventTicketList";
+import SectionButton from "./SectionButton";
 
 interface EventDetailsOptions {
   event: EventInterface;
@@ -95,82 +98,28 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
         confirmText="Confirmar"
         handler={() => setIsModalOpen(false)}
       />
-      <View className="flex flex-row">
-        <TouchableOpacity
-          activeOpacity={1}
-          className={clsx(
-            "flex-1 p-3 h-14 bg-violet-600 items-center rounded-tl-md",
-            {
-              ["border-b-2 border-white"]: state.tickets === true,
-              ["opacity-50"]: state.tickets === false,
-            }
-          )}
-          onPress={() => dispatch({ type: "tickets" })}
-        >
-          <Text
-            className={clsx("text-xl font-semibold", {
-              ["text-white"]: state.tickets === true,
-              ["text-zinc-400"]: state.tickets === false,
-            })}
-          >
-            Ingressos
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          activeOpacity={1}
-          className={clsx(
-            "flex-1 p-3 h-14 bg-violet-600 items-center rounded-tr-md",
-            {
-              ["border-b-2 border-white"]: state.info === true,
-              ["opacity-50"]: state.info === false,
-            }
-          )}
-          onPress={() => dispatch({ type: "info" })}
-        >
-          <Text
-            className={clsx("text-xl font-semibold", {
-              ["text-white"]: state.info === true,
-              ["text-zinc-400"]: state.info === false,
-            })}
-          >
-            Descrição
-          </Text>
-        </TouchableOpacity>
+      <View className="flex flex-row mb-2">
+        <SectionButton
+          title="Ingressos"
+          state={state.tickets}
+          handler={() => dispatch({ type: "tickets" })}
+        />
+        <SectionButton
+          title="Descrição"
+          state={state.info}
+          handler={() => dispatch({ type: "info" })}
+          right
+        />
       </View>
       {state.tickets && (
-        <View className="flex mt-2">
-          {ticketTypes.length > 0 ? (
-            ticketTypes.map((ticketType: TicketType) => (
-              <View
-                key={ticketType.id}
-                className="flex p-3 bg-zinc-800 rounded-md mb-2"
-              >
-                <EventTicket
-                  ticketType={ticketType}
-                  getTicketCartAmount={getTicketCartAmount}
-                  handleAddTicketToCart={handleAddTicketToCart}
-                  removeLastTicketCartByTicketType={
-                    removeLastTicketCartByTicketType
-                  }
-                />
-              </View>
-            ))
-          ) : (
-            <Text className="text-white font-semibold text-base">
-              Nenhum tipo de ingresso a venda!
-            </Text>
-          )}
-        </View>
+        <EventTicketList
+          ticketTypes={ticketTypes}
+          getTicketCartAmount={getTicketCartAmount}
+          handleAddTicketToCart={handleAddTicketToCart}
+          removeLastTicketCartByTicketType={removeLastTicketCartByTicketType}
+        />
       )}
-      {state.info && (
-        <View className="flex mt-2">
-          <View className="flex p-3 bg-zinc-800 rounded-md">
-            <Text className="text-white font-semibold text-lg">
-              {event.description}
-            </Text>
-          </View>
-        </View>
-      )}
+      {state.info && <EventDescription description={event.description} />}
     </View>
   );
 }

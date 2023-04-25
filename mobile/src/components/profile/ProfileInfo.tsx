@@ -27,62 +27,58 @@ export default function ProfileInfo(props: ModalPageProps) {
         handler={handleRemoveAccount}
         isDanger
       />
-      <Container
-        hasBack
-        onBack={() => setIsModalPageOpen(false)}
-        button={
+      <Container hasBack onBack={() => setIsModalPageOpen(false)}>
+        <View className="flex-1 justify-between">
+          <View className="flex gap-y-3">
+            <View className="flex-row">
+              <View className="h-full w-1 bg-violet-600 mr-4"></View>
+              <Text className="text-white font-semibold text-base">
+                Meus dados
+              </Text>
+            </View>
+            <View className="flex-row justify-between">
+              <Text className="text-zinc-500 font-semibold text-base">
+                Nome completo
+              </Text>
+              <Text className="text-white font-semibold text-base">
+                {user?.name.toUpperCase()} {user?.surname.toUpperCase()}
+              </Text>
+            </View>
+            <View className="flex-row justify-between">
+              <Text className="text-zinc-500 font-semibold text-base">
+                Data nascimento
+              </Text>
+              <Text className="text-white font-semibold text-base">
+                {user?.birth && formatBirthDate(user.birth)}
+              </Text>
+            </View>
+            <View className="flex-row justify-between">
+              <Text className="text-zinc-500 font-semibold text-base">
+                E-mail
+              </Text>
+              <Text className="text-white font-semibold text-base">
+                {user?.email}
+              </Text>
+            </View>
+            <View className="flex-row justify-between">
+              <Text className="text-zinc-500 font-semibold text-base">CPF</Text>
+              <Text className="text-white font-semibold text-base">
+                {user?.cpf && formatCpf(user.cpf)}
+              </Text>
+            </View>
+          </View>
+        </View>
+        <View className="items-start">
           <TouchableOpacity
             activeOpacity={0.7}
-            className="h-12 px-5 flex-row items-center justify-center bg-red-600 rounded-md"
+            className="h-12 px-5 mb-2 flex-row items-center justify-center bg-red-600 rounded-md"
             onPress={() => setIsModalOpen(true)}
           >
             <Feather name="trash-2" size={24} color={colors.white} />
-            <Text className="text-white pl-2 text-base font-semibold">
-              Deletar conta
+            <Text className="text-white font-semibold text-base pl-3">
+              Deletar
             </Text>
           </TouchableOpacity>
-        }
-      >
-        <TouchableOpacity activeOpacity={0.7} className="items-center">
-          <FontAwesome name="user-circle-o" size={90} color={colors.white} />
-        </TouchableOpacity>
-        <View className="flex gap-y-3 mt-5">
-          <View className="flex-row">
-            <View className="h-full w-1 bg-violet-600 mr-4"></View>
-            <Text className="text-white font-semibold text-base">
-              Meus dados
-            </Text>
-          </View>
-          <View className="flex-row justify-between">
-            <Text className="text-zinc-500 font-semibold text-base">
-              Nome completo
-            </Text>
-            <Text className="text-white font-semibold text-base">
-              {user?.name.toUpperCase()} {user?.surname.toUpperCase()}
-            </Text>
-          </View>
-          <View className="flex-row justify-between">
-            <Text className="text-zinc-500 font-semibold text-base">
-              Data nascimento
-            </Text>
-            <Text className="text-white font-semibold text-base">
-              {user?.birth && formatBirthDate(user.birth)}
-            </Text>
-          </View>
-          <View className="flex-row justify-between">
-            <Text className="text-zinc-500 font-semibold text-base">
-              E-mail
-            </Text>
-            <Text className="text-white font-semibold text-base">
-              {user?.email}
-            </Text>
-          </View>
-          <View className="flex-row justify-between">
-            <Text className="text-zinc-500 font-semibold text-base">CPF</Text>
-            <Text className="text-white font-semibold text-base">
-              {user?.cpf && formatCpf(user.cpf)}
-            </Text>
-          </View>
         </View>
       </Container>
     </>

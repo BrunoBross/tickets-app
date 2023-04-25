@@ -17,6 +17,7 @@ import CustomToast from "./src/components/CustomToast";
 import AuthProvider from "./src/contexts/AuthContext";
 import CartProvider from "./src/contexts/CartContext";
 import { Routes } from "./src/routes";
+import RouteProvider from "./src/contexts/RouteContext";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -46,12 +47,14 @@ export default function App() {
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
             <CartProvider>
-              <Routes />
-              <StatusBar
-                barStyle="default"
-                backgroundColor="transparent"
-                translucent
-              />
+              <RouteProvider>
+                <Routes />
+                <StatusBar
+                  barStyle="light-content"
+                  backgroundColor="transparent"
+                  translucent
+                />
+              </RouteProvider>
             </CartProvider>
           </AuthProvider>
         </QueryClientProvider>

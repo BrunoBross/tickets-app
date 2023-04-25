@@ -3,14 +3,14 @@ import { useCart } from "../contexts/CartContext";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import colors from "tailwindcss/colors";
 import { useAuth } from "../contexts/AuthContext";
-import { useNavigation } from "@react-navigation/native";
 import CartList from "../components/cart/CartList";
 import Container from "../components/Container";
+import { useRoute } from "../contexts/RouteContext";
 
 export default function Cart() {
   const { user } = useAuth();
   const { cartList } = useCart();
-  const { navigate } = useNavigation();
+  const { setIndex } = useRoute();
 
   return (
     <Container title="Carrinho">
@@ -26,7 +26,7 @@ export default function Cart() {
           <TouchableOpacity
             activeOpacity={0.7}
             className="p-4 h-14 flex-row bg-violet-600 rounded-md mt-3"
-            onPress={() => navigate("profilePage")}
+            onPress={() => setIndex(3)}
           >
             <MaterialCommunityIcons
               name="login"

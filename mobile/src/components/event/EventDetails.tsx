@@ -13,11 +13,9 @@ import { Feather } from "@expo/vector-icons";
 import useApi from "../../lib/api";
 import EventDetailsOptions from "./EventDetailsOptions";
 import Container from "../Container";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import FloatingButton from "../bottomBar/FloatingButton";
-import formatPrice from "../../utils/formatPrice";
 import { useCart } from "../../contexts/CartContext";
-import { useNavigation } from "@react-navigation/native";
+import { useRoute } from "../../contexts/RouteContext";
 
 interface EventDetailsProps {
   event: EventInterface;
@@ -26,8 +24,8 @@ interface EventDetailsProps {
 
 export default function EventDetails(props: EventDetailsProps) {
   const { event, handleCloseModal } = props;
-  const { navigate } = useNavigation();
-  const { cartList, cartTotalPrice } = useCart();
+  const { setIndex } = useRoute();
+  const { cartList } = useCart();
   const { serverIp } = useApi();
 
   return (
@@ -66,7 +64,7 @@ export default function EventDetails(props: EventDetailsProps) {
       {cartList.length > 0 && (
         <FloatingButton
           title="Ir para o carrinho"
-          handler={() => navigate("cartPage")}
+          handler={() => setIndex(2)}
           modal
         />
       )}
