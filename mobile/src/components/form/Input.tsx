@@ -25,7 +25,7 @@ export function Input(props: InputProps) {
         placeholderTextColor={colors.zinc[500]}
         onChangeText={onChangeText}
         className={clsx(
-          "flex-row h-14 p-3 mb-2 items-center justify-between text-white text-base bg-zinc-900 border-2 rounded-md",
+          "flex-row p-4 mb-2 items-center justify-between text-white text-base bg-zinc-900 border-2 rounded-md",
           {
             ["border-zinc-800 focus:border-green-600"]: !error?.message,
             ["border-red-600 focus:border-red-600"]: error?.message,

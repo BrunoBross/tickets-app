@@ -7,7 +7,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import Container from "../../components/Container";
 import { Feather } from "@expo/vector-icons";
 import useProfileInfo from "../../hooks/useProfileInfo";
-import NewConfirmModal from "../../components/modals/ConfirmModal";
+import ConfirmModal from "../../components/modals/ConfirmModal";
 import { ModalPageProps } from "../../screens/Profile";
 
 export default function ProfileInfo(props: ModalPageProps) {
@@ -17,7 +17,7 @@ export default function ProfileInfo(props: ModalPageProps) {
 
   return (
     <>
-      <NewConfirmModal
+      <ConfirmModal
         isVisible={isModalOpen}
         setIsVisible={setIsModalOpen}
         title="Deletar conta"

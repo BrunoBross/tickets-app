@@ -19,11 +19,17 @@ export default function Search() {
 
   return (
     <Container title="Procurar">
+      <View className="flex-row gap-x-2">
+        <Text className="text-white font-semibold text-base">
+          Procure eventos pelo nome
+        </Text>
+        <Feather name="search" size={24} color={colors.white} />
+      </View>
       <TextInput
         onChangeText={searchEvent}
         selectionColor={colors.green[600]}
         placeholderTextColor={colors.zinc[500]}
-        className="flex-row h-14 p-3 mb-2 items-center justify-between text-white text-base bg-zinc-900 border-2 rounded-md border-zinc-800 focus:border-green-600"
+        className="flex-row h-14 p-3 mb-2 mt-3 items-center justify-between text-white text-base bg-zinc-900 border-2 rounded-md border-zinc-800 focus:border-green-600"
         placeholder="Nome do evento"
       />
       {eventList && eventList.length > 0 ? (
@@ -32,17 +38,12 @@ export default function Search() {
             return <EventCard key={event.id} event={event} />;
           })}
         </ScrollView>
-      ) : eventSearchInput ? (
-        <Text className="text-white font-semibold text-base">
-          Desculpe, não encontramos o evento "{eventSearchInput}"
-        </Text>
       ) : (
-        <View className="flex-row gap-x-2">
+        eventSearchInput && (
           <Text className="text-white font-semibold text-base">
-            Procure eventos pelo nome
+            Desculpe, não encontramos o evento "{eventSearchInput}"
           </Text>
-          <Feather name="search" size={24} color={colors.white} />
-        </View>
+        )
       )}
     </Container>
   );

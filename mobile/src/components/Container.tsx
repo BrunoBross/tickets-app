@@ -3,7 +3,7 @@ import { ReactNode, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import colors from "tailwindcss/colors";
-import NewConfirmModal from "./modals/ConfirmModal";
+import ConfirmModal from "./modals/ConfirmModal";
 
 interface ContainerProps {
   title?: string;
@@ -45,7 +45,7 @@ export default function Container(props: ContainerProps) {
   return (
     <>
       {askConfirm && (
-        <NewConfirmModal
+        <ConfirmModal
           isVisible={isBackModalOpen}
           setIsVisible={setIsBackModalOpen}
           message={message}

@@ -1,41 +1,28 @@
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
 import {
   ActivityIndicator,
   RefreshControl,
   ScrollView,
   Text,
-  TouchableOpacity,
   View,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "../../contexts/AuthContext";
 import { useCallback, useState } from "react";
-import { EventInterface, TicketType } from "../../components/event/EventCard";
-import formatEventDate from "../../utils/formatEventDate";
-import convertGenter from "../../utils/convertGender";
 import colors from "tailwindcss/colors";
 import useApi from "../../lib/api";
 import { Feather } from "@expo/vector-icons";
 import { ModalPageProps } from "../../screens/Profile";
 import Container from "../Container";
-
-interface TicketListInterface {
-  id: string;
-  purchase_date: Date;
-  event_id: string;
-  ticket_type_id: string;
-  event: EventInterface;
-  ticket_type: TicketType;
-}
+import TicketInfo from "./TicketInfo";
+import { TicketInterface } from "./Ticket";
 
 export default function MyTickets(props: ModalPageProps) {
   const { setIsModalPageOpen } = props;
-  const { navigate, goBack } = useNavigation();
   const { user } = useAuth();
   const { api } = useApi();
-  const [myTicketList, setMyTicketList] = useState<
-    TicketListInterface[] | null
-  >(null);
+  const [myTicketList, setMyTicketList] = useState<TicketInterface[] | null>(
+    null
+  );
   const [refreshing, setRefreshing] = useState(false);
 
   const retrieveTickets = async () => {
@@ -85,28 +72,7 @@ export default function MyTickets(props: ModalPageProps) {
           <View className="flex-1 mb-32">
             {myTicketList.length > 0 ? (
               myTicketList.map((ticket) => {
-                return (
-                  <TouchableOpacity
-                    key={ticket.id}
-                    activeOpacity={0.7}
-                    className="mb-4 bg-zinc-900 border-l-[6px] border-violet-600 rounded-md p-4"
-                    onPress={() => navigate("ticket", { ticketId: ticket.id })}
-                  >
-                    <Text className="text-violet-600  text-lg font-bold">
-                      NÃO UTILIZADO
-                    </Text>
-                    <Text className="text-white text-lg font-semibold">
-                      {ticket.event.name} - {ticket.event.attraction}
-                    </Text>
-                    <Text className="text-white text-lg font-semibold">
-                      {ticket.ticket_type.name} -{" "}
-                      {convertGenter(ticket.ticket_type.gender)}
-                    </Text>
-                    <Text className="text-white text-lg font-semibold">
-                      {formatEventDate(ticket.event.date)}
-                    </Text>
-                  </TouchableOpacity>
-                );
+                return <TicketInfo key={ticket.id} ticket={ticket} />;
               })
             ) : (
               <View className="flex-row gap-x-2">
