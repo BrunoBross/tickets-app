@@ -7,17 +7,9 @@ import { createTicketTypeBody } from "../types/TicketTypeTypes";
 const ticketTypeService = new TicketTypeService();
 
 export async function TicketTypeController(app: FastifyInstance) {
-  app.get("/ticket-type/:eventId", async (request, response) => {
+  app.get("/ticket-type", async (request, response) => {
     try {
-      const ticketTypeParams = z.object({
-        eventId: z.string(),
-      });
-
-      const { eventId } = ticketTypeParams.parse(request.params);
-
-      const ticketTypes = await ticketTypeService.getAllTicketTypesByEventId(
-        eventId
-      );
+      const ticketTypes = await ticketTypeService.getAllTicketTypes();
 
       response.send(ticketTypes);
     } catch (error) {
@@ -59,21 +51,13 @@ export async function TicketTypeController(app: FastifyInstance) {
     }
   });
 
-  // create ticketType
-  app.post("/ticket-type/:eventId", async (request, response) => {
+  app.post("/ticket-type", async (request, response) => {
     try {
-      const ticketTypeParams = z.object({
-        eventId: z.string(),
-      });
-
-      const { eventId } = ticketTypeParams.parse(request.params);
-
       const parsedCreateTicketTypeBody = createTicketTypeBody.parse(
         request.body
       );
 
       const result = await ticketTypeService.createTicketType(
-        eventId,
         parsedCreateTicketTypeBody
       );
 

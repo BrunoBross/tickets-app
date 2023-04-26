@@ -7,12 +7,18 @@ import EventDetails from "./EventDetails";
 
 export interface TicketType {
   id: string;
+  name: string;
+  description: string;
+}
+
+export interface TicketLot {
+  id: string;
+  amount_available: number;
+  lot_number: number;
   price: number;
   tax: number;
-  name: string;
-  lot: number;
-  amount: number;
-  gender: string;
+  total_price: number;
+  ticket_type: TicketType;
 }
 
 export interface EventInterface {
@@ -26,7 +32,7 @@ export interface EventInterface {
   batch: number;
   organizer_id: string;
   file_name: string;
-  TicketType: TicketType[];
+  ticket_lots: TicketLot[];
 }
 
 interface EventProps {

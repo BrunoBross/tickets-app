@@ -1,17 +1,17 @@
 import { Text, View } from "react-native";
-import { TicketType } from "./EventCard";
+import { TicketLot } from "./EventCard";
 import EventTicket from "./EventTicket";
 
 interface EventTicketListProps {
-  ticketTypes: TicketType[];
-  handleAddTicketToCart: (ticketType: TicketType) => void;
-  getTicketCartAmount: (ticketType: TicketType) => number;
-  removeLastTicketCartByTicketType: (ticketType: TicketType) => void;
+  ticketLots: TicketLot[];
+  handleAddTicketToCart: (ticketType: TicketLot) => void;
+  getTicketCartAmount: (ticketType: TicketLot) => number;
+  removeLastTicketCartByTicketType: (ticketType: TicketLot) => void;
 }
 
 export default function EventTicketList(props: EventTicketListProps) {
   const {
-    ticketTypes,
+    ticketLots,
     getTicketCartAmount,
     handleAddTicketToCart,
     removeLastTicketCartByTicketType,
@@ -19,14 +19,14 @@ export default function EventTicketList(props: EventTicketListProps) {
 
   return (
     <View className="flex-1">
-      {ticketTypes.length > 0 ? (
-        ticketTypes.map((ticketType: TicketType) => (
+      {ticketLots.length > 0 ? (
+        ticketLots.map((ticketLot: TicketLot) => (
           <View
-            key={ticketType.id}
+            key={ticketLot.id}
             className="flex p-3 bg-zinc-800 rounded-md mb-2"
           >
             <EventTicket
-              ticketType={ticketType}
+              ticketLot={ticketLot}
               getTicketCartAmount={getTicketCartAmount}
               handleAddTicketToCart={handleAddTicketToCart}
               removeLastTicketCartByTicketType={

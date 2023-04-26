@@ -2,7 +2,7 @@
   "expo": {
     "name": "UniTickets",
     "description": "Um aplicativo de venda de ingressos de festas",
-    "slug": "uniTicketsApp",
+    "slug": "tickets",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -32,7 +32,7 @@
       }
     },
     "androidStatusBar": {
-      "hidden": "true"
+      "hidden": true
     }
   }
 }

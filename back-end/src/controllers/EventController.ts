@@ -38,13 +38,6 @@ export async function EventController(app: FastifyInstance) {
             mode: "insensitive",
           },
         },
-        include: {
-          TicketType: {
-            where: {
-              active: true,
-            },
-          },
-        },
       })
       .then((events) => {
         if (!events) {
@@ -75,13 +68,6 @@ export async function EventController(app: FastifyInstance) {
             equals: organizerId,
           },
         },
-        include: {
-          TicketType: {
-            where: {
-              active: true,
-            },
-          },
-        },
       })
       .then((events) => {
         if (!events) {
@@ -110,16 +96,6 @@ export async function EventController(app: FastifyInstance) {
         where: {
           id: {
             equals: eventId,
-          },
-        },
-        include: {
-          TicketType: {
-            where: {
-              active: true,
-            },
-            orderBy: {
-              price: "asc",
-            },
           },
         },
       })

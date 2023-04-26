@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { EventInterface } from "../components/event/EventCard";
 import useApi from "../lib/api";
@@ -18,7 +18,7 @@ export default function Home() {
     setIsLoading(false);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     retrieveEventList();
   }, []);
 

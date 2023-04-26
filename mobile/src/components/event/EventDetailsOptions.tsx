@@ -1,13 +1,10 @@
-import clsx from "clsx";
-import { useEffect, useReducer, useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
-import { EventInterface, TicketType } from "./EventCard";
+import { useReducer, useState } from "react";
+import { View } from "react-native";
+import { EventInterface, TicketLot, TicketType } from "./EventCard";
 import uuid from "react-native-uuid";
-import EventTicket from "./EventTicket";
 import { useAuth } from "../../contexts/AuthContext";
 import { TicketCartInterface, useCart } from "../../contexts/CartContext";
 import ConfirmModal from "../modals/ConfirmModal";
-import useApi from "../../lib/api";
 import EventDescription from "./EventDescription";
 import EventTicketList from "./EventTicketList";
 import SectionButton from "./SectionButton";
@@ -41,28 +38,16 @@ const initialValues = {
 export default function EventDetailsOptions(props: EventDetailsOptions) {
   const { event } = props;
   const { user } = useAuth();
-  // const { api } = useApi();
   const [state, dispatch] = useReducer(reducer, initialValues);
   const { addCartList, cartList, setCartList } = useCart();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [ticketTypes, setTicketTypes] = useState<TicketType[]>([]);
 
-  // useEffect(() => {
-  //   const getTicketTypes = async () => {
-  //     const result = await api.get(`ticket-type/${event.id}`);
-
-  //     setTicketTypes(result.data);
-  //   };
-
-  //   getTicketTypes();
-  // }, []);
-
-  const handleAddTicketToCart = (ticketType: TicketType) => {
+  const handleAddTicketToCart = (ticketLot: TicketLot) => {
     if (user) {
       const ticketCart: TicketCartInterface = {
         id: String(uuid.v4()),
         eventId: event.id,
-        ticketType: ticketType,
+        ticket_lot: ticketLot,
       };
       addCartList(ticketCart);
     } else {
@@ -70,9 +55,9 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
     }
   };
 
-  const removeLastTicketCartByTicketType = (ticketType: TicketType) => {
+  const removeLastTicketCartByTicketType = (ticketLot: TicketLot) => {
     const ticketIndex = cartList.findIndex(
-      (ticket) => ticket.ticketType.id === ticketType.id
+      (ticket) => ticket.ticket_lot.id === ticketLot.id
     );
 
     if (ticketIndex !== -1) {
@@ -83,8 +68,8 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
     }
   };
 
-  const getTicketCartAmount = (ticketType: TicketType) => {
-    return cartList.filter((ticket) => ticket.ticketType.id === ticketType.id)
+  const getTicketCartAmount = (ticketLot: TicketLot) => {
+    return cartList.filter((ticket) => ticket.ticket_lot.id === ticketLot.id)
       .length;
   };
 
@@ -113,7 +98,7 @@ export default function EventDetailsOptions(props: EventDetailsOptions) {
       </View>
       {state.tickets && (
         <EventTicketList
-          ticketTypes={event.TicketType}
+          ticketLots={event.ticket_lots}
           getTicketCartAmount={getTicketCartAmount}
           handleAddTicketToCart={handleAddTicketToCart}
           removeLastTicketCartByTicketType={removeLastTicketCartByTicketType}

@@ -7,7 +7,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import { TicketType } from "../components/event/EventCard";
+import { TicketLot } from "../components/event/EventCard";
 import { useAuth } from "./AuthContext";
 import useApi from "../lib/api";
 import { useToast } from "react-native-toast-notifications";
@@ -19,7 +19,7 @@ interface CartProviderProps {
 export interface TicketCartInterface {
   id: string;
   eventId: string;
-  ticketType: TicketType;
+  ticket_lot: TicketLot;
 }
 
 interface CartContextInterface {
@@ -44,13 +44,13 @@ export default function CartProvider(props: CartProviderProps) {
 
   const cartTotalPrice = useMemo(() => {
     return cartList.reduce((total, ticket) => {
-      return total + ticket.ticketType.price + ticket.ticketType.tax;
+      return total + ticket.ticket_lot.price + ticket.ticket_lot.tax;
     }, 0);
   }, [cartList]);
 
   const cartTotalTax = useMemo(() => {
     return cartList.reduce((total, ticket) => {
-      return total + ticket.ticketType.tax;
+      return total + ticket.ticket_lot.tax;
     }, 0);
   }, [cartList]);
 
@@ -72,8 +72,7 @@ export default function CartProvider(props: CartProviderProps) {
       cartList.forEach(async (event) => {
         const ticket = {
           user_id: user.id,
-          event_id: event.eventId,
-          ticket_type_id: event.ticketType.id,
+          ticket_lot_id: event.ticket_lot.id,
         };
 
         await api({

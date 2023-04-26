@@ -17,7 +17,7 @@ model User {
   password String
   active   Boolean  @default(true)
 
-  Ticket Ticket[]
+  ticket Ticket[]
 
   @@map("users")
 }
@@ -31,7 +31,7 @@ model Organizer {
   cnpj     String?
   password String
 
-  Event Event[]
+  event Event[]
 
   @@map("organizers")
 }
@@ -45,43 +45,55 @@ model Event {
   location_link String
   file_name     String
   date          DateTime
+  active        Boolean  @default(true)
 
   organizer_id String
   organizer    Organizer @relation(fields: [organizer_id], references: [id])
 
-  Ticket     Ticket[]
-  TicketType TicketType[]
+  ticket_lot TicketLot[]
 
   @@map("events")
 }
 
 model TicketType {
-  id         String  @id @default(uuid())
-  name       String
-  price      Float
-  tax        Float
-  lot_number Int
-  amount     Int
-  active     Boolean @default(true)
+  id          String  @id @default(uuid())
+  name        String
+  description String
+  active      Boolean @default(true)
+
+  ticket_lot TicketLot[]
+
+  @@map("tickets_type")
+}
+
+model TicketLot {
+  id               String  @id @default(uuid())
+  amount_available Int
+  lot_number       Int
+  price            Float
+  tax              Float
+  total_price      Float
+  active           Boolean @default(true)
+
+  ticket_type_id String
+  ticket_type    TicketType @relation(fields: [ticket_type_id], references: [id])
 
   event_id String
   event    Event  @relation(fields: [event_id], references: [id])
 
-  Ticket Ticket[]
+  ticket Ticket[]
 
-  @@map("tickets_type")
+  @@map("ticket_lot")
 }
 
 model Ticket {
   id            String   @id @default(uuid())
   purchase_date DateTime @default(now())
   used          Boolean  @default(false)
+  active        Boolean  @default(true)
 
-  event_id String
-  event    Event  @relation(fields: [event_id], references: [id])
-
-  ticket_type_id String
-  ticket_type    TicketType @relation(fields: [ticket_type_id], references: [id])
+  ticket_lot_id String
+  ticket_lot    TicketLot @relation(fields: [ticket_lot_id], references: [id])
 
   user_id String
   user    User   @relation(fields: [user_id], references: [id])

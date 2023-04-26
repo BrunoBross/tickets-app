@@ -5,6 +5,7 @@ import { OrganizerController } from "./controllers/OrganizerController";
 import { TicketController } from "./controllers/TicketController";
 import { TicketTypeController } from "./controllers/TicketTypeController";
 import { UserController } from "./controllers/UserController";
+import { TicketLotController } from "./controllers/TicketLotController";
 
 export async function Routes(app: FastifyInstance) {
   app.decorate("authenticate", async (request: any, response: any) => {
@@ -33,6 +34,8 @@ export async function Routes(app: FastifyInstance) {
   app.register(EventController);
 
   app.register(TicketTypeController);
+
+  app.register(TicketLotController);
 
   app.register(TicketController);
 }

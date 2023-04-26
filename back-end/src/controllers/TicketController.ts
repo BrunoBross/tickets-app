@@ -6,7 +6,11 @@ export async function TicketController(app: FastifyInstance) {
   // get tickets
   app.get("/ticket", async (request, response) => {
     await prisma.ticket
-      .findMany()
+      .findMany({
+        include: {
+          ticket_lot: true,
+        },
+      })
       .then((tickets) => {
         response.send(tickets);
       })
@@ -32,7 +36,7 @@ export async function TicketController(app: FastifyInstance) {
           },
         },
         include: {
-          ticket_type: true,
+          ticket_lot: true,
         },
       })
       .then((ticket) => {
@@ -70,8 +74,11 @@ export async function TicketController(app: FastifyInstance) {
           },
         },
         include: {
-          event: true,
-          ticket_type: true,
+          ticket_lot: {
+            include: {
+              event: true,
+            },
+          },
         },
       })
       .then((ticket) => {
@@ -116,32 +123,58 @@ export async function TicketController(app: FastifyInstance) {
       });
   });
 
-  // create ticket
+  // create ticket / buy ticket
   app.post("/ticket", async (request, response) => {
     const ticketBody = z.object({
       user_id: z.string(),
-      event_id: z.string(),
-      ticket_type_id: z.string(),
+      ticket_lot_id: z.string(),
     });
 
-    const { user_id, event_id, ticket_type_id } = ticketBody.parse(
-      request.body
-    );
+    const { user_id, ticket_lot_id } = ticketBody.parse(request.body);
 
-    await prisma.ticket
-      .create({
+    const ticketLot = await prisma.ticketLot.findUnique({
+      where: {
+        id: ticket_lot_id,
+      },
+      select: {
+        amount_available: true,
+      },
+    });
+
+    if (ticketLot.amount_available <= 0) {
+      return response
+        .code(404)
+        .send({ error: "Esse ingresso não está mais disponível" });
+    }
+
+    const newAmountAvailable = ticketLot.amount_available - 1;
+
+    await prisma.ticketLot
+      .update({
+        where: {
+          id: ticket_lot_id,
+        },
         data: {
-          user_id,
-          event_id,
-          ticket_type_id,
+          amount_available: newAmountAvailable,
         },
       })
-      .then(() => {
-        response.status(200).send({ message: "Ingresso criado com sucesso" });
-      })
-      .catch((error) => {
-        console.error(error);
-        response.status(500).send({ error: "Ocorreu um erro interno" });
+      .then(async () => {
+        await prisma.ticket
+          .create({
+            data: {
+              user_id,
+              ticket_lot_id,
+            },
+          })
+          .then(() => {
+            response
+              .status(200)
+              .send({ message: "Ingresso criado com sucesso" });
+          })
+          .catch((error) => {
+            console.error(error);
+            response.status(500).send({ error: "Ocorreu um erro interno" });
+          });
       });
   });
 }

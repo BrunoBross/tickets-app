@@ -5,5 +5,5 @@ export const userSelect = {
   email: true,
   cpf: true,
   birth: true,
-  Ticket: true,
+  ticket: true,
 };

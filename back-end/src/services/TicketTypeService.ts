@@ -3,18 +3,8 @@ import { prisma } from "../lib/prisma";
 import { CreateTicketTypeBodyInterface } from "../types/TicketTypeTypes";
 
 export class TicketTypeService {
-  async getAllTicketTypesByEventId(eventId: string) {
-    const ticketTypes = await prisma.ticketType.findMany({
-      where: {
-        event_id: {
-          equals: eventId,
-        },
-        active: true,
-      },
-      orderBy: {
-        price: "asc",
-      },
-    });
+  async getAllTicketTypes() {
+    const ticketTypes = await prisma.ticketType.findMany();
 
     return ticketTypes;
   }
@@ -49,22 +39,13 @@ export class TicketTypeService {
     return { status: 204 };
   }
 
-  async createTicketType(
-    eventId: string,
-    ticketTypeBody: CreateTicketTypeBodyInterface
-  ) {
-    const { name, price, lot_number, amount } = ticketTypeBody;
-
-    const tax = price * (15 / 100);
+  async createTicketType(ticketTypeBody: CreateTicketTypeBodyInterface) {
+    const { name, description } = ticketTypeBody;
 
     await prisma.ticketType.create({
       data: {
-        price,
-        tax,
         name,
-        lot_number,
-        amount,
-        event_id: eventId,
+        description,
       },
     });
 
