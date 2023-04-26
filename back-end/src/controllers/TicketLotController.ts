@@ -3,7 +3,6 @@ import { z } from "zod";
 import { ServerResponseError } from "../helpers/ServerResponseError";
 import { TicketLotService } from "../services/TicketLotService";
 import { createTicketLotBody } from "../types/TicketLotTypes";
-import { prisma } from "../lib/prisma";
 
 const ticketLotService = new TicketLotService();
 
