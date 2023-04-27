@@ -77,6 +77,7 @@ export async function TicketController(app: FastifyInstance) {
           ticket_lot: {
             include: {
               event: true,
+              ticket_type: true,
             },
           },
         },
@@ -132,49 +133,51 @@ export async function TicketController(app: FastifyInstance) {
 
     const { user_id, ticket_lot_id } = ticketBody.parse(request.body);
 
-    const ticketLot = await prisma.ticketLot.findUnique({
-      where: {
-        id: ticket_lot_id,
-      },
-      select: {
-        amount_available: true,
-      },
-    });
+    try {
+      const ticketLotTransaction = await prisma.$transaction(async (prisma) => {
+        const blockTicketLot = await prisma.$queryRaw`
+          SELECT *
+          FROM ticket_lot
+          WHERE id = ${ticket_lot_id}
+          FOR UPDATE
+        `;
 
-    if (ticketLot.amount_available <= 0) {
-      return response
-        .code(404)
-        .send({ error: "Esse ingresso não está mais disponível" });
-    }
+        const ticketLot = await prisma.ticketLot.findUnique({
+          where: {
+            id: ticket_lot_id,
+          },
+          select: {
+            amount_available: true,
+          },
+        });
 
-    const newAmountAvailable = ticketLot.amount_available - 1;
+        if (ticketLot.amount_available <= 0) {
+          throw new Error("Esse ingresso não está mais disponível");
+        }
 
-    await prisma.ticketLot
-      .update({
-        where: {
-          id: ticket_lot_id,
-        },
-        data: {
-          amount_available: newAmountAvailable,
-        },
-      })
-      .then(async () => {
-        await prisma.ticket
-          .create({
-            data: {
-              user_id,
-              ticket_lot_id,
-            },
-          })
-          .then(() => {
-            response
-              .status(200)
-              .send({ message: "Ingresso criado com sucesso" });
-          })
-          .catch((error) => {
-            console.error(error);
-            response.status(500).send({ error: "Ocorreu um erro interno" });
-          });
+        await prisma.ticketLot.update({
+          where: {
+            id: ticket_lot_id,
+          },
+          data: {
+            amount_available: ticketLot.amount_available - 1,
+          },
+        });
+
+        return ticketLot;
       });
+
+      await prisma.ticket.create({
+        data: {
+          user_id,
+          ticket_lot_id,
+        },
+      });
+
+      response.status(200).send({ message: "Ingresso criado com sucesso" });
+    } catch (error) {
+      console.error(error);
+      response.status(500).send({ error: "Ocorreu um erro interno" });
+    }
   });
 }

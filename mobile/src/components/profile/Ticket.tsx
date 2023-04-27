@@ -7,7 +7,11 @@ import {
 } from "react-native";
 import QRCode from "react-native-qrcode-svg";
 import { useAuth } from "../../contexts/AuthContext";
-import { EventInterface, TicketType } from "../../components/event/EventCard";
+import {
+  EventInterface,
+  TicketLot,
+  TicketType,
+} from "../../components/event/EventCard";
 import convertGenter from "../../utils/convertGender";
 import colors from "tailwindcss/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -21,9 +25,8 @@ export interface TicketInterface {
   id: string;
   event_id: string;
   purchase_date: string;
-  ticket_type: TicketType;
-  ticket_type_id: string;
-  event: EventInterface;
+  ticket_lot_id: string;
+  ticket_lot: TicketLot;
   user_id: string;
 }
 
@@ -108,8 +111,7 @@ export default function Ticket(props: TicketProps) {
               {user && formatCpf(user.cpf)}
             </Text>
             <Text className="text-white text-2xl mt-2 bg-violet-600 px-3 py-1 rounded-md font-semibold">
-              {ticket?.ticket_type.name}{" "}
-              {ticket && convertGenter(ticket.ticket_type.gender)}{" "}
+              {ticket.ticket_lot.event.name} {ticket && convertGenter("OTHER")}{" "}
             </Text>
           </View>
         </ScrollView>

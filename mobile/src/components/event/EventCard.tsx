@@ -19,6 +19,7 @@ export interface TicketLot {
   tax: number;
   total_price: number;
   ticket_type: TicketType;
+  event: EventInterface;
 }
 
 export interface EventInterface {

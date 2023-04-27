@@ -31,13 +31,13 @@ export default function TicketInfo(props: TicketInfoProps) {
           NÃO UTILIZADO
         </Text>
         <Text className="text-white text-lg font-semibold">
-          {ticket.event.name} - {ticket.event.attraction}
+          {ticket.ticket_lot.event.name} - {ticket.ticket_lot.event.attraction}
         </Text>
         <Text className="text-white text-lg font-semibold">
-          {ticket.ticket_type.name} - {convertGenter(ticket.ticket_type.gender)}
+          {ticket.ticket_lot.ticket_type.name} - {convertGenter("OTHER")}
         </Text>
         <Text className="text-white text-lg font-semibold">
-          {formatEventDate(ticket.event.date)}
+          {formatEventDate(ticket.ticket_lot.event.date)}
         </Text>
       </TouchableOpacity>
     </>
