@@ -1,15 +1,9 @@
-import { useNavigation } from "@react-navigation/native";
-import { Text, TouchableOpacity, View } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import colors from "tailwindcss/colors";
-import { ModalPageProps } from "../../screens/Profile";
+import { Text, View } from "react-native";
 import Container from "../Container";
 
-export default function Help(props: ModalPageProps) {
-  const { setIsModalPageOpen } = props;
-
+export default function Help() {
   return (
-    <Container hasBack onBack={() => setIsModalPageOpen(false)}>
+    <Container hasBack>
       <View>
         <Text className="text-white text-base font-semibold">
           Te vira meu fi

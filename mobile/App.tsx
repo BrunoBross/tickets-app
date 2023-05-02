@@ -9,8 +9,7 @@ import {
 } from "@expo-google-fonts/inter";
 import colors from "tailwindcss/colors";
 import { QueryClient, QueryClientProvider } from "react-query";
-import React, { useState } from "react";
-import { TabBar, TabView } from "react-native-tab-view";
+import React from "react";
 import ConnectionProvider from "./src/contexts/ConnectionContext";
 import { ToastProvider } from "react-native-toast-notifications";
 import CustomToast from "./src/components/CustomToast";

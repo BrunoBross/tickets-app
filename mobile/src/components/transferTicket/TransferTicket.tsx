@@ -56,6 +56,9 @@ export default function TransferTicket(props: TransferTicketProps) {
       <Container hasBack onBack={() => setIsTransferModalOpen(false)}>
         <View className="flex-1 justify-between">
           <View>
+            <Text className="text-white text-2xl font-semibold mb-4">
+              Transferência de Ingresso
+            </Text>
             <Form.ControlledInput
               title="CPF destinatário"
               name="cpf"
@@ -67,7 +70,7 @@ export default function TransferTicket(props: TransferTicketProps) {
             />
             <TouchableOpacity
               activeOpacity={0.7}
-              className="flex flex-row bg-violet-600 p-4 rounded-md mt-3 justify-center"
+              className="flex flex-row bg-violet-600 p-4 rounded-md justify-center"
               onPress={handleSubmit(onSubmit)}
             >
               <Text className="pl-3 text-white text-base font-semibold">
@@ -81,10 +84,10 @@ export default function TransferTicket(props: TransferTicketProps) {
             </Text>
             <View className="flex-row border-2 border-violet-600 h-14 items-center justify-center rounded-md">
               <Text className="text-white text-base font-semibold">
-                {ticket.event.name}
+                {ticket.ticket_lot.event.name}
               </Text>
               <Text className="text-white text-base font-semibold pl-2">
-                {ticket.ticket_type.name.toUpperCase()}
+                {ticket.ticket_lot.ticket_type.name.toUpperCase()}
               </Text>
             </View>
           </View>

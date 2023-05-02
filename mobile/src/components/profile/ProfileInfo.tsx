@@ -3,15 +3,12 @@ import { useAuth } from "../../contexts/AuthContext";
 import formatBirthDate from "../../utils/formatBirthDate";
 import formatCpf from "../../utils/formatCpf";
 import colors from "tailwindcss/colors";
-import { FontAwesome } from "@expo/vector-icons";
 import Container from "../../components/Container";
 import { Feather } from "@expo/vector-icons";
 import useProfileInfo from "../../hooks/useProfileInfo";
 import ConfirmModal from "../../components/modals/ConfirmModal";
-import { ModalPageProps } from "../../screens/Profile";
 
-export default function ProfileInfo(props: ModalPageProps) {
-  const { setIsModalPageOpen } = props;
+export default function ProfileInfo() {
   const { user } = useAuth();
   const { handleRemoveAccount, isModalOpen, setIsModalOpen } = useProfileInfo();
 
@@ -27,7 +24,7 @@ export default function ProfileInfo(props: ModalPageProps) {
         handler={handleRemoveAccount}
         isDanger
       />
-      <Container hasBack onBack={() => setIsModalPageOpen(false)}>
+      <Container hasBack>
         <View className="flex-1 justify-between">
           <View className="flex gap-y-3">
             <View className="flex-row">
@@ -71,7 +68,7 @@ export default function ProfileInfo(props: ModalPageProps) {
         <View>
           <TouchableOpacity
             activeOpacity={0.7}
-            className="h-14 px-5 mb-2 flex-row items-center justify-center bg-zinc-900 rounded-md"
+            className="h-14 px-5 mb-4 flex-row items-center justify-center bg-zinc-900 rounded-md"
             onPress={() => setIsModalOpen(true)}
           >
             <Feather name="trash-2" size={24} color={colors.zinc[700]} />

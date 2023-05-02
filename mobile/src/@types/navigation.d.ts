@@ -15,7 +15,7 @@ export declare global {
         eventId: string;
       };
       profileInfo: undefined;
-      mytickets: undefined;
+      myTickets: undefined;
       ticket: {
         ticketId: string;
       };

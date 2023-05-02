@@ -9,7 +9,6 @@ import { useState } from "react";
 import Container from "../components/Container";
 import ConfirmModal from "../components/modals/ConfirmModal";
 import ContentModal from "../components/modals/ContentModal";
-import ProfileInfo from "../components/profile/ProfileInfo";
 import MyTickets from "../components/profile/MyTickets";
 import Who from "../components/profile/Who";
 import Help from "../components/profile/Help";
@@ -27,11 +26,6 @@ export default function Profile() {
     setIsConfirmModalOpen(true);
   };
 
-  const [isProfileInfoOpen, setIsProfileInfoOpen] = useState(false);
-  const [isMyTicketsModalOpen, setIsMyTicketsModalOpen] = useState(false);
-  const [isWhoModalOpen, setIsWhoModalOpen] = useState(false);
-  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
-
   return (
     <>
       <ConfirmModal
@@ -44,38 +38,6 @@ export default function Profile() {
         handler={Logout}
         isDanger
       />
-
-      {/* MEUS DADOS */}
-      <ContentModal
-        isVisible={isProfileInfoOpen}
-        setIsVisible={setIsProfileInfoOpen}
-        swipeDir="down"
-      >
-        <ProfileInfo setIsModalPageOpen={setIsProfileInfoOpen} />
-      </ContentModal>
-
-      {/* MEUS INGRESSOS */}
-      <ContentModal
-        isVisible={isMyTicketsModalOpen}
-        setIsVisible={setIsMyTicketsModalOpen}
-        swipeDir="down"
-      >
-        <MyTickets setIsModalPageOpen={setIsMyTicketsModalOpen} />
-      </ContentModal>
-
-      {/* QUEM SOMOS */}
-      <ContentModal isVisible={isWhoModalOpen} setIsVisible={setIsWhoModalOpen}>
-        <Who setIsModalPageOpen={setIsWhoModalOpen} />
-      </ContentModal>
-
-      {/* OBTER AJUDA */}
-      <ContentModal
-        isVisible={isHelpModalOpen}
-        setIsVisible={setIsHelpModalOpen}
-      >
-        <Help setIsModalPageOpen={setIsHelpModalOpen} />
-      </ContentModal>
-
       <Container title={`Olá, ${user?.name}`}>
         <View className="flex-1">
           <View className="flex-row gap-x-2">
@@ -87,7 +49,7 @@ export default function Profile() {
           <TouchableOpacity
             activeOpacity={0.7}
             className="flex flex-row bg-violet-600 p-4 rounded-md mt-3"
-            onPress={() => setIsProfileInfoOpen(true)}
+            onPress={() => navigate("profileInfo")}
           >
             <FontAwesome5 name="user-circle" size={24} color={colors.white} />
             <Text className="pl-3 text-white text-base font-semibold">
@@ -97,7 +59,7 @@ export default function Profile() {
           <TouchableOpacity
             activeOpacity={0.7}
             className="flex flex-row bg-violet-600 p-4 rounded-md mt-3"
-            onPress={() => setIsMyTicketsModalOpen(true)}
+            onPress={() => navigate("myTickets")}
           >
             <MaterialCommunityIcons
               name="ticket-confirmation-outline"
@@ -111,7 +73,7 @@ export default function Profile() {
           <TouchableOpacity
             activeOpacity={0.7}
             className="flex flex-row bg-violet-600 p-4 rounded-md mt-3"
-            onPress={() => setIsWhoModalOpen(true)}
+            onPress={() => navigate("who")}
           >
             <MaterialCommunityIcons
               name="office-building-outline"
@@ -125,7 +87,7 @@ export default function Profile() {
           <TouchableOpacity
             activeOpacity={0.7}
             className="flex flex-row bg-violet-600 p-4 rounded-md mt-3"
-            onPress={() => setIsHelpModalOpen(true)}
+            onPress={() => navigate("help")}
           >
             <MaterialCommunityIcons
               name="help-circle-outline"

@@ -37,7 +37,7 @@ export default function EventTicketList(props: EventTicketListProps) {
         ))
       ) : (
         <Text className="text-white font-semibold text-base">
-          Nenhum tipo de ingresso a venda!
+          Não há lotes disponíveis para venda!
         </Text>
       )}
     </View>

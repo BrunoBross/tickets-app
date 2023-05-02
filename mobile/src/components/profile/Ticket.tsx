@@ -7,11 +7,7 @@ import {
 } from "react-native";
 import QRCode from "react-native-qrcode-svg";
 import { useAuth } from "../../contexts/AuthContext";
-import {
-  EventInterface,
-  TicketLot,
-  TicketType,
-} from "../../components/event/EventCard";
+import { TicketLot } from "../../components/event/EventCard";
 import convertGenter from "../../utils/convertGender";
 import colors from "tailwindcss/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -20,11 +16,12 @@ import Container from "../Container";
 import ContentModal from "../modals/ContentModal";
 import TransferTicket from "../transferTicket/TransferTicket";
 import useTransferTicket from "../transferTicket/useTransferTicket";
+import FormatDate from "../../utils/formatDate";
 
 export interface TicketInterface {
   id: string;
   event_id: string;
-  purchase_date: string;
+  purchase_date: Date;
   ticket_lot_id: string;
   ticket_lot: TicketLot;
   user_id: string;
@@ -104,6 +101,7 @@ export default function Ticket(props: TicketProps) {
             <View className="border-2 border-violet-600">
               <QRCode value={ticket.id} size={250} quietZone={5} />
             </View>
+
             <Text className="text-white mt-2 text-4xl font-semibold">
               {user?.name} {user?.surname}
             </Text>
@@ -115,6 +113,9 @@ export default function Ticket(props: TicketProps) {
             </Text>
           </View>
         </ScrollView>
+        <Text className="text-white mt-2 text-1xl font-semibold text-center">
+          Data de compra: {FormatDate(ticket.purchase_date)}
+        </Text>
       </Container>
     </>
   );

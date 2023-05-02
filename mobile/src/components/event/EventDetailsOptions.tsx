@@ -1,6 +1,6 @@
 import { useReducer, useState } from "react";
 import { View } from "react-native";
-import { EventInterface, TicketLot, TicketType } from "./EventCard";
+import { EventInterface, TicketLot } from "./EventCard";
 import uuid from "react-native-uuid";
 import { useAuth } from "../../contexts/AuthContext";
 import { TicketCartInterface, useCart } from "../../contexts/CartContext";

@@ -1,14 +1,13 @@
-import { TabBar, TabView } from "react-native-tab-view";
-import { ProfilePage } from "./custom.routes";
+import { TabView } from "react-native-tab-view";
 import { NavigationContainer } from "@react-navigation/native";
-import Home from "../screens/Home";
 import Search from "../screens/Search";
 import Cart from "../screens/Cart";
 import { View } from "react-native";
-import colors from "tailwindcss/colors";
-import { useCart } from "../contexts/CartContext";
-import FloatingButton from "../components/bottomBar/FloatingButton";
 import { useRoute } from "../contexts/RouteContext";
+import TabBar from "../components/bottomBar/TabBar";
+import Home from "../screens/Home";
+import Profile from "../screens/Profile";
+import { ProfilePage } from "./custom.routes";
 
 const renderScene = ({ route }: any) => {
   switch (route.key) {
@@ -26,10 +25,7 @@ const renderScene = ({ route }: any) => {
 };
 
 export function Routes() {
-  const { index, routes, setIndex, renderIcon } = useRoute();
-  const { cartList, clearCartList, handleBuyTickets } = useCart();
-
-  const showCartButton = index !== 2 && cartList.length > 0;
+  const { index, routes, setIndex } = useRoute();
 
   return (
     <NavigationContainer>
@@ -40,45 +36,7 @@ export function Routes() {
           onIndexChange={setIndex}
           tabBarPosition="bottom"
           keyboardDismissMode="auto"
-          renderTabBar={(props) => (
-            <>
-              {showCartButton && (
-                <FloatingButton
-                  title="Ir para o carrinho"
-                  handler={() => setIndex(2)}
-                />
-              )}
-              {!showCartButton && cartList.length > 0 && (
-                <>
-                  <FloatingButton
-                    title="Esvaziar carrinho"
-                    handler={clearCartList}
-                    upper
-                  />
-                  <FloatingButton
-                    title="Efetuar compra"
-                    handler={handleBuyTickets}
-                  />
-                </>
-              )}
-              <TabBar
-                {...props}
-                renderIcon={renderIcon}
-                labelStyle={{ display: "none" }}
-                indicatorContainerStyle={{
-                  backgroundColor: "#09090a",
-                  borderTopColor: colors.zinc[700],
-                  borderTopWidth: 2,
-                }}
-                indicatorStyle={{
-                  backgroundColor: colors.white,
-                  top: -1.5,
-                  borderRadius: 100,
-                }}
-                pressColor={colors.transparent}
-              />
-            </>
-          )}
+          renderTabBar={(props) => <TabBar {...props} />}
         />
       </View>
     </NavigationContainer>

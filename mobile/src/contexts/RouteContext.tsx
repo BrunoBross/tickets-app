@@ -2,7 +2,7 @@ import { ReactNode, createContext, useContext, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import colors from "tailwindcss/colors";
 
-interface RouteType {
+export interface RouteType {
   key: string;
   title: string;
   icon: string | any;
