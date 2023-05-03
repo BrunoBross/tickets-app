@@ -1,26 +1,46 @@
 export declare global {
   namespace ReactNavigation {
     interface RootParamList {
-      homePage: undefined;
-      searchPage: undefined;
-      cartPage: undefined;
-      profilePage: undefined;
+      //HOME PAGE
       home: undefined;
-      search: undefined;
-      cart: undefined;
-      profile: undefined;
-      login: undefined;
-      register: undefined;
-      details: {
+      eventDetails: {
         eventId: string;
       };
+
+      //SEARCH PAGE
+      search: undefined;
+
+      //CART PAGE
+      cart: undefined;
+
+      //PROFILE PAGE SIGNED USER
+      profile: undefined;
       profileInfo: undefined;
       myTickets: undefined;
-      ticket: {
+      ticketInfo: {
+        ticketId: string;
+      };
+      transferTicket: {
         ticketId: string;
       };
       who: undefined;
       help: undefined;
+
+      //PROFILE PAGE NOT SIGNED USER
+      login: undefined;
+      register: undefined;
     }
   }
 }
+
+export type ParamList = {
+  eventDetails: {
+    eventId: string;
+  };
+  ticketInfo: {
+    ticketId: string;
+  };
+  transferTicket: {
+    ticketId: string;
+  };
+};

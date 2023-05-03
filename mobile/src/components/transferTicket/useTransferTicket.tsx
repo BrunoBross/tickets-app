@@ -8,20 +8,21 @@ import useApi from "../../lib/api";
 import { useState } from "react";
 import { UserInterface, useAuth } from "../../contexts/AuthContext";
 import { TicketInterface } from "../profile/Ticket";
+import { useToast } from "react-native-toast-notifications";
 
 interface TransferTicketProps {
-  ticket: TicketInterface;
-  setIsModalOpen: (state: boolean) => void;
+  ticket: TicketInterface | null;
 }
 
 export default function useTransferTicket(props: TransferTicketProps) {
-  const { ticket, setIsModalOpen } = props;
+  const { ticket } = props;
   const { api } = useApi();
   const { user } = useAuth();
   const [isTransferModalOpen, setIsTransferModalOpen] = useState(false);
   const [isConfirmTransferModalOpen, setIsConfirmTransferModalOpen] =
     useState(false);
   const [userTransfer, setUserTransfer] = useState<UserInterface | null>(null);
+  const toast = useToast();
 
   const createTransferTicketForm = useForm<TransferTicketType>({
     resolver: zodResolver(transferTicketSchema),
@@ -29,7 +30,9 @@ export default function useTransferTicket(props: TransferTicketProps) {
 
   const onSubmit = async (data: TransferTicketType) => {
     if (user?.cpf === data.cpf) {
-      return console.log("nao pode transferir para si mesmo");
+      return toast.show("Você já possui esse ingresso", {
+        type: "danger",
+      });
     }
     await api
       .get(`/user/findByCpf/${data.cpf}`)
@@ -38,24 +41,26 @@ export default function useTransferTicket(props: TransferTicketProps) {
         setIsConfirmTransferModalOpen(true);
       })
       .catch((error) => {
-        console.log(error);
+        return toast.show("Usuário não encontrado", {
+          type: "danger",
+        });
       });
   };
 
   const handleTransferTicket = async () => {
-    await api
-      .patch("/ticket/transfer", {
-        ticketId: ticket.id,
-        newUserId: userTransfer!!.id,
-      })
-      .then(() => {
-        setIsConfirmTransferModalOpen(false);
-        setIsTransferModalOpen(false);
-        setIsModalOpen(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    ticket &&
+      (await api
+        .patch("/ticket/transfer", {
+          ticketId: ticket.id,
+          newUserId: userTransfer!!.id,
+        })
+        .then(() => {
+          setIsConfirmTransferModalOpen(false);
+          setIsTransferModalOpen(false);
+        })
+        .catch((error) => {
+          console.log(error);
+        }));
   };
 
   return {

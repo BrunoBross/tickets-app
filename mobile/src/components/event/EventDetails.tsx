@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Image,
   Linking,
   ScrollView,
@@ -15,27 +16,44 @@ import EventDetailsOptions from "./EventDetailsOptions";
 import Container from "../Container";
 import FloatingButton from "../bottomBar/FloatingButton";
 import { useCart } from "../../contexts/CartContext";
-import { useRoute } from "../../contexts/RouteContext";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { useEffect, useState } from "react";
+import { ParamList } from "../../@types/navigation";
 
-interface EventDetailsProps {
-  event: EventInterface;
-  handleCloseModal: () => void;
-}
-
-export default function EventDetails(props: EventDetailsProps) {
-  const { event, handleCloseModal } = props;
-  const { setIndex } = useRoute();
+export default function EventDetails() {
+  const {
+    params: { eventId },
+  } = useRoute<RouteProp<ParamList, "eventDetails">>();
+  const { navigate } = useNavigation();
   const { cartList } = useCart();
-  const { serverIp } = useApi();
+  const { serverIp, api } = useApi();
+  const [event, setEvent] = useState<EventInterface | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleGoCart = () => {
-    setIndex(2);
-    handleCloseModal();
+  const retrieveEvent = async () => {
+    setIsLoading(true);
+    const response = await api.get(`event/${eventId}`);
+    setEvent(response.data);
+    setIsLoading(false);
   };
+
+  useEffect(() => {
+    retrieveEvent();
+  }, []);
+
+  if (!event || isLoading) {
+    return (
+      <Container hasBack>
+        <View className="flex-1 bg-background justify-center items-center">
+          <ActivityIndicator size="large" color={colors.violet[600]} />
+        </View>
+      </Container>
+    );
+  }
 
   return (
     <>
-      <Container hasBack onBack={handleCloseModal}>
+      <Container hasBack>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View className="mb-32">
             <Image
@@ -69,7 +87,7 @@ export default function EventDetails(props: EventDetailsProps) {
       {cartList.length > 0 && (
         <FloatingButton
           title="Ir para o carrinho"
-          handler={handleGoCart}
+          handler={() => navigate("cart")}
           modal
         />
       )}

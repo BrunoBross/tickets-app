@@ -36,7 +36,12 @@ export async function TicketController(app: FastifyInstance) {
           },
         },
         include: {
-          ticket_lot: true,
+          ticket_lot: {
+            include: {
+              event: true,
+              ticket_type: true,
+            },
+          },
         },
       })
       .then((ticket) => {

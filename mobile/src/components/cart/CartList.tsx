@@ -5,7 +5,7 @@ import CartItem from "./CartItem";
 import { TicketCartInterface, useCart } from "../../contexts/CartContext";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import formatPrice from "../../utils/formatPrice";
-import { useRoute } from "../../contexts/RouteContext";
+import { useNavigation } from "@react-navigation/native";
 
 interface CartListProps {
   cartList: TicketCartInterface[] | [];
@@ -14,7 +14,7 @@ interface CartListProps {
 export default function CartList(props: CartListProps) {
   const { cartList } = props;
   const { cartTotalTax } = useCart();
-  const { setIndex } = useRoute();
+  const { navigate } = useNavigation();
 
   return (
     <View className="flex-1">
@@ -41,7 +41,7 @@ export default function CartList(props: CartListProps) {
           <TouchableOpacity
             activeOpacity={0.7}
             className="p-4 h-14 flex-row bg-violet-600 rounded-md mt-3"
-            onPress={() => setIndex(0)}
+            onPress={() => navigate("home")}
           >
             <MaterialCommunityIcons
               name="ticket-confirmation-outline"

@@ -19,7 +19,7 @@ export default function EventTicketList(props: EventTicketListProps) {
 
   return (
     <View className="flex-1">
-      {ticketLots.length > 0 ? (
+      {ticketLots && ticketLots.length > 0 ? (
         ticketLots.map((ticketLot: TicketLot) => (
           <View
             key={ticketLot.id}

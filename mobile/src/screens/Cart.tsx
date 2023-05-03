@@ -5,12 +5,12 @@ import colors from "tailwindcss/colors";
 import { useAuth } from "../contexts/AuthContext";
 import CartList from "../components/cart/CartList";
 import Container from "../components/Container";
-import { useRoute } from "../contexts/RouteContext";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Cart() {
   const { user } = useAuth();
   const { cartList } = useCart();
-  const { setIndex } = useRoute();
+  const { navigate } = useNavigation();
 
   return (
     <Container title="Carrinho">
@@ -26,7 +26,7 @@ export default function Cart() {
           <TouchableOpacity
             activeOpacity={0.7}
             className="p-4 h-14 flex-row bg-violet-600 rounded-md mt-3"
-            onPress={() => setIndex(3)}
+            onPress={() => navigate("login")}
           >
             <MaterialCommunityIcons
               name="login"

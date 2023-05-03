@@ -4,6 +4,7 @@ import formatEventDate from "../../utils/formatEventDate";
 import Ticket, { TicketInterface } from "./Ticket";
 import { useState } from "react";
 import ContentModal from "../modals/ContentModal";
+import { useNavigation } from "@react-navigation/native";
 
 interface TicketInfoProps {
   ticket: TicketInterface;
@@ -11,6 +12,7 @@ interface TicketInfoProps {
 
 export default function TicketInfo(props: TicketInfoProps) {
   const { ticket } = props;
+  const { navigate } = useNavigation();
   const [isTicketInfoModalOpen, setIsTicketInfoModalOpen] = useState(false);
 
   return (
@@ -19,13 +21,13 @@ export default function TicketInfo(props: TicketInfoProps) {
         isVisible={isTicketInfoModalOpen}
         setIsVisible={setIsTicketInfoModalOpen}
       >
-        <Ticket ticket={ticket} setIsModalOpen={setIsTicketInfoModalOpen} />
+        <Ticket />
       </ContentModal>
       <TouchableOpacity
         key={ticket.id}
         activeOpacity={0.7}
         className="mb-4 bg-zinc-900 border-l-[6px] border-violet-600 rounded-md p-4"
-        onPress={() => setIsTicketInfoModalOpen(true)}
+        onPress={() => navigate("ticketInfo", { ticketId: ticket.id })}
       >
         <Text className="text-violet-600  text-lg font-bold">
           NÃO UTILIZADO

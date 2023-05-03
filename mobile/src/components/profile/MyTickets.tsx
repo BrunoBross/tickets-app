@@ -1,4 +1,3 @@
-import { useFocusEffect } from "@react-navigation/native";
 import {
   ActivityIndicator,
   ScrollView,
@@ -8,7 +7,7 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useAuth } from "../../contexts/AuthContext";
-import { useCallback, useState } from "react";
+import { useEffect, useState } from "react";
 import colors from "tailwindcss/colors";
 import useApi from "../../lib/api";
 import { Feather } from "@expo/vector-icons";
@@ -33,11 +32,9 @@ export default function MyTickets() {
     setIsLoading(false);
   };
 
-  useFocusEffect(
-    useCallback(() => {
-      retrieveTickets();
-    }, [])
-  );
+  useEffect(() => {
+    retrieveTickets();
+  }, []);
 
   const RefreshButton = () => {
     return (

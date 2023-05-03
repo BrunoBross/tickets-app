@@ -22,8 +22,13 @@ export default function Profile() {
   const { navigate } = useNavigation();
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
-  const handleLogout = () => {
+  const handleAskLogout = () => {
     setIsConfirmModalOpen(true);
+  };
+
+  const handleConfirmLogout = () => {
+    setIsConfirmModalOpen(false);
+    Logout();
   };
 
   return (
@@ -35,7 +40,7 @@ export default function Profile() {
         message="Tem certeza que deseja sair?"
         confirmText="Confirmar"
         cancelText="Cancelar"
-        handler={Logout}
+        handler={handleConfirmLogout}
         isDanger
       />
       <Container title={`Olá, ${user?.name}`}>
@@ -100,7 +105,7 @@ export default function Profile() {
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.7}
-            onPress={handleLogout}
+            onPress={handleAskLogout}
             className="flex flex-row bg-zinc-700 p-4 rounded-md mt-3"
           >
             <MaterialCommunityIcons

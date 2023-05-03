@@ -60,7 +60,13 @@ export class EventService {
       throw new DefaultException("Evento não encontrado", 404);
     }
 
-    return event;
+    const ticket_lots = await ticketLotService.getAllTicketLotByEventId(
+      event.id
+    );
+
+    const eventWithLots = { ...event, ticket_lots };
+
+    return eventWithLots;
   }
 
   async deleteEventById(eventId: string) {

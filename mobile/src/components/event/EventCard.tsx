@@ -1,9 +1,7 @@
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity } from "react-native";
 import formatEventDate from "../../utils/formatEventDate";
 import useApi from "../../lib/api";
-import ContentModal from "../modals/ContentModal";
-import { useState } from "react";
-import EventDetails from "./EventDetails";
+import { useNavigation } from "@react-navigation/native";
 
 export interface TicketType {
   id: string;
@@ -43,28 +41,17 @@ interface EventProps {
 export default function EventCard(props: EventProps) {
   const { event } = props;
   const { serverIp } = useApi();
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const handleToggleModal = () => {
-    setIsModalVisible(!isModalVisible);
-  };
+  const { navigate } = useNavigation();
 
   const newDate = formatEventDate(event.date);
   const info = `${newDate} • ${event.location}`;
 
   return (
     <>
-      <ContentModal
-        isVisible={isModalVisible}
-        setIsVisible={setIsModalVisible}
-        swipeDir="down"
-      >
-        <EventDetails event={event} handleCloseModal={handleToggleModal} />
-      </ContentModal>
       <TouchableOpacity
         activeOpacity={0.7}
         className="mb-4"
-        onPress={handleToggleModal}
+        onPress={() => navigate("eventDetails", { eventId: event.id })}
       >
         <Image
           source={{

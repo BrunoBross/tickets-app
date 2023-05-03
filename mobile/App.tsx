@@ -17,6 +17,7 @@ import AuthProvider from "./src/contexts/AuthContext";
 import CartProvider from "./src/contexts/CartContext";
 import { Routes } from "./src/routes";
 import RouteProvider from "./src/contexts/RouteContext";
+import { NavigationContainer } from "@react-navigation/native";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -39,7 +40,8 @@ export default function App() {
   return (
     <ConnectionProvider>
       <ToastProvider
-        offsetBottom={70}
+        placement="top"
+        offsetTop={30}
         animationDuration={300}
         renderToast={(toast) => <CustomToast toast={toast} />}
       >
@@ -47,12 +49,14 @@ export default function App() {
           <AuthProvider>
             <CartProvider>
               <RouteProvider>
-                <Routes />
-                <StatusBar
-                  barStyle="light-content"
-                  backgroundColor="transparent"
-                  translucent
-                />
+                <NavigationContainer>
+                  <Routes />
+                  <StatusBar
+                    barStyle="light-content"
+                    backgroundColor="transparent"
+                    translucent
+                  />
+                </NavigationContainer>
               </RouteProvider>
             </CartProvider>
           </AuthProvider>

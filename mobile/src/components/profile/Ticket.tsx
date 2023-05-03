@@ -13,10 +13,11 @@ import colors from "tailwindcss/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import formatCpf from "../../utils/formatCpf";
 import Container from "../Container";
-import ContentModal from "../modals/ContentModal";
-import TransferTicket from "../transferTicket/TransferTicket";
-import useTransferTicket from "../transferTicket/useTransferTicket";
 import FormatDate from "../../utils/formatDate";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { useEffect, useState } from "react";
+import useApi from "../../lib/api";
+import { ParamList } from "../../@types/navigation";
 
 export interface TicketInterface {
   id: string;
@@ -27,29 +28,30 @@ export interface TicketInterface {
   user_id: string;
 }
 
-interface TicketProps {
-  ticket: TicketInterface;
-  setIsModalOpen: (state: boolean) => void;
-}
-
-export default function Ticket(props: TicketProps) {
-  const { ticket, setIsModalOpen } = props;
-  const { user } = useAuth();
+export default function Ticket() {
   const {
-    createTransferTicketForm,
-    handleTransferTicket,
-    isConfirmTransferModalOpen,
-    isTransferModalOpen,
-    onSubmit,
-    setIsConfirmTransferModalOpen,
-    setIsTransferModalOpen,
-    userTransfer,
-  } = useTransferTicket({
-    ticket,
-    setIsModalOpen,
-  });
+    params: { ticketId },
+  } = useRoute<RouteProp<ParamList, "ticketInfo">>();
+  const { user } = useAuth();
+  const { api } = useApi();
+  const { navigate } = useNavigation();
+  const [ticket, setTicket] = useState<TicketInterface | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  if (!ticket) {
+  const retrieveTicket = async () => {
+    setIsLoading(true);
+    if (user) {
+      const response = await api.get(`ticket/${ticketId}`);
+      setTicket(response.data);
+    }
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    retrieveTicket();
+  }, []);
+
+  if (!ticket || isLoading) {
     return (
       <Container hasBack>
         <View className="flex-1 bg-background justify-center items-center">
@@ -61,29 +63,13 @@ export default function Ticket(props: TicketProps) {
 
   return (
     <>
-      <ContentModal
-        isVisible={isTransferModalOpen}
-        setIsVisible={setIsTransferModalOpen}
-      >
-        <TransferTicket
-          ticket={ticket}
-          createTransferTicketForm={createTransferTicketForm}
-          handleTransferTicket={handleTransferTicket}
-          isConfirmTransferModalOpen={isConfirmTransferModalOpen}
-          onSubmit={onSubmit}
-          setIsConfirmTransferModalOpen={setIsConfirmTransferModalOpen}
-          setIsTransferModalOpen={setIsTransferModalOpen}
-          userTransfer={userTransfer}
-        />
-      </ContentModal>
       <Container
         hasBack
-        onBack={() => setIsModalOpen(false)}
         button={
           <TouchableOpacity
             activeOpacity={0.7}
             className="h-12 w-40 flex-row items-center justify-center border-2 border-violet-600 rounded-md"
-            onPress={() => setIsTransferModalOpen(true)}
+            onPress={() => navigate("transferTicket", { ticketId })}
           >
             <MaterialCommunityIcons
               name="transit-transfer"
@@ -113,7 +99,7 @@ export default function Ticket(props: TicketProps) {
             </Text>
           </View>
         </ScrollView>
-        <Text className="text-white mt-2 text-1xl font-semibold text-center">
+        <Text className="text-white mb-2 text-1xl font-semibold text-center">
           Data de compra: {FormatDate(ticket.purchase_date)}
         </Text>
       </Container>
