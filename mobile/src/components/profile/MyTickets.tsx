@@ -60,7 +60,7 @@ export default function MyTickets() {
 
   if (isLoading) {
     return (
-      <Container hasBack>
+      <Container hasBack button={<RefreshButton />}>
         <View className="flex-1 bg-background justify-center items-center">
           <ActivityIndicator size="large" color={colors.violet[600]} />
         </View>

@@ -28,6 +28,11 @@ export default function EventDetails(props: EventDetailsProps) {
   const { cartList } = useCart();
   const { serverIp } = useApi();
 
+  const handleGoCart = () => {
+    setIndex(2);
+    handleCloseModal();
+  };
+
   return (
     <>
       <Container hasBack onBack={handleCloseModal}>
@@ -64,7 +69,7 @@ export default function EventDetails(props: EventDetailsProps) {
       {cartList.length > 0 && (
         <FloatingButton
           title="Ir para o carrinho"
-          handler={() => setIndex(2)}
+          handler={handleGoCart}
           modal
         />
       )}

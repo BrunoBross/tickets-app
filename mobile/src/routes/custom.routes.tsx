@@ -6,8 +6,6 @@ import ProfileInfo from "../components/profile/ProfileInfo";
 import Who from "../components/profile/Who";
 import MyTickets from "../components/profile/MyTickets";
 import Help from "../components/profile/Help";
-import TransferTicket from "../components/transferTicket/TransferTicket";
-import Ticket from "../components/profile/Ticket";
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -18,7 +16,7 @@ const ProfilePage = () => {
     <Navigator
       screenOptions={{
         headerShown: false,
-        animation: "slide_from_right",
+        animation: "fade_from_bottom",
       }}
     >
       <Screen name="profile" component={signed ? Profile : Login} />

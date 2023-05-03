@@ -6,7 +6,6 @@ import { View } from "react-native";
 import { useRoute } from "../contexts/RouteContext";
 import TabBar from "../components/bottomBar/TabBar";
 import Home from "../screens/Home";
-import Profile from "../screens/Profile";
 import { ProfilePage } from "./custom.routes";
 
 const renderScene = ({ route }: any) => {
