@@ -18,7 +18,7 @@ export default function EventTicketList(props: EventTicketListProps) {
   } = props;
 
   return (
-    <View className="flex-1">
+    <View className="flex-1 mb-32">
       {ticketLots && ticketLots.length > 0 ? (
         ticketLots.map((ticketLot: TicketLot) => (
           <View

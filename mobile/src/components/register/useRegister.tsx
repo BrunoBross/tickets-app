@@ -30,7 +30,7 @@ export default function useRegister() {
         password: data.password,
       })
       .then((response) => {
-        navigate("profile");
+        navigate("login");
         toast.show(response.data.message, { type: "success" });
       })
       .catch((error) => {

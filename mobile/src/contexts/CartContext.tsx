@@ -4,6 +4,7 @@ import {
   ReactNode,
   SetStateAction,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -26,6 +27,7 @@ interface CartContextInterface {
   cartList: TicketCartInterface[] | [];
   cartTotalPrice: number;
   cartTotalTax: number;
+  showCartButton: boolean;
   setCartList: Dispatch<SetStateAction<TicketCartInterface[] | []>>;
   addCartList: (ticket: TicketCartInterface) => void;
   clearCartList: () => void;
@@ -40,7 +42,16 @@ export default function CartProvider(props: CartProviderProps) {
   const { user } = useAuth();
   const { api } = useApi();
   const [cartList, setCartList] = useState<TicketCartInterface[]>([]);
+  const [showCartButton, setShowCartButton] = useState(false);
   const toast = useToast();
+
+  useEffect(() => {
+    if (cartList.length > 0) {
+      setShowCartButton(true);
+    } else {
+      setShowCartButton(false);
+    }
+  }, [cartList]);
 
   const cartTotalPrice = useMemo(() => {
     return cartList.reduce((total, ticket) => {
@@ -92,6 +103,7 @@ export default function CartProvider(props: CartProviderProps) {
         cartList,
         cartTotalPrice,
         cartTotalTax,
+        showCartButton,
         setCartList,
         addCartList,
         clearCartList,

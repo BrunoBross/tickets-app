@@ -7,7 +7,22 @@ import { StyleProp, ViewStyle } from "react-native";
 import colors from "tailwindcss/colors";
 import { Ionicons } from "@expo/vector-icons";
 
-const iconSize = 30;
+interface TabBarIconFunctionProps {
+  focused: boolean;
+  color: string;
+}
+
+export const getScreenOptions = (
+  iconName: keyof typeof Ionicons.glyphMap,
+  iconFocusedName: keyof typeof Ionicons.glyphMap
+) => {
+  const options = {
+    tabBarIconStyle: tabBarIconStyle,
+    tabBarIcon: ({ focused }: TabBarIconFunctionProps) =>
+      getTabIcon(iconName, iconFocusedName, focused),
+  };
+  return options;
+};
 
 export const getTabIcon = (
   iconName: keyof typeof Ionicons.glyphMap,
@@ -16,22 +31,20 @@ export const getTabIcon = (
 ) => {
   const name = isFocused ? iconFocusedName : iconName;
   const color = isFocused ? colors.white : colors.zinc[700];
-  return <Ionicons name={name} size={iconSize} color={color} />;
+  return <Ionicons name={name} size={30} color={color} />;
 };
 
 export const tabBarIconStyle: StyleProp<ViewStyle> = {
-  height: iconSize,
-  width: iconSize,
+  height: "100%",
+  width: "100%",
 };
 
-export const screenOptions: StackNavigationOptions = {
+export const stackScreenOptions: StackNavigationOptions = {
   headerShown: false,
-  cardOverlayEnabled: true,
   ...TransitionPresets.SlideFromRightIOS,
 };
 
-export const screenStyleOptions: MaterialTopTabNavigationOptions = {
-  tabBarPressColor: colors.transparent,
+export const tabScreenOptions: MaterialTopTabNavigationOptions = {
   tabBarIndicatorContainerStyle: {
     backgroundColor: "#09090a",
     borderTopColor: colors.zinc[700],
@@ -39,7 +52,7 @@ export const screenStyleOptions: MaterialTopTabNavigationOptions = {
   },
   tabBarIndicatorStyle: {
     backgroundColor: colors.white,
-    top: -1.5,
+    top: -1.8,
     borderRadius: 100,
   },
   tabBarLabelStyle: {

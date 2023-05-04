@@ -17,7 +17,7 @@ import AuthProvider from "./src/contexts/AuthContext";
 import CartProvider from "./src/contexts/CartContext";
 import { Routes } from "./src/routes";
 import RouteProvider from "./src/contexts/RouteContext";
-import { NavigationContainer } from "@react-navigation/native";
+import { DarkTheme, NavigationContainer } from "@react-navigation/native";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -49,7 +49,7 @@ export default function App() {
           <AuthProvider>
             <CartProvider>
               <RouteProvider>
-                <NavigationContainer>
+                <NavigationContainer theme={DarkTheme}>
                   <Routes />
                   <StatusBar
                     barStyle="light-content"
