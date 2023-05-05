@@ -55,12 +55,16 @@ export default function Container(props: ContainerProps) {
           isDanger={isDanger}
         />
       )}
-      <View className="flex-1 bg-background p-5 pb-0 gap-5">
+      <View className="flex-1 bg-background p-5 pb-0 gap-y-3">
         <View className="flex-row items-center justify-between">
           <View className="flex-row items-center">
             {hasBack && (
-              <View className="justify-center h-14 pr-4">
-                <TouchableOpacity activeOpacity={0.7} onPress={handleGoBack}>
+              <View className="justify-center h-14">
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  onPress={handleGoBack}
+                  className="p-2 pr-4"
+                >
                   <Ionicons
                     name="arrow-back-outline"
                     size={40}

@@ -9,6 +9,9 @@ export declare global {
 
       //SEARCH PAGE
       search: undefined;
+      searchEventDetails: {
+        eventId: string;
+      };
 
       //CART PAGE
       cart: undefined;

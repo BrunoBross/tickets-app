@@ -8,19 +8,16 @@ import { useCart } from "../../contexts/CartContext";
 export default function TabBar(props: MaterialTopTabBarProps) {
   const { clearCartList, handleBuyTickets, showCartButton } = useCart();
 
-  const showFloatingButtons = showCartButton && props.state.index !== 2;
-  const showCartButtons = showCartButton && props.state.index === 2;
-
   return (
     <>
-      {showFloatingButtons && (
+      {showCartButton && props.state.index !== 2 && (
         <FloatingButton
           title="Ir para o carrinho"
           handler={() => props.navigation.navigate("cart")}
         />
       )}
 
-      {showCartButtons && (
+      {showCartButton && props.state.index === 2 && (
         <>
           <FloatingButton
             title="Esvaziar carrinho"

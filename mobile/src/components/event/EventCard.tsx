@@ -1,7 +1,8 @@
 import { Image, Text, TouchableOpacity } from "react-native";
 import formatEventDate from "../../utils/formatEventDate";
 import useApi from "../../lib/api";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { useState } from "react";
 
 export interface TicketType {
   id: string;
@@ -40,18 +41,24 @@ interface EventProps {
 
 export default function EventCard(props: EventProps) {
   const { event } = props;
+  const { name } = useRoute();
   const { serverIp } = useApi();
   const { navigate } = useNavigation();
+  const [newDate] = useState(formatEventDate(event.date));
+  const [info] = useState(`${newDate} • ${event.location}`);
 
-  const newDate = formatEventDate(event.date);
-  const info = `${newDate} • ${event.location}`;
+  const handleNavigate = () => {
+    const routeToGo = name === "home" ? "eventDetails" : "searchEventDetails";
+
+    navigate(routeToGo, { eventId: event.id });
+  };
 
   return (
     <>
       <TouchableOpacity
         activeOpacity={0.7}
         className="mb-4"
-        onPress={() => navigate("eventDetails", { eventId: event.id })}
+        onPress={handleNavigate}
       >
         <Image
           source={{

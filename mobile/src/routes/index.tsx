@@ -23,6 +23,7 @@ import TransferTicket from "../components/transferTicket/TransferTicket";
 import TabBar from "../components/bottomBar/TabBar";
 
 const HomeStack = createStackNavigator();
+const SearchStack = createStackNavigator();
 const CartStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
@@ -33,6 +34,15 @@ const HomeSubRoutes = () => {
       <HomeStack.Screen name="home" component={Home} />
       <HomeStack.Screen name="eventDetails" component={EventDetails} />
     </HomeStack.Navigator>
+  );
+};
+
+const SearchSubRoutes = () => {
+  return (
+    <SearchStack.Navigator screenOptions={{ ...stackScreenOptions }}>
+      <SearchStack.Screen name="search" component={Search} />
+      <SearchStack.Screen name="searchEventDetails" component={EventDetails} />
+    </SearchStack.Navigator>
   );
 };
 
@@ -87,7 +97,7 @@ export function Routes() {
         />
         <Tab.Screen
           name="Search"
-          component={Search}
+          component={SearchSubRoutes}
           options={getScreenOptions("search-outline", "search")}
         />
         <Tab.Screen

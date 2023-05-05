@@ -2,9 +2,6 @@ import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { Control, FieldErrors, UseFormHandleSubmit } from "react-hook-form";
 import { Form } from "../form";
 import { LoginType } from "./loginSchema";
-import { useState } from "react";
-import ContentModal from "../modals/ContentModal";
-import Register from "../profile/Register";
 import { useNavigation } from "@react-navigation/native";
 
 interface LoginFormProps {

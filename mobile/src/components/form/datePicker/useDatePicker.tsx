@@ -9,12 +9,9 @@ interface UseDatePickerProps {
 export default function useDatePicker(props: UseDatePickerProps) {
   const { setDate } = props;
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
-
-  const today = new Date();
-  const maximumDate: Date = new Date(
-    today.getFullYear() - 18,
-    today.getMonth(),
-    today.getDate()
+  const [today] = useState(new Date());
+  const [maximumDate] = useState(
+    new Date(today.getFullYear() - 18, today.getMonth(), today.getDate())
   );
 
   const handleFormatDate = (date: Date): string => {

@@ -29,7 +29,7 @@ export const getTabLabel = (label: string, isFocused: boolean) => {
       <Text
         className={clsx("text-base font-semibold ml-1", {
           ["text-white"]: isFocused,
-          ["text-zinc-900"]: !isFocused,
+          ["text-zinc-800"]: !isFocused,
         })}
       >
         {label}
@@ -42,9 +42,9 @@ export const tabScreenOptions: MaterialTopTabNavigationOptions = {
   tabBarPressColor: colors.transparent,
   tabBarIndicatorContainerStyle: {
     backgroundColor: colors.violet[600],
+    borderBottomColor: colors.zinc[800],
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
-    borderBottomColor: colors.zinc[600],
     borderBottomWidth: 2,
   },
   tabBarIndicatorStyle: {

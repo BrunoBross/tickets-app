@@ -15,7 +15,7 @@ import { Feather } from "@expo/vector-icons";
 import useApi from "../../lib/api";
 import Container from "../Container";
 import { TicketCartInterface, useCart } from "../../contexts/CartContext";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { ParamList } from "../../@types/navigation";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
@@ -31,7 +31,6 @@ export default function EventDetails() {
   const {
     params: { eventId },
   } = useRoute<RouteProp<ParamList, "eventDetails">>();
-  const { navigate } = useNavigation();
   const { serverIp, api } = useApi();
   const [event, setEvent] = useState<EventInterface | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -91,13 +90,9 @@ export default function EventDetails() {
     );
   }
 
-  const Description = () => {
-    return <EventDescription description={event.description} />;
-  };
-
   const Details = () => {
     return (
-      <View className="mt-3 mb-3 bg-background">
+      <View className="mb-3 bg-background">
         <Image
           source={{
             uri: `${serverIp}uploads/logo/${event.file_name}`,
@@ -127,17 +122,19 @@ export default function EventDetails() {
 
   const Ticket = () => {
     return (
-      <View className="flex-1 pt-3 px-1 bg-background">
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <EventTicketList
-            ticketLots={event.ticket_lots}
-            getTicketCartAmount={getTicketCartAmount}
-            handleAddTicketToCart={handleAddTicketToCart}
-            removeLastTicketCartByTicketType={removeLastTicketCartByTicketType}
-          />
-        </ScrollView>
+      <View className="flex-1 pt-2 px-1 bg-background">
+        <EventTicketList
+          ticketLots={event.ticket_lots}
+          getTicketCartAmount={getTicketCartAmount}
+          handleAddTicketToCart={handleAddTicketToCart}
+          removeLastTicketCartByTicketType={removeLastTicketCartByTicketType}
+        />
       </View>
     );
+  };
+
+  const Description = () => {
+    return <EventDescription description={event.description} />;
   };
 
   return (
@@ -151,23 +148,26 @@ export default function EventDetails() {
         handler={() => setIsModalOpen(false)}
       />
       <Container hasBack>
-        <Details />
-        <Tab.Navigator
-          tabBarPosition="top"
-          screenOptions={{ ...tabScreenOptions }}
-          keyboardDismissMode="none"
-        >
-          <Tab.Screen
-            name="Ingressos"
-            component={Ticket}
-            options={getScreenOptions("Ingressos")}
-          />
-          <Tab.Screen
-            name="Detalhes"
-            component={Description}
-            options={getScreenOptions("Detalhes")}
-          />
-        </Tab.Navigator>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Details />
+          <Tab.Navigator
+            tabBarPosition="top"
+            screenOptions={{ ...tabScreenOptions }}
+            keyboardDismissMode="none"
+            style={{ minHeight: 2000 }}
+          >
+            <Tab.Screen
+              name="Ingressos"
+              component={Ticket}
+              options={getScreenOptions("Ingressos")}
+            />
+            <Tab.Screen
+              name="Detalhes"
+              component={Description}
+              options={getScreenOptions("Detalhes")}
+            />
+          </Tab.Navigator>
+        </ScrollView>
       </Container>
     </>
   );
