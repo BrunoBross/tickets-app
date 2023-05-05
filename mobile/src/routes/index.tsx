@@ -1,11 +1,10 @@
-import { useNavigation } from "@react-navigation/native";
 import Home from "../screens/Home";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import Profile from "../screens/Profile";
 import Who from "../components/profile/Who";
 import EventDetails from "../components/event/EventDetails";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import Search from "../screens/Search";
 import Cart from "../screens/Cart";
 import Help from "../components/profile/Help";
@@ -21,8 +20,6 @@ import {
 import Register from "../components/profile/Register";
 import Ticket from "../components/profile/Ticket";
 import TransferTicket from "../components/transferTicket/TransferTicket";
-import { useCart } from "../contexts/CartContext";
-import FloatingButton from "../components/bottomBar/FloatingButton";
 import TabBar from "../components/bottomBar/TabBar";
 
 const HomeStack = createStackNavigator();

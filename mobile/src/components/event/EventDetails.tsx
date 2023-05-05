@@ -24,7 +24,6 @@ import { useAuth } from "../../contexts/AuthContext";
 import ConfirmModal from "../modals/ConfirmModal";
 import { getScreenOptions, tabScreenOptions } from "./options";
 import EventDescription from "./EventDescription";
-import FloatingButton from "../bottomBar/FloatingButton";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -128,7 +127,7 @@ export default function EventDetails() {
 
   const Ticket = () => {
     return (
-      <View className="flex-1 mt-3 mx-1 bg-background">
+      <View className="flex-1 pt-3 px-1 bg-background">
         <ScrollView showsVerticalScrollIndicator={false}>
           <EventTicketList
             ticketLots={event.ticket_lots}

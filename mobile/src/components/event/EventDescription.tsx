@@ -9,7 +9,7 @@ export default function EventDescription(props: EventDescriptionProps) {
   const { description } = props;
 
   return (
-    <View className="flex-1 mx-1 mt-3">
+    <View className="flex-1 px-1 pt-3 bg-background">
       <ScrollView showsVerticalScrollIndicator={false}>
         <View className="flex p-3 bg-zinc-800 rounded-md mb-32">
           <Text className="text-white font-semibold text-lg text-justify">

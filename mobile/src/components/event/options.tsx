@@ -16,8 +16,9 @@ export const tabBarIconStyle: StyleProp<ViewStyle> = {
 export const getScreenOptions = (label: string) => {
   const options = {
     tabBarIconStyle: tabBarIconStyle,
-    tabBarIcon: ({ focused }: TabBarIconFunctionProps) =>
-      getTabLabel(label, focused),
+    tabBarIcon: ({ focused }: TabBarIconFunctionProps) => {
+      return getTabLabel(label, focused);
+    },
   };
   return options;
 };
@@ -43,7 +44,7 @@ export const tabScreenOptions: MaterialTopTabNavigationOptions = {
     backgroundColor: colors.violet[600],
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
-    borderBottomColor: colors.zinc[700],
+    borderBottomColor: colors.zinc[600],
     borderBottomWidth: 2,
   },
   tabBarIndicatorStyle: {

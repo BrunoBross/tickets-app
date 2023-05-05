@@ -41,7 +41,9 @@ export const tabBarIconStyle: StyleProp<ViewStyle> = {
 
 export const stackScreenOptions: StackNavigationOptions = {
   headerShown: false,
+  gestureEnabled: true,
   ...TransitionPresets.SlideFromRightIOS,
+  gestureDirection: "horizontal",
 };
 
 export const tabScreenOptions: MaterialTopTabNavigationOptions = {
@@ -58,4 +60,5 @@ export const tabScreenOptions: MaterialTopTabNavigationOptions = {
   tabBarLabelStyle: {
     display: "none",
   },
+  swipeEnabled: false,
 };
