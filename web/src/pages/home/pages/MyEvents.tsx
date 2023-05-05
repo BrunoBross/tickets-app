@@ -57,7 +57,6 @@ export default function MyEvents() {
       attraction,
       description,
       date: oldDate,
-      batch,
     } = data;
 
     const date = new Date(oldDate);
@@ -71,7 +70,6 @@ export default function MyEvents() {
           attraction,
           description,
           date,
-          batch,
           logo: file,
         },
         { headers: { "Content-Type": "multipart/form-data" } }
@@ -157,14 +155,6 @@ export default function MyEvents() {
               registerName="date"
               type="datetime-local"
               placeholder="Data do evento"
-              register={register}
-            />
-
-            <EventInput
-              inputName="Lote Atual"
-              registerName="batch"
-              type="number"
-              placeholder="Lote atual do evento"
               register={register}
             />
 

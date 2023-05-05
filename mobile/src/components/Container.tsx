@@ -63,10 +63,10 @@ export default function Container(props: ContainerProps) {
                 <TouchableOpacity
                   activeOpacity={0.7}
                   onPress={handleGoBack}
-                  className="p-2 pr-4"
+                  className="py-2 pr-4"
                 >
                   <Ionicons
-                    name="arrow-back-outline"
+                    name="arrow-back"
                     size={40}
                     color={colors.zinc[400]}
                   />

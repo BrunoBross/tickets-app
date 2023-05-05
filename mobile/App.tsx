@@ -40,9 +40,10 @@ export default function App() {
   return (
     <ConnectionProvider>
       <ToastProvider
-        placement="top"
-        offsetTop={30}
+        placement="bottom"
+        offsetBottom={70}
         animationDuration={300}
+        duration={2000}
         renderToast={(toast) => <CustomToast toast={toast} />}
       >
         <QueryClientProvider client={queryClient}>

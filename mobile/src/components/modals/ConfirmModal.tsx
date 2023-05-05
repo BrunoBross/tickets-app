@@ -35,9 +35,10 @@ export default function ConfirmModal(props: NewConfirmModalProps) {
       isVisible={isVisible}
       onSwipeComplete={handleCloseModal}
       onBackdropPress={handleCloseModal}
+      backdropTransitionOutTiming={0}
       className="m-0 justify-end"
     >
-      <View className="bg-zinc-900 p-4">
+      <View className="bg-zinc-900 p-4 rounded-t-lg">
         {title && (
           <Text className="text-white text-3xl font-semibold mb-4">
             {title}

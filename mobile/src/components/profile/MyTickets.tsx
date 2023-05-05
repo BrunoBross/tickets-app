@@ -7,13 +7,14 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useAuth } from "../../contexts/AuthContext";
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import colors from "tailwindcss/colors";
 import useApi from "../../lib/api";
 import { Feather } from "@expo/vector-icons";
 import Container from "../Container";
 import TicketInfo from "./TicketInfo";
 import { TicketInterface } from "./Ticket";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function MyTickets() {
   const { user } = useAuth();
@@ -32,9 +33,11 @@ export default function MyTickets() {
     setIsLoading(false);
   };
 
-  useEffect(() => {
-    retrieveTickets();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      retrieveTickets();
+    }, [])
+  );
 
   const RefreshButton = () => {
     return (

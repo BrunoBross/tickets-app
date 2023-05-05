@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import QRCode from "react-native-qrcode-svg";
+import QRCodeStyled from "react-native-qrcode-styled";
 import { useAuth } from "../../contexts/AuthContext";
 import { TicketLot } from "../../components/event/EventCard";
 import convertGenter from "../../utils/convertGender";
@@ -82,26 +82,31 @@ export default function Ticket() {
           </TouchableOpacity>
         }
       >
-        <ScrollView>
-          <View className="flex-1 items-center">
-            <View className="border-2 border-violet-600">
-              <QRCode value={ticket.id} size={250} quietZone={5} />
-            </View>
-
-            <Text className="text-white mt-2 text-4xl font-semibold">
-              {user?.name} {user?.surname}
-            </Text>
-            <Text className="text-white mt-2 text-3xl font-semibold">
-              {user && formatCpf(user.cpf)}
-            </Text>
-            <Text className="text-white text-2xl mt-2 bg-violet-600 px-3 py-1 rounded-md font-semibold">
+        <View className="flex-1 justify-center items-center pb-20">
+          <QRCodeStyled
+            data={ticket.id}
+            pieceSize={8}
+            color={colors.white}
+            gradient={{
+              options: {
+                colors: [colors.violet[700], colors.violet[100]],
+              },
+            }}
+            pieceBorderRadius={5}
+            isPiecesGlued
+          />
+          <Text className="text-white mt-2 text-4xl font-semibold text-center">
+            {user?.name} {user?.surname}
+          </Text>
+          <Text className="text-white mt-2 text-3xl font-semibold">
+            {user && formatCpf(user.cpf)}
+          </Text>
+          <View className="mt-2 border-2 border-violet-600 rounded-md px-5 py-2">
+            <Text className="text-white text-2xl font-semibold">
               {ticket.ticket_lot.event.name} {ticket && convertGenter("OTHER")}{" "}
             </Text>
           </View>
-        </ScrollView>
-        <Text className="text-white mb-2 text-1xl font-semibold text-center">
-          Data de compra: {FormatDate(ticket.purchase_date)}
-        </Text>
+        </View>
       </Container>
     </>
   );

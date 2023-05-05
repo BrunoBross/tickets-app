@@ -9,6 +9,7 @@ import { useState } from "react";
 import { UserInterface, useAuth } from "../../contexts/AuthContext";
 import { TicketInterface } from "../profile/Ticket";
 import { useToast } from "react-native-toast-notifications";
+import { useNavigation } from "@react-navigation/native";
 
 interface TransferTicketProps {
   ticket: TicketInterface | null;
@@ -23,6 +24,7 @@ export default function useTransferTicket(props: TransferTicketProps) {
     useState(false);
   const [userTransfer, setUserTransfer] = useState<UserInterface | null>(null);
   const toast = useToast();
+  const { navigate } = useNavigation();
 
   const createTransferTicketForm = useForm<TransferTicketType>({
     resolver: zodResolver(transferTicketSchema),
@@ -55,8 +57,12 @@ export default function useTransferTicket(props: TransferTicketProps) {
           newUserId: userTransfer!!.id,
         })
         .then(() => {
+          toast.show("Ingresso transferido com sucesso", {
+            type: "success",
+          });
           setIsConfirmTransferModalOpen(false);
           setIsTransferModalOpen(false);
+          navigate("myTickets");
         })
         .catch((error) => {
           console.log(error);
