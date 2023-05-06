@@ -19,6 +19,9 @@ export default function EventList(props: EventListProps) {
     setRefreshing(false);
   }, []);
 
+  if (!eventList || refreshing) {
+  }
+
   return (
     <ScrollView
       refreshControl={

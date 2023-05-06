@@ -157,7 +157,9 @@ export async function TicketController(app: FastifyInstance) {
         });
 
         if (ticketLot.amount_available <= 0) {
-          throw new Error("Esse ingresso não está mais disponível");
+          return response
+            .status(500)
+            .send({ error: "Esse ingresso não está mais disponível" });
         }
 
         await prisma.ticketLot.update({
@@ -182,7 +184,7 @@ export async function TicketController(app: FastifyInstance) {
       response.status(200).send({ message: "Ingresso criado com sucesso" });
     } catch (error) {
       console.error(error);
-      response.status(500).send({ error: "Ocorreu um erro interno" });
+      response.status(500).send({ error: error });
     }
   });
 }

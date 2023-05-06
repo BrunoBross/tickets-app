@@ -1,3 +1,5 @@
+import "react-native-reanimated";
+import "react-native-gesture-handler";
 import { ActivityIndicator, StatusBar } from "react-native";
 import { View } from "react-native";
 import {
@@ -18,6 +20,7 @@ import CartProvider from "./src/contexts/CartContext";
 import { Routes } from "./src/routes";
 import RouteProvider from "./src/contexts/RouteContext";
 import { DarkTheme, NavigationContainer } from "@react-navigation/native";
+import MyTicketsProvider from "./src/contexts/MyTicketsContext";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -50,14 +53,16 @@ export default function App() {
           <AuthProvider>
             <CartProvider>
               <RouteProvider>
-                <NavigationContainer theme={DarkTheme}>
-                  <Routes />
-                  <StatusBar
-                    barStyle="light-content"
-                    backgroundColor="transparent"
-                    translucent
-                  />
-                </NavigationContainer>
+                <MyTicketsProvider>
+                  <NavigationContainer theme={DarkTheme}>
+                    <Routes />
+                    <StatusBar
+                      barStyle="light-content"
+                      backgroundColor="transparent"
+                      translucent
+                    />
+                  </NavigationContainer>
+                </MyTicketsProvider>
               </RouteProvider>
             </CartProvider>
           </AuthProvider>

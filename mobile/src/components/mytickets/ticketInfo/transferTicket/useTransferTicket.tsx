@@ -4,27 +4,36 @@ import {
   TransferTicketType,
   transferTicketSchema,
 } from "./transferTicketSchema";
-import useApi from "../../lib/api";
-import { useState } from "react";
-import { UserInterface, useAuth } from "../../contexts/AuthContext";
-import { TicketInterface } from "../profile/Ticket";
+import { useEffect, useState } from "react";
 import { useToast } from "react-native-toast-notifications";
 import { useNavigation } from "@react-navigation/native";
+import { TicketInterface } from "../TicketInfo";
+import useApi from "../../../../lib/api";
+import { UserInterface, useAuth } from "../../../../contexts/AuthContext";
+import { useMyTickets } from "../../../../contexts/MyTicketsContext";
 
 interface TransferTicketProps {
-  ticket: TicketInterface | null;
+  ticketId: string;
 }
 
 export default function useTransferTicket(props: TransferTicketProps) {
-  const { ticket } = props;
+  const { ticketId } = props;
+  const { myTicketList, retrieveTickets } = useMyTickets();
   const { api } = useApi();
   const { user } = useAuth();
+  const { navigate } = useNavigation();
+  const toast = useToast();
   const [isTransferModalOpen, setIsTransferModalOpen] = useState(false);
   const [isConfirmTransferModalOpen, setIsConfirmTransferModalOpen] =
     useState(false);
   const [userTransfer, setUserTransfer] = useState<UserInterface | null>(null);
-  const toast = useToast();
-  const { navigate } = useNavigation();
+  const [myTicket, setMyTicket] = useState<TicketInterface | undefined>(
+    undefined
+  );
+
+  useEffect(() => {
+    setMyTicket(myTicketList!!.find((ticket) => ticket.id === ticketId));
+  }, []);
 
   const createTransferTicketForm = useForm<TransferTicketType>({
     resolver: zodResolver(transferTicketSchema),
@@ -50,16 +59,17 @@ export default function useTransferTicket(props: TransferTicketProps) {
   };
 
   const handleTransferTicket = async () => {
-    ticket &&
+    ticketId &&
       (await api
         .patch("/ticket/transfer", {
-          ticketId: ticket.id,
+          ticketId: ticketId,
           newUserId: userTransfer!!.id,
         })
         .then(() => {
           toast.show("Ingresso transferido com sucesso", {
             type: "success",
           });
+          retrieveTickets();
           setIsConfirmTransferModalOpen(false);
           setIsTransferModalOpen(false);
           navigate("myTickets");
@@ -78,5 +88,6 @@ export default function useTransferTicket(props: TransferTicketProps) {
     isTransferModalOpen,
     setIsConfirmTransferModalOpen,
     setIsTransferModalOpen,
+    myTicket,
   };
 }

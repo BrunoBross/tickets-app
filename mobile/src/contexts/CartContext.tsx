@@ -90,6 +90,8 @@ export default function CartProvider(props: CartProviderProps) {
           method: "post",
           url: "/ticket",
           data: ticket,
+        }).catch((error) => {
+          toast.show(error.response.data.error, { type: "danger" });
         });
       });
       clearCartList();

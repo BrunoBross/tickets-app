@@ -8,7 +8,6 @@ import { View } from "react-native";
 import Search from "../screens/Search";
 import Cart from "../screens/Cart";
 import Help from "../components/profile/Help";
-import MyTickets from "../components/profile/MyTickets";
 import ProfileInfo from "../components/profile/ProfileInfo";
 import { useAuth } from "../contexts/AuthContext";
 import Login from "../screens/Login";
@@ -18,9 +17,10 @@ import {
   tabScreenOptions,
 } from "./options";
 import Register from "../components/profile/Register";
-import Ticket from "../components/profile/Ticket";
-import TransferTicket from "../components/transferTicket/TransferTicket";
+import Ticket from "../components/mytickets/ticketInfo/TicketInfo";
 import TabBar from "../components/bottomBar/TabBar";
+import MyTickets from "../components/mytickets/MyTickets";
+import TransferTicket from "../components/mytickets/ticketInfo/transferTicket/TransferTicket";
 
 const HomeStack = createStackNavigator();
 const SearchStack = createStackNavigator();

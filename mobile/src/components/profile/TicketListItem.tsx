@@ -1,7 +1,7 @@
 import { Text, TouchableOpacity } from "react-native";
 import convertGenter from "../../utils/convertGender";
 import formatEventDate from "../../utils/formatEventDate";
-import Ticket, { TicketInterface } from "./Ticket";
+import Ticket, { TicketInterface } from "../mytickets/ticketInfo/TicketInfo";
 import { useState } from "react";
 import ContentModal from "../modals/ContentModal";
 import { useNavigation } from "@react-navigation/native";
@@ -10,7 +10,7 @@ interface TicketInfoProps {
   ticket: TicketInterface;
 }
 
-export default function TicketInfo(props: TicketInfoProps) {
+export default function TicketListItem(props: TicketInfoProps) {
   const { ticket } = props;
   const { navigate } = useNavigation();
   const [isTicketInfoModalOpen, setIsTicketInfoModalOpen] = useState(false);
@@ -26,7 +26,7 @@ export default function TicketInfo(props: TicketInfoProps) {
       <TouchableOpacity
         key={ticket.id}
         activeOpacity={0.7}
-        className="mb-4 bg-zinc-900 border-l-[6px] border-violet-600 rounded-md p-4"
+        className="h-32 mb-4 justify-center pl-4 bg-zinc-900 border-l-[6px] border-violet-600 rounded-md"
         onPress={() => navigate("ticketInfo", { ticketId: ticket.id })}
       >
         <Text className="text-violet-600  text-lg font-bold">

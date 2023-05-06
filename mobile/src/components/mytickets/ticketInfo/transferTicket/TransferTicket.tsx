@@ -1,43 +1,20 @@
 import {
-  ActivityIndicator,
   KeyboardAvoidingView,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
-import Container from "../Container";
-import { Form } from "../form";
-import { TicketInterface } from "../profile/Ticket";
-import ConfirmModal from "../modals/ConfirmModal";
 import useTransferTicket from "./useTransferTicket";
-import { useEffect, useState } from "react";
-import { useAuth } from "../../contexts/AuthContext";
-import useApi from "../../lib/api";
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { ParamList } from "../../@types/navigation";
-import colors from "tailwindcss/colors";
+import { ParamList } from "../../../../@types/navigation";
+import Container from "../../../Container";
+import ConfirmModal from "../../../modals/ConfirmModal";
+import { Form } from "../../../form";
 
 export default function TransferTicket() {
   const {
     params: { ticketId },
   } = useRoute<RouteProp<ParamList, "transferTicket">>();
-  const { user } = useAuth();
-  const { api } = useApi();
-  const [ticket, setTicket] = useState<TicketInterface | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const retrieveTicket = async () => {
-    setIsLoading(true);
-    if (user) {
-      const response = await api.get(`ticket/${ticketId}`);
-      setTicket(response.data);
-    }
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    retrieveTicket();
-  }, []);
 
   const {
     createTransferTicketForm,
@@ -46,8 +23,9 @@ export default function TransferTicket() {
     onSubmit,
     setIsConfirmTransferModalOpen,
     userTransfer,
+    myTicket,
   } = useTransferTicket({
-    ticket,
+    ticketId,
   });
 
   const {
@@ -55,16 +33,6 @@ export default function TransferTicket() {
     handleSubmit,
     formState: { errors },
   } = createTransferTicketForm;
-
-  if (!ticket || isLoading) {
-    return (
-      <Container hasBack>
-        <View className="flex-1 bg-background justify-center items-center">
-          <ActivityIndicator size="large" color={colors.violet[600]} />
-        </View>
-      </Container>
-    );
-  }
 
   return (
     <>
@@ -113,10 +81,10 @@ export default function TransferTicket() {
               </Text>
               <View className="flex-row border-2 border-violet-600 h-14 items-center justify-center rounded-md">
                 <Text className="text-white text-base font-semibold">
-                  {ticket.ticket_lot.event.name}
+                  {myTicket?.ticket_lot.event.name}
                 </Text>
                 <Text className="text-white text-base font-semibold pl-2">
-                  {ticket.ticket_lot.ticket_type.name.toUpperCase()}
+                  {myTicket?.ticket_lot.ticket_type.name.toUpperCase()}
                 </Text>
               </View>
             </View>

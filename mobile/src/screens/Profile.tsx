@@ -8,10 +8,6 @@ import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import Container from "../components/Container";
 import ConfirmModal from "../components/modals/ConfirmModal";
-import ContentModal from "../components/modals/ContentModal";
-import MyTickets from "../components/profile/MyTickets";
-import Who from "../components/profile/Who";
-import Help from "../components/profile/Help";
 
 export interface ModalPageProps {
   setIsModalPageOpen: (state: boolean) => void;

@@ -1,5 +1,4 @@
 import {
-  ActivityIndicator,
   Image,
   Linking,
   ScrollView,
@@ -24,6 +23,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import ConfirmModal from "../modals/ConfirmModal";
 import { getScreenOptions, tabScreenOptions } from "./options";
 import EventDescription from "./EventDescription";
+import EventDetailsSkeleton from "./EventDetailsSkeleton";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -83,9 +83,7 @@ export default function EventDetails() {
   if (!event || isLoading) {
     return (
       <Container hasBack>
-        <View className="flex-1 bg-background justify-center items-center">
-          <ActivityIndicator size="large" color={colors.violet[600]} />
-        </View>
+        <EventDetailsSkeleton />
       </Container>
     );
   }

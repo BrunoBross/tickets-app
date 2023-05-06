@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { verifyCpf } from "../register/utils";
+import { verifyCpf } from "../../../register/utils";
 
 export const transferTicketSchema = z.object({
   cpf: z
