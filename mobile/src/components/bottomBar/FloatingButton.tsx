@@ -37,7 +37,7 @@ export default function FloatingButton(props: FloatingButtonProps) {
       >
         <View className="flex flex-row">
           <MaterialCommunityIcons
-            name="cart-arrow-down"
+            name={upper ? "trash-can-outline" : "cart-arrow-down"}
             size={24}
             color={colors.white}
           />

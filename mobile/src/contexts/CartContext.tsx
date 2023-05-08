@@ -12,6 +12,7 @@ import { TicketLot } from "../components/event/EventCard";
 import { useAuth } from "./AuthContext";
 import useApi from "../lib/api";
 import { useToast } from "react-native-toast-notifications";
+import ConfirmModal from "../components/modals/ConfirmModal";
 
 interface CartProviderProps {
   children: ReactNode;
@@ -30,7 +31,7 @@ interface CartContextInterface {
   showCartButton: boolean;
   setCartList: Dispatch<SetStateAction<TicketCartInterface[] | []>>;
   addCartList: (ticket: TicketCartInterface) => void;
-  clearCartList: () => void;
+  handleClearCartList: () => void;
   deleteTicket: (id: string) => void;
   handleBuyTickets: () => void;
 }
@@ -43,6 +44,8 @@ export default function CartProvider(props: CartProviderProps) {
   const { api } = useApi();
   const [cartList, setCartList] = useState<TicketCartInterface[]>([]);
   const [showCartButton, setShowCartButton] = useState(false);
+  const [isConfirmEmptyCartListOpen, setIsConfirmEmptyCartListOpen] =
+    useState(false);
   const toast = useToast();
 
   useEffect(() => {
@@ -69,7 +72,13 @@ export default function CartProvider(props: CartProviderProps) {
     setCartList((prevState) => [...prevState, ticket]);
   };
 
+  const handleClearCartList = () => {
+    setIsConfirmEmptyCartListOpen(true);
+  };
+
   const clearCartList = () => {
+    setIsConfirmEmptyCartListOpen(false);
+    toast.show("O carrinho foi esvaziado", { type: "success" });
     setCartList([]);
   };
 
@@ -94,27 +103,39 @@ export default function CartProvider(props: CartProviderProps) {
           toast.show(error.response.data.error, { type: "danger" });
         });
       });
-      clearCartList();
+      setCartList([]);
       toast.show("Compra efetuada com sucesso", { type: "success" });
     }
   };
 
   return (
-    <CartContext.Provider
-      value={{
-        cartList,
-        cartTotalPrice,
-        cartTotalTax,
-        showCartButton,
-        setCartList,
-        addCartList,
-        clearCartList,
-        deleteTicket,
-        handleBuyTickets,
-      }}
-    >
-      {children}
-    </CartContext.Provider>
+    <>
+      <ConfirmModal
+        isVisible={isConfirmEmptyCartListOpen}
+        setIsVisible={setIsConfirmEmptyCartListOpen}
+        title="Esvaziar"
+        message="Tem certeza que deseja esvaziar o carrinho?"
+        confirmText="Esvaziar"
+        cancelText="Cancelar"
+        handler={clearCartList}
+        isDanger
+      />
+      <CartContext.Provider
+        value={{
+          cartList,
+          cartTotalPrice,
+          cartTotalTax,
+          showCartButton,
+          setCartList,
+          addCartList,
+          handleClearCartList,
+          deleteTicket,
+          handleBuyTickets,
+        }}
+      >
+        {children}
+      </CartContext.Provider>
+    </>
   );
 }
 

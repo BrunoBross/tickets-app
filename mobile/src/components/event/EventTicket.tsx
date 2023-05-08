@@ -4,7 +4,6 @@ import { Feather } from "@expo/vector-icons";
 import colors from "tailwindcss/colors";
 import convertGenter from "../../utils/convertGender";
 import formatPrice from "../../utils/formatPrice";
-import formatTotalPrice from "../../utils/formatTotalPrice";
 
 interface EventTicketProps {
   ticketLot: TicketLot;

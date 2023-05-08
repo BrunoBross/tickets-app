@@ -57,8 +57,8 @@ export default function Container(props: ContainerProps) {
           isDanger={isDanger}
         />
       )}
-      <View className="flex-1 mt-4">
-        <View className="flex-1 bg-background px-5 pb-0">
+      <View className="flex-1 bg-background pt-4">
+        <View className="flex-1 px-5 pb-0">
           {refreshName && (
             <View className="flex-row items-center justify-center gap-x-2 py-1">
               <Ionicons

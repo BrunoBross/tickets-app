@@ -27,6 +27,20 @@ export default function Profile() {
     Logout();
   };
 
+  const TransferButton = () => (
+    <TouchableOpacity
+      activeOpacity={0.7}
+      onPress={handleAskLogout}
+      className="h-14 px-4 items-center justify-center bg-zinc-900 rounded-md"
+    >
+      <MaterialCommunityIcons
+        name="exit-to-app"
+        size={24}
+        color={colors.zinc[700]}
+      />
+    </TouchableOpacity>
+  );
+
   return (
     <>
       <ConfirmModal
@@ -39,7 +53,7 @@ export default function Profile() {
         handler={handleConfirmLogout}
         isDanger
       />
-      <Container title={`Olá, ${user?.name}`}>
+      <Container title={`Olá, ${user?.name}`} button={<TransferButton />}>
         <View className="flex-1">
           <View className="flex-row gap-x-2">
             <Text className="text-white text-base font-semibold">
@@ -97,20 +111,6 @@ export default function Profile() {
             />
             <Text className="pl-3 text-white text-base font-semibold">
               Obter Ajuda
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.7}
-            onPress={handleAskLogout}
-            className="flex flex-row bg-zinc-700 p-4 rounded-md mt-3"
-          >
-            <MaterialCommunityIcons
-              name="exit-to-app"
-              size={24}
-              color={colors.white}
-            />
-            <Text className="pl-3 text-white text-base font-semibold">
-              Sair
             </Text>
           </TouchableOpacity>
         </View>

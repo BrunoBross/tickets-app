@@ -33,32 +33,34 @@ export default function ProfileInfo() {
                 Meus dados
               </Text>
             </View>
-            <View className="flex-row justify-between">
+            <View className="justify-between">
               <Text className="text-zinc-500 font-semibold text-base">
-                Nome completo
+                Nome completo:
               </Text>
               <Text className="text-white font-semibold text-base">
                 {user?.name.toUpperCase()} {user?.surname.toUpperCase()}
               </Text>
             </View>
-            <View className="flex-row justify-between">
+            <View className="justify-between">
               <Text className="text-zinc-500 font-semibold text-base">
-                Data nascimento
+                Data de nascimento:
               </Text>
               <Text className="text-white font-semibold text-base">
                 {user?.birth && formatBirthDate(user.birth)}
               </Text>
             </View>
-            <View className="flex-row justify-between">
+            <View className="justify-between">
               <Text className="text-zinc-500 font-semibold text-base">
-                E-mail
+                E-mail:
               </Text>
               <Text className="text-white font-semibold text-base">
                 {user?.email}
               </Text>
             </View>
-            <View className="flex-row justify-between">
-              <Text className="text-zinc-500 font-semibold text-base">CPF</Text>
+            <View className="justify-between">
+              <Text className="text-zinc-500 font-semibold text-base">
+                CPF:
+              </Text>
               <Text className="text-white font-semibold text-base">
                 {user?.cpf && formatCpf(user.cpf)}
               </Text>
