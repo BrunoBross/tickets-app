@@ -4,10 +4,10 @@ import Container from "../Container";
 import TicketListItem from "../profile/TicketListItem";
 import { Feather } from "@expo/vector-icons";
 import { useCallback, useEffect, useState } from "react";
-import { useMyTickets } from "../../contexts/MyTicketsContext";
 import { RefreshControl } from "react-native-gesture-handler";
 import Animated, { FadeIn } from "react-native-reanimated";
 import MyTicketsSkeleton from "./MyTicketsSkeleton";
+import { useMyTickets } from "../../contexts/MyTicketsContext";
 
 export default function MyTickets() {
   const { isLoading, myTicketList, retrieveTickets } = useMyTickets();
@@ -28,7 +28,7 @@ export default function MyTickets() {
   }
 
   return (
-    <Container hasBack>
+    <Container hasBack refreshName="ingressos">
       <Animated.View key={"uniqueKey"} entering={FadeIn.duration(500)}>
         <ScrollView
           refreshControl={

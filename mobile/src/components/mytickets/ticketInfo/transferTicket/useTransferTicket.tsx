@@ -4,7 +4,7 @@ import {
   TransferTicketType,
   transferTicketSchema,
 } from "./transferTicketSchema";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useToast } from "react-native-toast-notifications";
 import { useNavigation } from "@react-navigation/native";
 import { TicketInterface } from "../TicketInfo";
@@ -13,27 +13,21 @@ import { UserInterface, useAuth } from "../../../../contexts/AuthContext";
 import { useMyTickets } from "../../../../contexts/MyTicketsContext";
 
 interface TransferTicketProps {
-  ticketId: string;
+  ticket: TicketInterface;
 }
 
 export default function useTransferTicket(props: TransferTicketProps) {
-  const { ticketId } = props;
-  const { myTicketList, retrieveTickets } = useMyTickets();
+  const { ticket } = props;
   const { api } = useApi();
   const { user } = useAuth();
   const { navigate } = useNavigation();
+  const { retrieveTickets } = useMyTickets();
+
   const toast = useToast();
   const [isTransferModalOpen, setIsTransferModalOpen] = useState(false);
   const [isConfirmTransferModalOpen, setIsConfirmTransferModalOpen] =
     useState(false);
   const [userTransfer, setUserTransfer] = useState<UserInterface | null>(null);
-  const [myTicket, setMyTicket] = useState<TicketInterface | undefined>(
-    undefined
-  );
-
-  useEffect(() => {
-    setMyTicket(myTicketList!!.find((ticket) => ticket.id === ticketId));
-  }, []);
 
   const createTransferTicketForm = useForm<TransferTicketType>({
     resolver: zodResolver(transferTicketSchema),
@@ -59,10 +53,10 @@ export default function useTransferTicket(props: TransferTicketProps) {
   };
 
   const handleTransferTicket = async () => {
-    ticketId &&
+    ticket &&
       (await api
         .patch("/ticket/transfer", {
-          ticketId: ticketId,
+          ticketId: ticket.id,
           newUserId: userTransfer!!.id,
         })
         .then(() => {
@@ -88,6 +82,5 @@ export default function useTransferTicket(props: TransferTicketProps) {
     isTransferModalOpen,
     setIsConfirmTransferModalOpen,
     setIsTransferModalOpen,
-    myTicket,
   };
 }

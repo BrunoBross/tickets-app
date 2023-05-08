@@ -25,7 +25,7 @@ export default function Home() {
 
   if (isLoading) {
     return (
-      <Container title="Eventos">
+      <Container title="Eventos" refreshName="eventos">
         <View className="flex-1 bg-background">
           <View className="mb-4">
             <Skeleton colorMode={"dark"} width={"100%"} height={160} />
@@ -46,7 +46,7 @@ export default function Home() {
 
   return (
     <>
-      <Container title="Eventos">
+      <Container title="Eventos" refreshName="eventos">
         <View className="flex-1">
           <Animated.View key={"uniqueKey"} entering={FadeIn.duration(500)}>
             <EventList

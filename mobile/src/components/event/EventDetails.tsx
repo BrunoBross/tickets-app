@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import uuid from "react-native-uuid";
 import colors from "tailwindcss/colors";
-import { EventInterface, TicketLot } from "./EventCard";
+import { TicketLot } from "./EventCard";
 import formatDate from "../../utils/formatEventDate";
 import { Feather } from "@expo/vector-icons";
 import useApi from "../../lib/api";
@@ -23,30 +23,29 @@ import { useAuth } from "../../contexts/AuthContext";
 import ConfirmModal from "../modals/ConfirmModal";
 import { getScreenOptions, tabScreenOptions } from "./options";
 import EventDescription from "./EventDescription";
-import EventDetailsSkeleton from "./EventDetailsSkeleton";
+import { TicketInterface } from "../mytickets/ticketInfo/TicketInfo";
 
 const Tab = createMaterialTopTabNavigator();
 
 export default function EventDetails() {
   const {
-    params: { eventId },
+    params: { event },
   } = useRoute<RouteProp<ParamList, "eventDetails">>();
   const { serverIp, api } = useApi();
-  const [event, setEvent] = useState<EventInterface | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
   const { addCartList, cartList, setCartList } = useCart();
   const { user } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [ticketLots, setTicketLots] = useState<
+    TicketInterface["ticket_lot"][] | null
+  >(null);
 
-  const retrieveEvent = async () => {
-    setIsLoading(true);
-    const response = await api.get(`event/${eventId}`);
-    setEvent(response.data);
-    setIsLoading(false);
+  const handleGetTicketLots = async () => {
+    const response = await api.get(`ticket-lot/${event.id}`);
+    setTicketLots(response.data);
   };
 
   useEffect(() => {
-    retrieveEvent();
+    handleGetTicketLots();
   }, []);
 
   const handleAddTicketToCart = (ticketLot: TicketLot) => {
@@ -79,14 +78,6 @@ export default function EventDetails() {
     return cartList.filter((ticket) => ticket.ticket_lot.id === ticketLot.id)
       .length;
   };
-
-  if (!event || isLoading) {
-    return (
-      <Container hasBack>
-        <EventDetailsSkeleton />
-      </Container>
-    );
-  }
 
   const Details = () => {
     return (
@@ -122,7 +113,7 @@ export default function EventDetails() {
     return (
       <View className="flex-1 pt-2 px-1 bg-background">
         <EventTicketList
-          ticketLots={event.ticket_lots}
+          ticketLots={ticketLots}
           getTicketCartAmount={getTicketCartAmount}
           handleAddTicketToCart={handleAddTicketToCart}
           removeLastTicketCartByTicketType={removeLastTicketCartByTicketType}

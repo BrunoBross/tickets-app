@@ -1,16 +1,19 @@
+import { EventInterface } from "../components/event/EventCard";
+import { TicketInterface } from "../components/mytickets/ticketInfo/TicketInfo";
+
 export declare global {
   namespace ReactNavigation {
     interface RootParamList {
       //HOME PAGE
       home: undefined;
       eventDetails: {
-        eventId: string;
+        event: EventInterface;
       };
 
       //SEARCH PAGE
       search: undefined;
       searchEventDetails: {
-        eventId: string;
+        event: EventInterface;
       };
 
       //CART PAGE
@@ -21,10 +24,10 @@ export declare global {
       profileInfo: undefined;
       myTickets: undefined;
       ticketInfo: {
-        ticketId: string;
+        ticket: TicketInterface;
       };
       transferTicket: {
-        ticketId: string;
+        ticket: TicketInterface;
       };
       who: undefined;
       help: undefined;
@@ -38,12 +41,12 @@ export declare global {
 
 export type ParamList = {
   eventDetails: {
-    eventId: string;
+    event: EventInterface;
   };
   ticketInfo: {
-    ticketId: string;
+    ticket: TicketInterface;
   };
   transferTicket: {
-    ticketId: string;
+    ticket: TicketInterface;
   };
 };

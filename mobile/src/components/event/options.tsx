@@ -2,6 +2,7 @@ import { MaterialTopTabNavigationOptions } from "@react-navigation/material-top-
 import colors from "tailwindcss/colors";
 import { StyleProp, Text, View, ViewStyle } from "react-native";
 import clsx from "clsx";
+import { ParamListBase, RouteProp } from "@react-navigation/native";
 
 interface TabBarIconFunctionProps {
   focused: boolean;
@@ -25,32 +26,34 @@ export const getScreenOptions = (label: string) => {
 
 export const getTabLabel = (label: string, isFocused: boolean) => {
   return (
-    <View className="flex-1 flex-row items-center justify-center">
-      <Text
-        className={clsx("text-base font-semibold ml-1", {
-          ["text-white"]: isFocused,
-          ["text-zinc-800"]: !isFocused,
-        })}
-      >
-        {label}
-      </Text>
-    </View>
+    <Text
+      className={clsx("text-base font-semibold ml-1", {
+        ["text-white"]: isFocused,
+        ["text-black"]: !isFocused,
+      })}
+    >
+      {label}
+    </Text>
   );
 };
 
 export const tabScreenOptions: MaterialTopTabNavigationOptions = {
   tabBarPressColor: colors.transparent,
   tabBarIndicatorContainerStyle: {
-    backgroundColor: colors.violet[600],
-    borderBottomColor: colors.zinc[800],
+    backgroundColor: colors.violet[800],
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
     borderBottomWidth: 2,
+    borderBottomColor: colors.zinc[800],
   },
   tabBarIndicatorStyle: {
-    backgroundColor: colors.white,
     bottom: -2,
-    borderRadius: 100,
+    height: 48,
+    backgroundColor: colors.violet[600],
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+    borderBottomWidth: 2,
+    borderBottomColor: colors.white,
   },
   tabBarLabelStyle: {
     display: "none",

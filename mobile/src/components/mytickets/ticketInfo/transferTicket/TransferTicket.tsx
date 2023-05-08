@@ -13,7 +13,7 @@ import { Form } from "../../../form";
 
 export default function TransferTicket() {
   const {
-    params: { ticketId },
+    params: { ticket },
   } = useRoute<RouteProp<ParamList, "transferTicket">>();
 
   const {
@@ -23,9 +23,8 @@ export default function TransferTicket() {
     onSubmit,
     setIsConfirmTransferModalOpen,
     userTransfer,
-    myTicket,
   } = useTransferTicket({
-    ticketId,
+    ticket,
   });
 
   const {
@@ -81,10 +80,10 @@ export default function TransferTicket() {
               </Text>
               <View className="flex-row border-2 border-violet-600 h-14 items-center justify-center rounded-md">
                 <Text className="text-white text-base font-semibold">
-                  {myTicket?.ticket_lot.event.name}
+                  {ticket?.ticket_lot.event.name}
                 </Text>
                 <Text className="text-white text-base font-semibold pl-2">
-                  {myTicket?.ticket_lot.ticket_type.name.toUpperCase()}
+                  {ticket?.ticket_lot.ticket_type.name.toUpperCase()}
                 </Text>
               </View>
             </View>

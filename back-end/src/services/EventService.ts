@@ -9,7 +9,13 @@ export class EventService {
   async getAllEvents() {
     const events = await prisma.event.findMany();
 
-    // insere os lotes disponiveis em cada eventos
+    return events;
+  }
+
+  async getAllEventsWithLots() {
+    const events = await prisma.event.findMany();
+
+    //insere os lotes disponiveis em cada eventos
     const eventsWithLots = await Promise.all(
       events.map(async (event) => {
         const ticket_lots = await ticketLotService.getAllTicketLotByEventId(

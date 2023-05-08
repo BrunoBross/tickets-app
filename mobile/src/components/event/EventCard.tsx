@@ -50,7 +50,7 @@ export default function EventCard(props: EventProps) {
   const handleNavigate = () => {
     const routeToGo = name === "home" ? "eventDetails" : "searchEventDetails";
 
-    navigate(routeToGo, { eventId: event.id });
+    navigate(routeToGo, { event });
   };
 
   return (

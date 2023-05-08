@@ -15,6 +15,7 @@ interface ContainerProps {
   cancelText?: string;
   isDanger?: boolean;
   button?: ReactNode;
+  refreshName?: string;
   children: ReactNode;
 }
 
@@ -29,6 +30,7 @@ export default function Container(props: ContainerProps) {
     cancelText,
     isDanger,
     button,
+    refreshName,
     children,
   } = props;
   const { goBack } = useNavigation();
@@ -55,35 +57,50 @@ export default function Container(props: ContainerProps) {
           isDanger={isDanger}
         />
       )}
-      <View className="flex-1 bg-background p-5 pb-0 gap-y-3">
-        <View className="flex-row items-center justify-between">
-          <View className="flex-row items-center">
-            {hasBack && (
-              <View className="justify-center h-14">
-                <TouchableOpacity
-                  activeOpacity={0.7}
-                  onPress={handleGoBack}
-                  className="py-2 pr-4"
-                >
-                  <Ionicons
-                    name="arrow-back"
-                    size={40}
-                    color={colors.zinc[400]}
-                  />
-                </TouchableOpacity>
-              </View>
-            )}
-            {title && (
-              <View className="justify-center h-14">
-                <Text className=" text-white text-4xl font-extrabold tracking-widest">
-                  {title}
-                </Text>
-              </View>
-            )}
+      <View className="flex-1 mt-4">
+        <View className="flex-1 bg-background px-5 pb-0">
+          {refreshName && (
+            <View className="flex-row items-center justify-center gap-x-2 py-1">
+              <Ionicons
+                name="arrow-down-circle-outline"
+                size={24}
+                color={colors.white}
+              />
+              <Text className=" text-white text-xs font-semibold">
+                Arraste para baixo para atualizar os {refreshName}
+              </Text>
+            </View>
+          )}
+          <View className="flex-row items-center justify-between">
+            <View className="flex-row items-center">
+              {hasBack && (
+                <View className="justify-center h-14">
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    onPress={handleGoBack}
+                    className="py-2 pr-4"
+                  >
+                    <Ionicons
+                      name="arrow-back"
+                      size={40}
+                      color={colors.zinc[400]}
+                      style={{ left: -5 }}
+                    />
+                  </TouchableOpacity>
+                </View>
+              )}
+              {title && (
+                <View className="justify-center h-14">
+                  <Text className=" text-white text-4xl font-extrabold tracking-widest">
+                    {title}
+                  </Text>
+                </View>
+              )}
+            </View>
+            {button}
           </View>
-          {button}
+          <View className="flex-1 mt-3">{children}</View>
         </View>
-        <View className="flex-1">{children}</View>
       </View>
     </>
   );

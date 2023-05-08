@@ -4,7 +4,7 @@ import { Skeleton } from "moti/skeleton";
 
 export default function MyTicketsSkeleton() {
   return (
-    <Container hasBack>
+    <Container hasBack refreshName="ingressos">
       <View className="h-32 mb-4">
         <Skeleton colorMode={"dark"} width={"100%"} height={128} />
       </View>

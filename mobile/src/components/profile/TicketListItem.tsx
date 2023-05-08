@@ -27,7 +27,7 @@ export default function TicketListItem(props: TicketInfoProps) {
         key={ticket.id}
         activeOpacity={0.7}
         className="h-32 mb-4 justify-center pl-4 bg-zinc-900 border-l-[6px] border-violet-600 rounded-md"
-        onPress={() => navigate("ticketInfo", { ticketId: ticket.id })}
+        onPress={() => navigate("ticketInfo", { ticket })}
       >
         <Text className="text-violet-600  text-lg font-bold">
           NÃO UTILIZADO

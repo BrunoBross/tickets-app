@@ -1,9 +1,10 @@
 import { Text, View } from "react-native";
 import { TicketLot } from "./EventCard";
 import EventTicket from "./EventTicket";
+import EventTicketListSkeleton from "./EventTicketListSkeleton";
 
 interface EventTicketListProps {
-  ticketLots: TicketLot[];
+  ticketLots: TicketLot[] | null;
   handleAddTicketToCart: (ticketType: TicketLot) => void;
   getTicketCartAmount: (ticketType: TicketLot) => number;
   removeLastTicketCartByTicketType: (ticketType: TicketLot) => void;
@@ -16,6 +17,10 @@ export default function EventTicketList(props: EventTicketListProps) {
     handleAddTicketToCart,
     removeLastTicketCartByTicketType,
   } = props;
+
+  if (!ticketLots) {
+    return <EventTicketListSkeleton />;
+  }
 
   return (
     <View className="flex-1 mb-32">
