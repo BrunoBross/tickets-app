@@ -13,6 +13,7 @@ import { useAuth } from "./AuthContext";
 import useApi from "../lib/api";
 import { useToast } from "react-native-toast-notifications";
 import ConfirmModal from "../components/modals/ConfirmModal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface CartProviderProps {
   children: ReactNode;
@@ -49,6 +50,19 @@ export default function CartProvider(props: CartProviderProps) {
   const toast = useToast();
 
   useEffect(() => {
+    const getCartList = async () => {
+      const result = await AsyncStorage.getItem("cartList");
+      result && setCartList(JSON.parse(result));
+    };
+    getCartList();
+  }, []);
+
+  useEffect(() => {
+    const storageCartList = async () => {
+      await AsyncStorage.setItem("cartList", JSON.stringify(cartList));
+    };
+    storageCartList();
+
     if (cartList.length > 0) {
       setShowCartButton(true);
     } else {

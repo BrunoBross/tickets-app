@@ -18,6 +18,7 @@ export class TicketLotService {
       distinct: ["ticket_type_id"],
       include: {
         ticket_type: true,
+        event: true,
       },
     });
 

@@ -26,19 +26,13 @@ export default function EventTicketList(props: EventTicketListProps) {
     <View className="flex-1 mb-32">
       {ticketLots && ticketLots.length > 0 ? (
         ticketLots.map((ticketLot: TicketLot) => (
-          <View
+          <EventTicket
             key={ticketLot.id}
-            className="flex p-3 bg-zinc-800 rounded-md mb-2"
-          >
-            <EventTicket
-              ticketLot={ticketLot}
-              getTicketCartAmount={getTicketCartAmount}
-              handleAddTicketToCart={handleAddTicketToCart}
-              removeLastTicketCartByTicketType={
-                removeLastTicketCartByTicketType
-              }
-            />
-          </View>
+            ticketLot={ticketLot}
+            getTicketCartAmount={getTicketCartAmount}
+            handleAddTicketToCart={handleAddTicketToCart}
+            removeLastTicketCartByTicketType={removeLastTicketCartByTicketType}
+          />
         ))
       ) : (
         <Text className="text-white font-semibold text-base">

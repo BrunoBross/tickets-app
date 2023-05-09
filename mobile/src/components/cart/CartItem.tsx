@@ -23,7 +23,10 @@ export default function CartItem(props: CartItemInterface) {
       >
         <View className="flex gap-x-2">
           <Text className="text-violet-600 font-semibold text-xl">
-            {ticket_lot.ticket_type.name.toUpperCase()}
+            {ticket_lot.event.name.toUpperCase()}
+          </Text>
+          <Text className="text-white font-semibold text-base">
+            {ticket_lot.ticket_type.name}
           </Text>
           <Text className="text-white font-semibold text-base">
             {convertGenter("OTHER")}

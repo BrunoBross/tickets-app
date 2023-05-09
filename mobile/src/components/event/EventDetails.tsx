@@ -82,12 +82,14 @@ export default function EventDetails() {
   const Details = () => {
     return (
       <View className="mb-3 bg-background">
-        <Image
-          source={{
-            uri: `${serverIp}uploads/logo/${event.file_name}`,
-          }}
-          className="w-full h-40 rounded-md"
-        />
+        <View className="border-2 border-zinc-700 rounded-xl p-1">
+          <Image
+            source={{
+              uri: `${serverIp}uploads/logo/${event.file_name}`,
+            }}
+            className="aspect-video rounded-md"
+          />
+        </View>
         <View className="flex pt-3 flex-row items-center justify-between">
           <View>
             <Text className="text-white text-4xl font-semibold">

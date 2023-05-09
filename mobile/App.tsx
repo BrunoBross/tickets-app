@@ -56,11 +56,7 @@ export default function App() {
                 <MyTicketsProvider>
                   <NavigationContainer theme={DarkTheme}>
                     <Routes />
-                    <StatusBar
-                      barStyle="light-content"
-                      backgroundColor="transparent"
-                      translucent
-                    />
+                    <StatusBar barStyle="light-content" translucent />
                   </NavigationContainer>
                 </MyTicketsProvider>
               </RouteProvider>

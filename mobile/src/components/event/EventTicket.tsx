@@ -21,9 +21,12 @@ export default function EventTicket(props: EventTicketProps) {
   } = props;
 
   return (
-    <View className="flex-row justify-between">
-      <View>
-        <Text className="text-white font-semibold text-2xl">
+    <View
+      key={ticketLot.id}
+      className="flex-row justify-between p-3 bg-zinc-900 rounded-md mb-2 border-l-[6px] border-violet-600"
+    >
+      <View className="justify-between">
+        <Text className="text-violet-600 font-semibold text-2xl">
           {ticketLot.ticket_type.name}
         </Text>
         <Text className="text-white font-semibold text-lg">
@@ -32,14 +35,17 @@ export default function EventTicket(props: EventTicketProps) {
         <Text className="text-white font-semibold text-lg">
           {ticketLot.lot_number}º Lote
         </Text>
-        <Text className="text-zinc-400 font-semibold text-xs">
-          {formatPrice(ticketLot.price)} + {formatPrice(ticketLot.tax)} de taxa
-        </Text>
       </View>
       <View className="items-end justify-between">
-        <Text className="text-white font-semibold text-xl">
-          {formatPrice(ticketLot.total_price)}
-        </Text>
+        <View>
+          <Text className="text-white font-semibold text-xl">
+            {formatPrice(ticketLot.total_price)}
+          </Text>
+          <Text className="text-zinc-500 font-semibold text-xs">
+            {formatPrice(ticketLot.tax)} de taxa
+          </Text>
+        </View>
+
         <View className="flex-row items-center">
           <TouchableOpacity
             activeOpacity={0.7}

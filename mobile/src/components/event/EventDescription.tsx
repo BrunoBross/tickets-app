@@ -9,7 +9,7 @@ export default function EventDescription(props: EventDescriptionProps) {
 
   return (
     <View className="flex-1 px-1 pt-2 bg-background">
-      <View className="flex p-3 bg-zinc-800 rounded-md mb-32">
+      <View className="flex p-3 bg-zinc-900 rounded-md mb-32">
         <Text className="text-white font-semibold text-lg text-justify">
           {description}
         </Text>
