@@ -1,8 +1,8 @@
 import { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { ServerResponseError } from "../helpers/ServerResponseError";
-import { TicketTypeService } from "../services/TicketTypeService";
 import { createTicketTypeBody } from "../types/TicketTypeTypes";
+import { TicketTypeService } from "../services/ticket/TicketTypeService";
 
 const ticketTypeService = new TicketTypeService();
 

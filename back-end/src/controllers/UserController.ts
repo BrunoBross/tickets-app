@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { z } from "zod";
-import { UserService } from "../services/UserService";
+import { UserService } from "../services/user/UserService";
 import { ServerResponseError } from "../helpers/ServerResponseError";
 import { createUserBody } from "../types/UserTypes";
 

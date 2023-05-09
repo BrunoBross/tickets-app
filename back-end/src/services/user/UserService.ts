@@ -1,10 +1,10 @@
-import { userSelect } from "../helpers/UserUtils";
-import { prisma } from "../lib/prisma";
+import { userSelect } from "../../helpers/UserUtils";
+import { prisma } from "../../lib/prisma";
 import { cpf as cpfUtils } from "cpf-cnpj-validator";
-import { verifyEmail } from "../helpers/Utils";
+import { verifyEmail } from "../../helpers/Utils";
 import bcrypt from "bcrypt";
-import { DefaultException } from "../exceptions/DefaultException";
-import { CreateUserBodyInterface } from "../types/UserTypes";
+import { DefaultException } from "../../exceptions/DefaultException";
+import { CreateUserBodyInterface } from "../../types/UserTypes";
 
 export class UserService {
   async getAllUsers(filter: string) {

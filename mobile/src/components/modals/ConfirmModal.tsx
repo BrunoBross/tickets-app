@@ -35,6 +35,7 @@ export default function ConfirmModal(props: NewConfirmModalProps) {
       isVisible={isVisible}
       onSwipeComplete={handleCloseModal}
       onBackdropPress={handleCloseModal}
+      swipeDirection={["left", "right", "down"]}
       backdropTransitionOutTiming={0}
       className="m-0 justify-end"
     >
@@ -45,7 +46,9 @@ export default function ConfirmModal(props: NewConfirmModalProps) {
           </Text>
         )}
         {message && (
-          <Text className="text-white text-lg font-semibold">{message}</Text>
+          <Text className="text-white text-lg font-semibold text-justify">
+            {message}
+          </Text>
         )}
         <View className="flex-row mt-5 gap-x-4">
           {cancelText && (

@@ -1,190 +1,85 @@
 import { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { prisma } from "../lib/prisma";
+import { ServerResponseError } from "../helpers/ServerResponseError";
+import { TicketService } from "../services/ticket/TicketService";
+
+const ticketService = new TicketService();
 
 export async function TicketController(app: FastifyInstance) {
-  // get tickets
   app.get("/ticket", async (request, response) => {
-    await prisma.ticket
-      .findMany({
-        include: {
-          ticket_lot: true,
-        },
-      })
-      .then((tickets) => {
-        response.send(tickets);
-      })
-      .catch((error) => {
-        console.error(error);
-        response.status(500).send({ error: "Ocorreu um erro interno" });
-      });
+    try {
+      const tickets = await ticketService.getAllTickets();
+
+      response.send(tickets);
+    } catch (error) {
+      return ServerResponseError(error, response);
+    }
   });
 
-  // find ticket
   app.get("/ticket/:ticketId", async (request, response) => {
-    const ticketParams = z.object({
-      ticketId: z.string(),
-    });
-
-    const { ticketId } = ticketParams.parse(request.params);
-
-    await prisma.ticket
-      .findFirst({
-        where: {
-          id: {
-            equals: ticketId,
-          },
-        },
-        include: {
-          ticket_lot: {
-            include: {
-              event: true,
-              ticket_type: true,
-            },
-          },
-        },
-      })
-      .then((ticket) => {
-        if (!ticket) {
-          response
-            .code(204)
-            .send({ error: "Esse ingresso não foi encontrado" });
-        }
-        response.send(ticket);
-      })
-      .catch((error) => {
-        console.error(error);
-        response.status(500).send({ error: "Ocorreu um erro interno" });
+    try {
+      const ticketParams = z.object({
+        ticketId: z.string(),
       });
+
+      const { ticketId } = ticketParams.parse(request.params);
+
+      const ticket = await ticketService.findTicketById(ticketId);
+
+      return ticket;
+    } catch (error) {
+      return ServerResponseError(error, response);
+    }
   });
 
-  // get tickets by userId
   app.get("/ticket/user/:userId", async (request, response) => {
-    const ticketParams = z.object({
-      userId: z.string(),
-    });
-
-    const { userId } = ticketParams.parse(request.params);
-
-    await prisma.ticket
-      .findMany({
-        where: {
-          user_id: {
-            equals: userId,
-          },
-          AND: {
-            used: {
-              equals: false,
-            },
-          },
-        },
-        include: {
-          ticket_lot: {
-            include: {
-              event: true,
-              ticket_type: true,
-            },
-          },
-        },
-      })
-      .then((ticket) => {
-        if (!ticket) {
-          response
-            .code(204)
-            .send({ error: "Esse usuário não possui ingressos" });
-        }
-        response.send(ticket);
-      })
-      .catch((error) => {
-        console.error(error);
-        response.status(500).send({ error: "Ocorreu um erro interno" });
+    try {
+      const ticketParams = z.object({
+        userId: z.string(),
       });
+
+      const { userId } = ticketParams.parse(request.params);
+
+      const ticket = await ticketService.getTicketsByUserId(userId);
+
+      return ticket;
+    } catch (error) {
+      return ServerResponseError(error, response);
+    }
   });
 
   app.patch("/ticket/transfer", async (request, response) => {
-    const ticketBody = z.object({
-      ticketId: z.string(),
-      newUserId: z.string(),
-    });
-
-    const { ticketId, newUserId } = ticketBody.parse(request.body);
-
-    await prisma.ticket
-      .update({
-        where: {
-          id: ticketId,
-        },
-        data: {
-          user_id: newUserId,
-        },
-      })
-      .then(() => {
-        response
-          .status(200)
-          .send({ message: "Ingresso transferido com sucesso" });
-      })
-      .catch((error) => {
-        console.error(error);
-        response.status(500).send({ error: "Ocorreu um erro interno" });
+    try {
+      const ticketBody = z.object({
+        ticketId: z.string(),
+        newUserId: z.string(),
       });
+
+      const { ticketId, newUserId } = ticketBody.parse(request.body);
+
+      const result = await ticketService.transferTicket(ticketId, newUserId);
+
+      return response.status(result.status).send({ message: result.message });
+    } catch (error) {
+      return ServerResponseError(error, response);
+    }
   });
 
-  // create ticket / buy ticket
   app.post("/ticket", async (request, response) => {
-    const ticketBody = z.object({
-      user_id: z.string(),
-      ticket_lot_id: z.string(),
-    });
-
-    const { user_id, ticket_lot_id } = ticketBody.parse(request.body);
-
     try {
-      const ticketLotTransaction = await prisma.$transaction(async (prisma) => {
-        const blockTicketLot = await prisma.$queryRaw`
-          SELECT *
-          FROM ticket_lot
-          WHERE id = ${ticket_lot_id}
-          FOR UPDATE
-        `;
-
-        const ticketLot = await prisma.ticketLot.findUnique({
-          where: {
-            id: ticket_lot_id,
-          },
-          select: {
-            amount_available: true,
-          },
-        });
-
-        if (ticketLot.amount_available <= 0) {
-          return response
-            .status(500)
-            .send({ error: "Esse ingresso não está mais disponível" });
-        }
-
-        await prisma.ticketLot.update({
-          where: {
-            id: ticket_lot_id,
-          },
-          data: {
-            amount_available: ticketLot.amount_available - 1,
-          },
-        });
-
-        return ticketLot;
+      const ticketBody = z.object({
+        userId: z.string(),
+        ticketLotId: z.string(),
       });
 
-      await prisma.ticket.create({
-        data: {
-          user_id,
-          ticket_lot_id,
-        },
-      });
+      const { userId, ticketLotId } = ticketBody.parse(request.body);
 
-      response.status(200).send({ message: "Ingresso criado com sucesso" });
+      const result = await ticketService.buyTicket(userId, ticketLotId);
+
+      return response.status(result.status).send({ message: result.message });
     } catch (error) {
-      console.error(error);
-      response.status(500).send({ error: error });
+      return ServerResponseError(error, response);
     }
   });
 }

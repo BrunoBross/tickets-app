@@ -2,7 +2,7 @@ import { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { multerUpload } from "../multer";
 import { ServerResponseError } from "../helpers/ServerResponseError";
-import { EventService } from "../services/EventService";
+import { EventService } from "../services/event/EventService";
 import { createEventBody } from "../types/EventTypes";
 
 const eventService = new EventService();
@@ -48,7 +48,6 @@ export async function EventController(app: FastifyInstance) {
     }
   });
 
-  // find event
   app.get("/event/:eventId", async (request, response) => {
     try {
       const eventParams = z.object({
@@ -64,7 +63,6 @@ export async function EventController(app: FastifyInstance) {
     }
   });
 
-  // delete event
   app.delete("/event/delete/:eventId", async (request, response) => {
     const eventParams = z.object({
       eventId: z.string(),
@@ -76,7 +74,6 @@ export async function EventController(app: FastifyInstance) {
     return response.status(result.status).send();
   });
 
-  // create event
   app.post(
     "/event/:organizerId",
     { preHandler: multerUpload.single("logo") },

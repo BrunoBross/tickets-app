@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { TabRouter, useNavigation } from "@react-navigation/native";
 import { ReactNode, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -38,10 +38,15 @@ export default function Container(props: ContainerProps) {
 
   const handleGoBack = () => {
     askConfirm && !onBack
-      ? setIsBackModalOpen(!isBackModalOpen)
+      ? setIsBackModalOpen(true)
       : onBack
       ? onBack()
       : goBack();
+  };
+
+  const confirmGoBack = () => {
+    setIsBackModalOpen(false);
+    goBack();
   };
 
   return (
@@ -53,7 +58,7 @@ export default function Container(props: ContainerProps) {
           message={message}
           confirmText={confirmText}
           cancelText={cancelText}
-          handler={goBack}
+          handler={confirmGoBack}
           isDanger={isDanger}
         />
       )}

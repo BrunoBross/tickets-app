@@ -1,5 +1,5 @@
-import { prisma } from "../lib/prisma";
-import { CreateTicketLotBodyInterface } from "../types/TicketLotTypes";
+import { prisma } from "../../lib/prisma";
+import { CreateTicketLotBodyInterface } from "../../types/TicketLotTypes";
 
 export class TicketLotService {
   async getAllTicketLotByEventId(event_id: string) {

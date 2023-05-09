@@ -1,6 +1,6 @@
-import { DefaultException } from "../exceptions/DefaultException";
-import { prisma } from "../lib/prisma";
-import { CreateTicketTypeBodyInterface } from "../types/TicketTypeTypes";
+import { DefaultException } from "../../exceptions/DefaultException";
+import { prisma } from "../../lib/prisma";
+import { CreateTicketTypeBodyInterface } from "../../types/TicketTypeTypes";
 
 export class TicketTypeService {
   async getAllTicketTypes() {

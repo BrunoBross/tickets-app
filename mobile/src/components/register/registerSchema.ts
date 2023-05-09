@@ -5,10 +5,16 @@ export const registerSchema = z
   .object({
     name: z
       .string({ required_error: "O nome é obrigatório" })
-      .min(1, { message: "O nome é obrigatório" }),
+      .transform((name) => name.trim())
+      .refine((name) => name.length >= 2, {
+        message: "O nome precisa ter no mínimo 2 caracteres",
+      }),
     surname: z
       .string({ required_error: "O sobrenome é obrigatório" })
-      .min(1, { message: "O sobrenome é obrigatório" }),
+      .transform((name) => name.trim())
+      .refine((name) => name.length >= 2, {
+        message: "O sobrenome precisa ter no mínimo 2 caracteres",
+      }),
     birthDate: z.date({ required_error: "A data de nascimento é obrigatória" }),
     email: z
       .string({ required_error: "O e-mail é obrigatório" })
@@ -32,6 +38,11 @@ export const registerSchema = z
       .string({ required_error: "A confirmação de senha é obrigatória" })
       .min(1, { message: "A confirmação de senha é obrigatória" }),
   })
+  .transform((data) => ({
+    ...data,
+    name: data.name.trim(),
+    surname: data.surname.trim(),
+  }))
   .refine((data) => data.email === data.confirmEmail, {
     path: ["confirmEmail"],
     message: "Os e-mails precisam ser iguais",

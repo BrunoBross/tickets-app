@@ -27,14 +27,14 @@ export default function Profile() {
     Logout();
   };
 
-  const TransferButton = () => (
+  const LogoutButton = () => (
     <TouchableOpacity
       activeOpacity={0.7}
       onPress={handleAskLogout}
       className="h-14 px-4 items-center justify-center bg-zinc-900 rounded-md"
     >
       <MaterialCommunityIcons
-        name="exit-to-app"
+        name="exit-run"
         size={24}
         color={colors.zinc[700]}
       />
@@ -53,7 +53,7 @@ export default function Profile() {
         handler={handleConfirmLogout}
         isDanger
       />
-      <Container title={`Olá, ${user?.name}`} button={<TransferButton />}>
+      <Container title={`Olá, ${user?.name}`} button={<LogoutButton />}>
         <View className="flex-1">
           <View className="flex-row gap-x-2">
             <Text className="text-white text-base font-semibold">

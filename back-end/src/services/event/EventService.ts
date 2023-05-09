@@ -1,7 +1,7 @@
-import { DefaultException } from "../exceptions/DefaultException";
-import { prisma } from "../lib/prisma";
-import { CreateEventBodyInterface } from "../types/EventTypes";
-import { TicketLotService } from "./TicketLotService";
+import { DefaultException } from "../../exceptions/DefaultException";
+import { prisma } from "../../lib/prisma";
+import { CreateEventBodyInterface } from "../../types/EventTypes";
+import { TicketLotService } from "../ticket/TicketLotService";
 
 const ticketLotService = new TicketLotService();
 

@@ -91,8 +91,8 @@ export default function CartProvider(props: CartProviderProps) {
     if (user) {
       cartList.forEach(async (event) => {
         const ticket = {
-          user_id: user.id,
-          ticket_lot_id: event.ticket_lot.id,
+          userId: user.id,
+          ticketLotId: event.ticket_lot.id,
         };
 
         await api({
