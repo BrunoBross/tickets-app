@@ -44,7 +44,7 @@ export default function App() {
     <ConnectionProvider>
       <ToastProvider
         placement="bottom"
-        offsetBottom={70}
+        offsetBottom={66}
         animationDuration={300}
         duration={2000}
         renderToast={(toast) => <CustomToast toast={toast} />}
@@ -56,7 +56,11 @@ export default function App() {
                 <MyTicketsProvider>
                   <NavigationContainer theme={DarkTheme}>
                     <Routes />
-                    <StatusBar barStyle="light-content" translucent />
+                    <StatusBar
+                      barStyle="light-content"
+                      backgroundColor={colors.transparent}
+                      translucent
+                    />
                   </NavigationContainer>
                 </MyTicketsProvider>
               </RouteProvider>

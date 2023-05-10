@@ -28,7 +28,7 @@ export default function Home() {
       <Container title="Eventos" refreshName="eventos">
         <View className="flex-1 bg-background">
           <View className="mb-4">
-            <Skeleton colorMode={"dark"} width={"100%"} height={160} />
+            <Skeleton colorMode={"dark"} width={"100%"} height={180} />
             <View className="pt-2">
               <Skeleton colorMode={"dark"} width={"100%"} height={24} />
             </View>
