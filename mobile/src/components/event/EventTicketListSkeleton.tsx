@@ -3,15 +3,18 @@ import { View } from "react-native";
 
 export default function EventTicketListSkeleton() {
   return (
-    <View>
-      <View className="items-center mb-3">
-        <Skeleton colorMode={"dark"} width={"98%"} height={130} />
+    <View className="mt-2">
+      <View className="items-center mb-2">
+        <Skeleton colorMode={"dark"} width={"98%"} height={112} />
       </View>
-      <View className="items-center mb-3">
-        <Skeleton colorMode={"dark"} width={"98%"} height={130} />
+      <View className="items-center mb-2">
+        <Skeleton colorMode={"dark"} width={"98%"} height={112} />
       </View>
-      <View className="items-center mb-3">
-        <Skeleton colorMode={"dark"} width={"98%"} height={130} />
+      <View className="items-center mb-2">
+        <Skeleton colorMode={"dark"} width={"98%"} height={112} />
+      </View>
+      <View className="items-center mb-2">
+        <Skeleton colorMode={"dark"} width={"98%"} height={112} />
       </View>
     </View>
   );

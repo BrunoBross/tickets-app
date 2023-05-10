@@ -15,7 +15,7 @@ import useApi from "../../lib/api";
 import Container from "../Container";
 import { TicketCartInterface, useCart } from "../../contexts/CartContext";
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import { ParamList } from "../../@types/navigation";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import EventTicketList from "./EventTicketList";
@@ -24,6 +24,7 @@ import ConfirmModal from "../modals/ConfirmModal";
 import { getScreenOptions, tabScreenOptions } from "./options";
 import EventDescription from "./EventDescription";
 import { TicketInterface } from "../mytickets/ticketInfo/TicketInfo";
+import { RefreshControl } from "react-native-gesture-handler";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -38,6 +39,7 @@ export default function EventDetails() {
   const [ticketLots, setTicketLots] = useState<
     TicketInterface["ticket_lot"][] | null
   >(null);
+  const [refreshing, setRefreshing] = useState(false);
 
   const handleGetTicketLots = async () => {
     const response = await api.get(`ticket-lot/${event.id}`);
@@ -46,6 +48,12 @@ export default function EventDetails() {
 
   useEffect(() => {
     handleGetTicketLots();
+  }, []);
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await handleGetTicketLots();
+    setRefreshing(false);
   }, []);
 
   const handleAddTicketToCart = (ticketLot: TicketLot) => {
@@ -79,53 +87,70 @@ export default function EventDetails() {
       .length;
   };
 
-  const Details = () => {
+  const TopImage = () => {
     return (
-      <View className="mb-3 bg-background">
-        <View className="border-2 border-zinc-700 rounded-xl p-1">
+      <View className="mb-2 bg-background">
+        <View className="aspect-video border-2 border-white rounded-lg">
           <Image
             source={{
               uri: `${serverIp}uploads/logo/${event.file_name}`,
             }}
-            className="aspect-video rounded-md"
+            className="flex-1 rounded-md"
           />
-        </View>
-        <View className="flex pt-3 flex-row items-center justify-between">
-          <View>
-            <Text className="text-white text-4xl font-semibold">
-              {event.name}
-            </Text>
-            <Text className="text-white text-base font-semibold">
-              {formatDate(event.date)}
-            </Text>
-          </View>
-          <TouchableOpacity
-            activeOpacity={0.7}
-            className="p-5 rounded-md bg-violet-600"
-            onPress={() => Linking.openURL(event.location_link)}
-          >
-            <Feather name="map-pin" size={24} color={colors.white} />
-          </TouchableOpacity>
         </View>
       </View>
     );
   };
 
-  const Ticket = () => {
+  const TicketList = () => {
     return (
-      <View className="flex-1 pt-2 px-1 bg-background">
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={[colors.white]}
+            progressBackgroundColor={colors.violet[600]}
+          />
+        }
+      >
         <EventTicketList
           ticketLots={ticketLots}
+          refreshing={refreshing}
           getTicketCartAmount={getTicketCartAmount}
           handleAddTicketToCart={handleAddTicketToCart}
           removeLastTicketCartByTicketType={removeLastTicketCartByTicketType}
         />
-      </View>
+      </ScrollView>
     );
   };
 
-  const Description = () => {
-    return <EventDescription description={event.description} />;
+  const Details = () => {
+    return (
+      <ScrollView showsVerticalScrollIndicator={false} className="h-full">
+        <View className="flex-1 mt-2 mx-[2] p-3 rounded-md bg-zinc-900 mb-32">
+          <View className="flex-row justify-between">
+            <View className="flex-1">
+              <Text className="text-violet-600 text-4xl font-semibold">
+                {event.name}
+              </Text>
+              <Text className="text-white text-base font-semibold">
+                {formatDate(event.date)}
+              </Text>
+            </View>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              className="p-5 rounded-md bg-violet-600"
+              onPress={() => Linking.openURL(event.location_link)}
+            >
+              <Feather name="map-pin" size={24} color={colors.white} />
+            </TouchableOpacity>
+          </View>
+          <EventDescription description={event.description} />
+        </View>
+      </ScrollView>
+    );
   };
 
   return (
@@ -139,26 +164,22 @@ export default function EventDetails() {
         handler={() => setIsModalOpen(false)}
       />
       <Container hasBack>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Details />
-          <Tab.Navigator
-            tabBarPosition="top"
-            screenOptions={{ ...tabScreenOptions }}
-            keyboardDismissMode="none"
-            style={{ minHeight: 2000 }}
-          >
-            <Tab.Screen
-              name="Ingressos"
-              component={Ticket}
-              options={getScreenOptions("Ingressos")}
-            />
-            <Tab.Screen
-              name="Detalhes"
-              component={Description}
-              options={getScreenOptions("Detalhes")}
-            />
-          </Tab.Navigator>
-        </ScrollView>
+        <TopImage />
+        <Tab.Navigator
+          tabBarPosition="top"
+          screenOptions={{ ...tabScreenOptions }}
+        >
+          <Tab.Screen
+            name="Detalhes"
+            component={Details}
+            options={getScreenOptions("Detalhes")}
+          />
+          <Tab.Screen
+            name="Ingressos"
+            component={TicketList}
+            options={getScreenOptions("Ingressos")}
+          />
+        </Tab.Navigator>
       </Container>
     </>
   );

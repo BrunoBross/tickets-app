@@ -60,15 +60,14 @@ export default function EventCard(props: EventProps) {
         className="mb-4"
         onPress={handleNavigate}
       >
-        <View className="border-2 border-zinc-700 rounded-xl p-1">
+        <View className="aspect-video border-2 border-white rounded-lg">
           <Image
             source={{
               uri: `${serverIp}uploads/logo/${event.file_name}`,
             }}
-            className="aspect-video rounded-md"
+            className="flex-1 rounded-md"
           />
         </View>
-
         <Text className="text-white pt-2 text-base font-semibold">{info}</Text>
       </TouchableOpacity>
     </>
